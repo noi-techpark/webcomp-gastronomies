@@ -16,7 +16,7 @@ export function render_searchPlaces() {
 
   const manage_map = (lat, lng) => {
     this.currentLocation = { lat: parseFloat(lat), lng: parseFloat(lng) };
-    this.current_station = {};
+    this.currentGastronomy = {};
     this.hereMapsPlacesFound = [];
     this.filtersOpen = false;
     this.map.flyTo([lat, lng], 15);

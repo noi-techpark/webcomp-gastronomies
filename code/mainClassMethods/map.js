@@ -8,7 +8,7 @@ import {
   requestTourismGastronomyDetails,
 } from "../api/gastronomies";
 import { getLatLongFromStationDetail, get_system_language } from "../utils";
-import stationIcon from "../assets/station.svg";
+import pinIcon from "../assets/pin.svg";
 
 export async function initializeMap() {
   const DefaultIcon = Leaflet.icon({
@@ -68,13 +68,13 @@ export function drawUserOnMap() {
 }
 
 export async function drawGastronomiesOnMap() {
-  const stations_layer_array = [];
+  const gastronomies_layer_array = [];
 
   const gastronomies = await requestTourismGastronomies();
   console.log(gastronomies.Items);
 
   gastronomies.Items.filter((station) => {
-    // Use filters on all retrived stations
+    // Use filters on all retrived gastronomies
     let valid = true;
     // if (this.filters.availability) {
     // if (
@@ -92,7 +92,7 @@ export async function drawGastronomiesOnMap() {
       y: gastronomy.Latitude,
     });
     const station_icon = Leaflet.icon({
-      iconUrl: stationIcon,
+      iconUrl: pinIcon,
       iconSize: [36, 36],
     });
     const marker = Leaflet.marker([marker_position.lat, marker_position.lng], {
@@ -116,16 +116,16 @@ export async function drawGastronomiesOnMap() {
     };
 
     marker.on("mousedown", action);
-    stations_layer_array.push(marker);
+    gastronomies_layer_array.push(marker);
   });
 
   if (!this.language) {
     this.language = get_system_language();
   }
 
-  const stations_layer = Leaflet.layerGroup(stations_layer_array, {});
+  const gastronomies_layer = Leaflet.layerGroup(gastronomies_layer_array, {});
 
-  this.layer_stations = new leaflet_mrkcls.MarkerClusterGroup({
+  this.layer_gastronomies = new leaflet_mrkcls.MarkerClusterGroup({
     showCoverageOnHover: false,
     chunkedLoading: true,
     iconCreateFunction(cluster) {
@@ -136,7 +136,7 @@ export async function drawGastronomiesOnMap() {
     },
   });
   /** Add maker layer in the cluster group */
-  this.layer_stations.addLayer(stations_layer);
+  this.layer_gastronomies.addLayer(gastronomies_layer);
   /** Add the cluster group to the map */
-  this.map.addLayer(this.layer_stations);
+  this.map.addLayer(this.layer_gastronomies);
 }
