@@ -91,12 +91,12 @@ export async function drawGastronomiesOnMap() {
       x: gastronomy.Longitude,
       y: gastronomy.Latitude,
     });
-    const station_icon = Leaflet.icon({
+    const gastronomies_icon = Leaflet.icon({
       iconUrl: pinIcon,
       iconSize: [36, 36],
     });
     const marker = Leaflet.marker([marker_position.lat, marker_position.lng], {
-      icon: station_icon,
+      icon: gastronomies_icon,
     });
 
     const action = async () => {
