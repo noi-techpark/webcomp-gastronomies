@@ -16,8 +16,6 @@ export const requestTourismGastronomies = async () => {
 };
 
 export const requestTourismGastronomyDetails = async ({ Id }) => {
-  console.log(Id);
-
   try {
     const request = await fetch(`${BASE_PATH_TOURISM_GASTRONOMY}/${Id}`);
     if (request.status !== 200) {

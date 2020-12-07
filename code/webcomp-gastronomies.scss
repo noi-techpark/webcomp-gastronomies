@@ -79,7 +79,11 @@
     overflow-y: auto;
     p {
       @include MixinParagraphRegular;
-      margin: 16px 16px 0 16px;
+      margin: 16px;
+      a {
+        @include MixinParagraphRegular;
+        color: $green-200;
+      }
     }
     .header {
       padding: 8px 16px;

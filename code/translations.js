@@ -31,8 +31,68 @@ export const t = {
     de: "Filter abbrechen",
   },
   description: {
-    it: "DESCRIZIONE",
-    en: "DESCRIPTION",
-    de: "BESCHREIBUNG",
+    it: "Descrizione",
+    en: "Description",
+    de: "Beschreibung",
   },
+  season: {
+    it: "Stagione",
+    en: "Season",
+    de: "Jahreszeit",
+  },
+  category: {
+    it: "Categoria",
+    en: "Category",
+    de: "Kategorie",
+  },
+  contactInfo: {
+    it: "INFORMAZIONI DI CONTATTO",
+    en: "CONTACT INFO",
+    de: "KONTAKTINFORMATION",
+  },
+  organization: {
+    it: "Organizzazione",
+    en: "Organization",
+    de: "Organisation",
+  },
+  address: {
+    it: "Indirizzo",
+    en: "Address",
+    de: "Adresse",
+  },
+  place: {
+    it: "Posto",
+    en: "Place",
+    de: "Ort",
+  },
+  contactPerson: {
+    it: "Referente",
+    en: "Contact Person",
+    de: "Ansprechpartner",
+  },
+  telFax: {
+    it: "Tel / Fax",
+    en: "Tel / Fax",
+    de: "Tel / Fax",
+  },
+  eMail: {
+    it: "E-mail",
+    en: "E-mail",
+    de: "E-mail",
+  },
+  web: {
+    it: "Web",
+    en: "Web",
+    de: "Web",
+  },
+  facilities: {
+    it: "Servizi",
+    en: "Facilities",
+    de: "Dienstleistungen",
+  },
+  // ceremonyCodes: {
+  //   it: "Codici della cerimonia",
+  //   en: "Ceremony Codes",
+  //   de: "Zeremoniencodes",
+  // },
 };
