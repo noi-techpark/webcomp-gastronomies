@@ -23,7 +23,7 @@ import "./shared_components/sideModalRow/sideModalRow";
 import "./shared_components/sideModalTabs/sideModalTabs";
 import "./shared_components/checkBox/checkBox";
 import "./shared_components/tag/tag";
-import { debounce, isMobile, LANGUAGES } from "./utils";
+import { debounce, isMobile, LANGUAGES, STATE_DEFAULT_FILTERS } from "./utils";
 import ParkingStyle from "./webcomp-gastronomies.scss";
 
 class Gastronomies extends LitElement {
@@ -47,10 +47,7 @@ class Gastronomies extends LitElement {
     this.detailsOpen = false;
     this.filtersOpen = false;
 
-    this.filters = {
-      radius: 0,
-      categories: [],
-    };
+    this.filters = STATE_DEFAULT_FILTERS;
   }
 
   static get properties() {

@@ -1,8 +1,14 @@
 const DEFAULT_GEOLOCATION_TIMEOUT = 10000;
+
 export const LANGUAGES = {
   EN: "en",
   DE: "de",
   IT: "it",
+};
+
+export const STATE_DEFAULT_FILTERS = {
+  radius: 0,
+  categories: [],
 };
 
 export const isMobile = () => {
