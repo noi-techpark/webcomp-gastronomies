@@ -79,6 +79,7 @@ export async function drawGastronomiesOnMap() {
     .filter((gastronomy) => {
       // Use filters on all retrived gastronomies
       let valid = true;
+      // Categories
       if (this.filters.categories.length) {
         const gastronomyCategories = [];
         for (let i = 0; i < gastronomy.CategoryCodes.length; i++) {
