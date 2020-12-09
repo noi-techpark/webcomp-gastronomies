@@ -87,7 +87,7 @@ class Gastronomies extends LitElement {
 
   updated(changedProperties) {
     changedProperties.forEach((oldValue, propName) => {
-      if (propName === "filters") {
+      if (propName === "filters" || propName === "language") {
         this.map.off();
         this.map.remove();
         this.isLoading = true;

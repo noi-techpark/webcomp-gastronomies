@@ -1,12 +1,19 @@
 import {
   BASE_PATH_TOURISM_GASTRONOMY,
+  BASE_PATH_TOURISM_GASTRONOMYTYPES,
   BASE_PATH_TOURISM_GASTRONOMY_REDUCED,
 } from "./config";
 
-export const requestTourismGastronomies = async () => {
+export const requestTourismGastronomies = async (filters) => {
+  let categorycodefilter = "";
+  if (filters.categories.length) {
+    console.log(filters.categories);
+    categorycodefilter = `&categorycodefilter=${filters.categories.toString()}`;
+  }
+  // categorycodefilter
   try {
     const request = await fetch(
-      `${BASE_PATH_TOURISM_GASTRONOMY_REDUCED}?active=true&odhactive=true&fields=Id,Latitude,Longitude,CategoryCodes`
+      `${BASE_PATH_TOURISM_GASTRONOMY_REDUCED}?active=true&odhactive=true&fields=Id,Latitude,Longitude${categorycodefilter}`
     );
     if (request.status !== 200) {
       throw new Error(request.statusText);
@@ -18,30 +25,19 @@ export const requestTourismGastronomies = async () => {
   }
 };
 
-function uniq(a) {
-  return Array.from(new Set(a));
-}
-
-export const requestTourismGastronomiesCategories = async () => {
+export const requestTourismGastronomiesCategories = async (language) => {
   try {
-    const request = await fetch(
-      `${BASE_PATH_TOURISM_GASTRONOMY_REDUCED}?active=true&odhactive=true&fields=CategoryCodes`
-    );
+    const request = await fetch(`${BASE_PATH_TOURISM_GASTRONOMYTYPES}`);
     if (request.status !== 200) {
       throw new Error(request.statusText);
     }
     const response = await request.json();
-
-    const categories = [];
-    for (let i = 0; i < response.length; i++) {
-      const { CategoryCodes } = response[i];
-      for (let z = 0; z < CategoryCodes.length; z++) {
-        const { Shortname } = CategoryCodes[z];
-        categories.push(Shortname);
-      }
-    }
-
-    return uniq(categories);
+    const categories = response
+      .filter((o) => o.Type === "CategoryCodes")
+      .map((o) => {
+        return [o.TypeDesc[language], o.Bitmask];
+      });
+    return categories;
   } catch (error) {
     console.log(error);
   }

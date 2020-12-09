@@ -71,33 +71,40 @@ export function drawUserOnMap() {
 export async function drawGastronomiesOnMap() {
   const gastronomies_layer_array = [];
 
-  const gastronomies = await requestTourismGastronomies();
-  this.categories = await requestTourismGastronomiesCategories();
+  const gastronomies = await requestTourismGastronomies(this.filters);
+  this.categories = await requestTourismGastronomiesCategories(this.language);
   console.log(gastronomies);
+  console.log(this.categories);
+  // this.categories
+  //   .filter((o) => o.Type === "CategoryCodes")
+  //   .map((o) => {
+  //     console.log(o.Bitmask);
+  //     // console.log(o.TypeDesc[this.language]);
+  //   });
 
   gastronomies
-    .filter((gastronomy) => {
-      // Use filters on all retrived gastronomies
-      let valid = true;
-      // Categories
-      if (this.filters.categories.length) {
-        const gastronomyCategories = [];
-        for (let i = 0; i < gastronomy.CategoryCodes.length; i++) {
-          const { Shortname } = gastronomy.CategoryCodes[i];
-          gastronomyCategories.push(Shortname);
-        }
-        let tmpValid = false;
-        for (let i = 0; i < this.filters.categories.length; i++) {
-          const categoryToCheck = this.filters.categories[i];
-          if (gastronomyCategories.includes(categoryToCheck)) {
-            tmpValid = true;
-            break;
-          }
-        }
-        valid = tmpValid;
-      }
-      return valid;
-    })
+    // .filter((gastronomy) => {
+    //   // Use filters on all retrived gastronomies
+    //   let valid = true;
+    //   // Categories
+    //   if (this.filters.categories.length) {
+    //     const gastronomyCategories = [];
+    //     for (let i = 0; i < gastronomy.CategoryCodes.length; i++) {
+    //       const { Shortname } = gastronomy.CategoryCodes[i];
+    //       gastronomyCategories.push(Shortname);
+    //     }
+    //     let tmpValid = false;
+    //     for (let i = 0; i < this.filters.categories.length; i++) {
+    //       const categoryToCheck = this.filters.categories[i];
+    //       if (gastronomyCategories.includes(categoryToCheck)) {
+    //         tmpValid = true;
+    //         break;
+    //       }
+    //     }
+    //     valid = tmpValid;
+    //   }
+    //   return valid;
+    // })
     .map((gastronomy) => {
       const marker_position = getLatLongFromStationDetail({
         x: gastronomy.Longitude,

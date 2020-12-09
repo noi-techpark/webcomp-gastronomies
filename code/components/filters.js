@@ -51,29 +51,32 @@ export function render_filters(categories) {
           ? html`<div class="options_container">
               ${this.categories.map((category) => {
                 return html`<wc-checkbox
-                  .value="${this.filters.categories.includes(category)}"
+                  .value="${this.filters.categories.includes(category[1])}"
                   .action="${() => {
-                    if (this.filters.categories.includes(category)) {
+                    if (this.filters.categories.includes(category[1])) {
                       this.filters = {
                         ...this.filters,
                         categories: this.filters.categories.filter(
-                          (c) => c !== category
+                          (c) => c !== category[1]
                         ),
                       };
                     } else {
                       this.filters = {
                         ...this.filters,
-                        categories: [...this.filters.categories, category],
+                        categories: [...this.filters.categories, category[1]],
                       };
                     }
                   }}"
-                  .label="${category}"
+                  .label="${category[0]}"
                   .name="availability"
                 ></wc-checkbox>`;
               })}
             </div>`
           : null}
       </div>
+    </div>
+    <div class="filters__divider">
+      <wc-divider></wc-divider>
     </div>
   </div>`;
 }
