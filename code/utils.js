@@ -9,10 +9,18 @@ export const LANGUAGES = {
 export const STATE_DEFAULT_FILTERS = {
   radius: 0,
   categories: [],
+  facilityCodesCreditCard: [],
+  facilityCodesFeatures: [],
+  facilityCodesQuality: [],
+  facilityCodesCuisine: [],
 };
 
 export const STATE_DEFAULT_FILTERS_ACCORDIONS_OPEN = {
   category: false,
+  facilityCodesCreditCard: false,
+  facilityCodesFeatures: false,
+  facilityCodesQuality: false,
+  facilityCodesCuisine: false,
 };
 
 export const isMobile = () => {
@@ -59,4 +67,25 @@ export function debounce(delay, fn) {
 
 export function getLatLongFromStationDetail(o) {
   return { lat: o.y, lng: o.x };
+}
+
+export function countFilters(filters) {
+  let filtersNumber = 0;
+  if (filters.categories.length) {
+    filtersNumber = filtersNumber + 1;
+  }
+  if (filters.facilityCodesCreditCard.length) {
+    filtersNumber = filtersNumber + 1;
+  }
+  if (filters.facilityCodesFeatures.length) {
+    filtersNumber = filtersNumber + 1;
+  }
+  if (filters.facilityCodesQuality.length) {
+    filtersNumber = filtersNumber + 1;
+  }
+  if (filters.facilityCodesCuisine.length) {
+    filtersNumber = filtersNumber + 1;
+  }
+
+  return filtersNumber;
 }

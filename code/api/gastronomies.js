@@ -7,13 +7,28 @@ import {
 export const requestTourismGastronomies = async (filters) => {
   let categorycodefilter = "";
   if (filters.categories.length) {
-    console.log(filters.categories);
     categorycodefilter = `&categorycodefilter=${filters.categories.toString()}`;
   }
-  // categorycodefilter
+  let facilityCodesCreditCard = "";
+  if (filters.facilityCodesCreditCard.length) {
+    facilityCodesCreditCard = `&facilitycodefilter=${filters.facilityCodesCreditCard.toString()}`;
+  }
+  let facilityCodesFeatures = "";
+  if (filters.facilityCodesFeatures.length) {
+    facilityCodesFeatures = `&facilitycodefilter=${filters.facilityCodesFeatures.toString()}`;
+  }
+  let facilityCodesQuality = "";
+  if (filters.facilityCodesQuality.length) {
+    facilityCodesQuality = `&facilitycodefilter=${filters.facilityCodesQuality.toString()}`;
+  }
+  let facilityCodesCuisine = "";
+  if (filters.facilityCodesCuisine.length) {
+    facilityCodesCuisine = `&facilitycodefilter=${filters.facilityCodesCuisine.toString()}`;
+  }
+
   try {
     const request = await fetch(
-      `${BASE_PATH_TOURISM_GASTRONOMY_REDUCED}?active=true&odhactive=true&fields=Id,Latitude,Longitude${categorycodefilter}`
+      `${BASE_PATH_TOURISM_GASTRONOMY_REDUCED}?active=true&odhactive=true&fields=Id,Latitude,Longitude${categorycodefilter}${facilityCodesCreditCard}${facilityCodesFeatures}${facilityCodesQuality}${facilityCodesCuisine}`
     );
     if (request.status !== 200) {
       throw new Error(request.statusText);
@@ -25,7 +40,7 @@ export const requestTourismGastronomies = async (filters) => {
   }
 };
 
-export const requestTourismGastronomiesCategories = async (language) => {
+export const requestTourismGastronomiesCodes = async (language, type) => {
   try {
     const request = await fetch(`${BASE_PATH_TOURISM_GASTRONOMYTYPES}`);
     if (request.status !== 200) {
@@ -33,7 +48,7 @@ export const requestTourismGastronomiesCategories = async (language) => {
     }
     const response = await request.json();
     const categories = response
-      .filter((o) => o.Type === "CategoryCodes")
+      .filter((o) => o.Type === type)
       .map((o) => {
         return [o.TypeDesc[language], o.Bitmask];
       });

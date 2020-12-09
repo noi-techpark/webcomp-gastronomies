@@ -4,7 +4,7 @@ import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import {
   requestTourismGastronomies,
-  requestTourismGastronomiesCategories,
+  requestTourismGastronomiesCodes,
   requestTourismGastronomyDetails,
 } from "../api/gastronomies";
 import pinIcon from "../assets/pin.svg";
@@ -72,74 +72,72 @@ export async function drawGastronomiesOnMap() {
   const gastronomies_layer_array = [];
 
   const gastronomies = await requestTourismGastronomies(this.filters);
-  this.categories = await requestTourismGastronomiesCategories(this.language);
+
+  // Category
+  this.categories = await requestTourismGastronomiesCodes(
+    this.language,
+    "CategoryCodes"
+  );
+
+  // Facility Codes CreditCard
+  this.facilityCodesCreditCard = await requestTourismGastronomiesCodes(
+    this.language,
+    "FacilityCodes_CreditCard"
+  );
+
+  // Facility Codes Features
+  this.facilityCodesFeatures = await requestTourismGastronomiesCodes(
+    this.language,
+    "FacilityCodes_Equipment"
+  );
+
+  // Facility Codes Quality
+  this.facilityCodesQuality = await requestTourismGastronomiesCodes(
+    this.language,
+    "FacilityCodes_QualitySeals"
+  );
+
+  // Facility Codes Cuisine
+  this.facilityCodesCuisine = await requestTourismGastronomiesCodes(
+    this.language,
+    "CuisineCodes"
+  );
+
   console.log(gastronomies);
   console.log(this.categories);
-  // this.categories
-  //   .filter((o) => o.Type === "CategoryCodes")
-  //   .map((o) => {
-  //     console.log(o.Bitmask);
-  //     // console.log(o.TypeDesc[this.language]);
-  //   });
 
-  gastronomies
-    // .filter((gastronomy) => {
-    //   // Use filters on all retrived gastronomies
-    //   let valid = true;
-    //   // Categories
-    //   if (this.filters.categories.length) {
-    //     const gastronomyCategories = [];
-    //     for (let i = 0; i < gastronomy.CategoryCodes.length; i++) {
-    //       const { Shortname } = gastronomy.CategoryCodes[i];
-    //       gastronomyCategories.push(Shortname);
-    //     }
-    //     let tmpValid = false;
-    //     for (let i = 0; i < this.filters.categories.length; i++) {
-    //       const categoryToCheck = this.filters.categories[i];
-    //       if (gastronomyCategories.includes(categoryToCheck)) {
-    //         tmpValid = true;
-    //         break;
-    //       }
-    //     }
-    //     valid = tmpValid;
-    //   }
-    //   return valid;
-    // })
-    .map((gastronomy) => {
-      const marker_position = getLatLongFromStationDetail({
-        x: gastronomy.Longitude,
-        y: gastronomy.Latitude,
-      });
-      const gastronomies_icon = Leaflet.icon({
-        iconUrl: pinIcon,
-        iconSize: [36, 36],
-      });
-      const marker = Leaflet.marker(
-        [marker_position.lat, marker_position.lng],
-        {
-          icon: gastronomies_icon,
-        }
-      );
-
-      const action = async () => {
-        const details = await requestTourismGastronomyDetails({
-          Id: gastronomy.Id,
-        });
-        if (details) {
-          console.log(details);
-
-          this.currentGastronomy = {
-            ...details,
-          };
-        }
-
-        this.filtersOpen = false;
-        this.detailsOpen = true;
-      };
-
-      marker.on("mousedown", action);
-      gastronomies_layer_array.push(marker);
+  gastronomies.map((gastronomy) => {
+    const marker_position = getLatLongFromStationDetail({
+      x: gastronomy.Longitude,
+      y: gastronomy.Latitude,
     });
+    const gastronomies_icon = Leaflet.icon({
+      iconUrl: pinIcon,
+      iconSize: [36, 36],
+    });
+    const marker = Leaflet.marker([marker_position.lat, marker_position.lng], {
+      icon: gastronomies_icon,
+    });
+
+    const action = async () => {
+      const details = await requestTourismGastronomyDetails({
+        Id: gastronomy.Id,
+      });
+      if (details) {
+        console.log(details);
+
+        this.currentGastronomy = {
+          ...details,
+        };
+      }
+
+      this.filtersOpen = false;
+      this.detailsOpen = true;
+    };
+
+    marker.on("mousedown", action);
+    gastronomies_layer_array.push(marker);
+  });
 
   if (!this.language) {
     this.language = get_system_language();

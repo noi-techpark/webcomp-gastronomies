@@ -2,6 +2,7 @@ import { html } from "lit-element";
 // import { debounce, request__get_coordinates_from_search } from "../utils";
 import { t } from "../translations";
 import findPositionBlueIcon from "../assets/find-position-blue.svg";
+import { countFilters } from "../utils";
 
 export function render_searchPlaces() {
   const handle_onchange = (value) => {
@@ -86,10 +87,7 @@ export function render_searchPlaces() {
     `;
   };
 
-  let filtersNumber = 0;
-  if (this.filters.categories.length) {
-    filtersNumber = filtersNumber + 1;
-  }
+  let filtersNumber = countFilters(this.filters);
 
   return html`
     <div class="searchBox">

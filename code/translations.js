@@ -95,4 +95,24 @@ export const t = {
   //   en: "Ceremony Codes",
   //   de: "Zeremoniencodes",
   // },
+  facilityCodesCreditCard: {
+    it: "Facility Codes CreditCard",
+    en: "Facility Codes CreditCard",
+    de: "Facility Codes CreditCard",
+  },
+  facilityCodesFeatures: {
+    it: "Facility Codes Features",
+    en: "Facility Codes Features",
+    de: "Facility Codes Features",
+  },
+  facilityCodesQuality: {
+    it: "Facility Codes Quality",
+    en: "Facility Codes Quality",
+    de: "Facility Codes Quality",
+  },
+  facilityCodesCuisine: {
+    it: "Facility Codes Cuisine",
+    en: "Facility Codes Cuisine",
+    de: "Facility Codes Cuisine",
+  },
 };

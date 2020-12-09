@@ -101,12 +101,15 @@
           height: 100%;
         }
       }
+      &.pointer {
+        cursor: pointer;
+      }
     }
     .options_container {
       margin: 8px 16px 0 16px;
     }
     .filters__divider {
-      margin-top: 8px;
+      margin-top: 16px;
     }
   }
 }

@@ -19,5 +19,10 @@ export const observedProperties = {
   // Filters
   filters: { type: Object },
   categories: { type: Array },
+  facilityCodesCreditCard: { type: Array },
+  facilityCodesFeatures: { type: Array },
+  facilityCodesQuality: { type: Array },
+  facilityCodesCuisine: { type: Array },
+
   filtersAccordionOpen: { type: Object },
 };
