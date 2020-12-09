@@ -104,7 +104,6 @@ export async function drawGastronomiesOnMap() {
   );
 
   console.log(gastronomies);
-  console.log(this.categories);
 
   gastronomies.map((gastronomy) => {
     const marker_position = getLatLongFromStationDetail({
