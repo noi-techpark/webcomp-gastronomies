@@ -1,6 +1,8 @@
 import { html } from "lit-element";
 import { t } from "../translations";
 import { STATE_DEFAULT_FILTERS } from "../utils";
+import iconChevronUp from "../assets/chevron-up.svg";
+import iconChevronDown from "../assets/chevron-down.svg";
 
 export function render_filters(categories) {
   let filtersNumber = 0;
@@ -29,13 +31,28 @@ export function render_filters(categories) {
     </div>
     <div>
       <div>
-        <p class="caption">${t["category"][this.language]}</p>
+        <p
+          class="caption"
+          @click="${() => {
+            this.filtersAccordionOpen = {
+              ...this.filtersAccordionOpen,
+              category: !this.filtersAccordionOpen["category"],
+            };
+          }}"
+        >
+          ${t["category"][this.language]}
+          <span
+            >${this.filtersAccordionOpen["category"]
+              ? html`<img src="${iconChevronDown}" alt="" />`
+              : html`<img src="${iconChevronUp}" alt="" />`}</span
+          >
+        </p>
         ${this.filtersAccordionOpen["category"]
           ? html`<div class="options_container">
               ${this.categories.map((category) => {
                 return html`<wc-checkbox
                   .value="${this.filters.categories.includes(category)}"
-                  .action="${({ value }) => {
+                  .action="${() => {
                     if (this.filters.categories.includes(category)) {
                       this.filters = {
                         ...this.filters,
@@ -60,13 +77,3 @@ export function render_filters(categories) {
     </div>
   </div>`;
 }
-/* <wc-checkbox
-            .value="${this.filters.availability}"
-            .action="${({ value }) => {
-              this.filters = { ...this.filters, availability: value };
-            }}"
-            .label="${t["onlyShowParkingSpacesWithAvailableSpots"][
-              this.language
-            ]}"
-            .name="availability"
-          ></wc-checkbox> */

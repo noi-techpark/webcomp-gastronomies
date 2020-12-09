@@ -92,6 +92,15 @@
       @include MixinCaption;
       color: $gray-600;
       margin: 16px 16px 0 16px;
+      display: flex;
+      align-items: center;
+      span {
+        height: 16px;
+        margin-left: 4px;
+        img {
+          height: 100%;
+        }
+      }
     }
     .options_container {
       margin: 8px 16px 0 16px;
