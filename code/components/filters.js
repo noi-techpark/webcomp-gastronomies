@@ -6,8 +6,8 @@ import iconChevronDown from "../assets/chevron-down.svg";
 
 const renderChevron = (show) =>
   show
-    ? html`<img src="${iconChevronDown}" alt="" />`
-    : html`<img src="${iconChevronUp}" alt="" />`;
+    ? html`<img src="${iconChevronUp}" alt="" />`
+    : html`<img src="${iconChevronDown}" alt="" />`;
 
 const editFilters = (filters, element, key) => {
   let newFilters = {};
