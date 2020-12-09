@@ -2,13 +2,14 @@ import Leaflet from "leaflet";
 import leaflet_mrkcls from "leaflet.markercluster";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
-import user__marker from "../assets/user.svg";
 import {
   requestTourismGastronomies,
+  requestTourismGastronomiesCategories,
   requestTourismGastronomyDetails,
 } from "../api/gastronomies";
-import { getLatLongFromStationDetail, get_system_language } from "../utils";
 import pinIcon from "../assets/pin.svg";
+import user__marker from "../assets/user.svg";
+import { getLatLongFromStationDetail, get_system_language } from "../utils";
 
 export async function initializeMap() {
   const DefaultIcon = Leaflet.icon({
@@ -71,53 +72,66 @@ export async function drawGastronomiesOnMap() {
   const gastronomies_layer_array = [];
 
   const gastronomies = await requestTourismGastronomies();
-  console.log(gastronomies.Items);
+  this.categories = await requestTourismGastronomiesCategories();
+  console.log(gastronomies);
 
-  gastronomies.Items.filter((station) => {
-    // Use filters on all retrived gastronomies
-    let valid = true;
-    // if (this.filters.availability) {
-    // if (
-    //   station.sdatatypes.occupied &&
-    //   station.sdatatypes.occupied.tmeasurements[0].mvalue >=
-    //     station.smetadata.capacity
-    // ) {
-    //   valid = false;
-    // }
-    // }
-    return valid;
-  }).map((gastronomy) => {
-    const marker_position = getLatLongFromStationDetail({
-      x: gastronomy.Longitude,
-      y: gastronomy.Latitude,
-    });
-    const gastronomies_icon = Leaflet.icon({
-      iconUrl: pinIcon,
-      iconSize: [36, 36],
-    });
-    const marker = Leaflet.marker([marker_position.lat, marker_position.lng], {
-      icon: gastronomies_icon,
-    });
-
-    const action = async () => {
-      const details = await requestTourismGastronomyDetails({
-        Id: gastronomy.Id,
-      });
-      if (details) {
-        console.log(details);
-
-        this.currentGastronomy = {
-          ...details,
-        };
+  gastronomies
+    .filter((gastronomy) => {
+      // Use filters on all retrived gastronomies
+      let valid = true;
+      if (this.filters.categories.length) {
+        const gastronomyCategories = [];
+        for (let i = 0; i < gastronomy.CategoryCodes.length; i++) {
+          const { Shortname } = gastronomy.CategoryCodes[i];
+          gastronomyCategories.push(Shortname);
+        }
+        let tmpValid = false;
+        for (let i = 0; i < this.filters.categories.length; i++) {
+          const categoryToCheck = this.filters.categories[i];
+          if (gastronomyCategories.includes(categoryToCheck)) {
+            tmpValid = true;
+            break;
+          }
+        }
+        valid = tmpValid;
       }
+      return valid;
+    })
+    .map((gastronomy) => {
+      const marker_position = getLatLongFromStationDetail({
+        x: gastronomy.Longitude,
+        y: gastronomy.Latitude,
+      });
+      const gastronomies_icon = Leaflet.icon({
+        iconUrl: pinIcon,
+        iconSize: [36, 36],
+      });
+      const marker = Leaflet.marker(
+        [marker_position.lat, marker_position.lng],
+        {
+          icon: gastronomies_icon,
+        }
+      );
 
-      this.filtersOpen = false;
-      this.detailsOpen = true;
-    };
+      const action = async () => {
+        const details = await requestTourismGastronomyDetails({
+          Id: gastronomy.Id,
+        });
+        if (details) {
+          console.log(details);
 
-    marker.on("mousedown", action);
-    gastronomies_layer_array.push(marker);
-  });
+          this.currentGastronomy = {
+            ...details,
+          };
+        }
+
+        this.filtersOpen = false;
+        this.detailsOpen = true;
+      };
+
+      marker.on("mousedown", action);
+      gastronomies_layer_array.push(marker);
+    });
 
   if (!this.language) {
     this.language = get_system_language();

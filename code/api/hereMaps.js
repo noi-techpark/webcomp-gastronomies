@@ -13,7 +13,6 @@ export async function requestGetCoordinatesFromSearch(query) {
       );
       const data = await response.json();
       this.hereMapsPlacesFound = data.results.items;
-      console.log(this.hereMapsPlacesFound);
     }
   } catch (error) {
     this.hereMapsPlacesFound = [];

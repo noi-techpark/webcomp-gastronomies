@@ -1,9 +1,9 @@
 import { html } from "lit-element";
 import { t } from "../translations";
 
-export function render_filters() {
+export function render_filters(categories) {
   let filtersNumber = 0;
-  if (this.filters.availability) {
+  if (this.filters.categories.length) {
     filtersNumber = filtersNumber + 1;
   }
 
@@ -28,9 +28,36 @@ export function render_filters() {
     </div>
     <div>
       <div>
-        <p class="caption">${t["availability"][this.language]}</p>
+        <p class="caption">${t["category"][this.language]}</p>
         <div class="options_container">
-          <wc-checkbox
+          ${this.categories.map((category) => {
+            return html`<wc-checkbox
+              .value="${this.filters.categories.includes(category)}"
+              .action="${({ value }) => {
+                if (this.filters.categories.includes(category)) {
+                  this.filters = {
+                    ...this.filters,
+                    categories: this.filters.categories.filter(
+                      (c) => c !== category
+                    ),
+                  };
+                } else {
+                  this.filters = {
+                    ...this.filters,
+                    categories: [...this.filters.categories, category],
+                  };
+                }
+              }}"
+              .label="${category}"
+              .name="availability"
+            ></wc-checkbox>`;
+          })}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+/* <wc-checkbox
             .value="${this.filters.availability}"
             .action="${({ value }) => {
               this.filters = { ...this.filters, availability: value };
@@ -39,9 +66,4 @@ export function render_filters() {
               this.language
             ]}"
             .name="availability"
-          ></wc-checkbox>
-        </div>
-      </div>
-    </div>
-  </div>`;
-}
+          ></wc-checkbox> */

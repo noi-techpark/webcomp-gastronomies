@@ -87,7 +87,7 @@ export function render_searchPlaces() {
   };
 
   let filtersNumber = 0;
-  if (this.filters.availability) {
+  if (this.filters.categories.length) {
     filtersNumber = filtersNumber + 1;
   }
 

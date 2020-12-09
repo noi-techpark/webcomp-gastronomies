@@ -6,7 +6,6 @@ export const observedProperties = {
   tiles_url: { type: String, attribute: "tiles-url" },
 
   isLoading: { type: Boolean },
-  filters: { type: Object },
 
   hereMapsQuery: { type: String },
   hereMapsPlacesFound: { type: Array },
@@ -16,4 +15,8 @@ export const observedProperties = {
 
   detailsOpen: { type: Boolean },
   filtersOpen: { type: Boolean },
+
+  // Filters
+  filters: { type: Object },
+  categories: { type: Array },
 };

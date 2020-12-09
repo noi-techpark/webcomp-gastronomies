@@ -20,7 +20,6 @@ export function render__mapControls() {
     try {
       const { coords } = await getCurrentPosition();
       const { latitude, longitude } = coords;
-      console.log(latitude, longitude);
 
       this.currentLocation = { lat: latitude, lng: longitude };
       this.map.flyTo([latitude, longitude], 13);

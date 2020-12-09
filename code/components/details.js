@@ -4,7 +4,6 @@ import { SIDE_MODAL_ROW_TYPES } from "../shared_components/sideModalRow/sideModa
 import { t } from "../translations";
 
 export function render_details() {
-  console.log(this.currentGastronomy);
   const { Detail, Latitude, Longitude } = this.currentGastronomy;
   const {
     OperationSchedule,

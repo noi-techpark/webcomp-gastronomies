@@ -49,7 +49,7 @@ class Gastronomies extends LitElement {
 
     this.filters = {
       radius: 0,
-      availability: false,
+      categories: [],
     };
   }
 
@@ -102,7 +102,6 @@ class Gastronomies extends LitElement {
   }
 
   handleSearchBarFilterAction = () => {
-    console.log("Toggle filters");
     this.detailsOpen = false;
     this.filtersOpen = !this.filtersOpen;
   };
