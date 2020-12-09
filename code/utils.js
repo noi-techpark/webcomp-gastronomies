@@ -11,6 +11,10 @@ export const STATE_DEFAULT_FILTERS = {
   categories: [],
 };
 
+export const STATE_DEFAULT_FILTERS_ACCORDIONS_OPEN = {
+  category: false,
+};
+
 export const isMobile = () => {
   return document.body.offsetWidth < 992;
 };

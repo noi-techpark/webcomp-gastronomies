@@ -30,30 +30,32 @@ export function render_filters(categories) {
     <div>
       <div>
         <p class="caption">${t["category"][this.language]}</p>
-        <div class="options_container">
-          ${this.categories.map((category) => {
-            return html`<wc-checkbox
-              .value="${this.filters.categories.includes(category)}"
-              .action="${({ value }) => {
-                if (this.filters.categories.includes(category)) {
-                  this.filters = {
-                    ...this.filters,
-                    categories: this.filters.categories.filter(
-                      (c) => c !== category
-                    ),
-                  };
-                } else {
-                  this.filters = {
-                    ...this.filters,
-                    categories: [...this.filters.categories, category],
-                  };
-                }
-              }}"
-              .label="${category}"
-              .name="availability"
-            ></wc-checkbox>`;
-          })}
-        </div>
+        ${this.filtersAccordionOpen["category"]
+          ? html`<div class="options_container">
+              ${this.categories.map((category) => {
+                return html`<wc-checkbox
+                  .value="${this.filters.categories.includes(category)}"
+                  .action="${({ value }) => {
+                    if (this.filters.categories.includes(category)) {
+                      this.filters = {
+                        ...this.filters,
+                        categories: this.filters.categories.filter(
+                          (c) => c !== category
+                        ),
+                      };
+                    } else {
+                      this.filters = {
+                        ...this.filters,
+                        categories: [...this.filters.categories, category],
+                      };
+                    }
+                  }}"
+                  .label="${category}"
+                  .name="availability"
+                ></wc-checkbox>`;
+              })}
+            </div>`
+          : null}
       </div>
     </div>
   </div>`;

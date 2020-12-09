@@ -19,4 +19,5 @@ export const observedProperties = {
   // Filters
   filters: { type: Object },
   categories: { type: Array },
+  filtersAccordionOpen: { type: Object },
 };
