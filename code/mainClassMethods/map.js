@@ -103,6 +103,12 @@ export async function drawGastronomiesOnMap() {
     "CuisineCodes"
   );
 
+  // Facility Codes Ceremony
+  this.facilityCodesCeremony = await requestTourismGastronomiesCodes(
+    this.language,
+    "CeremonyCodes"
+  );
+
   console.log(gastronomies);
 
   gastronomies.map((gastronomy) => {

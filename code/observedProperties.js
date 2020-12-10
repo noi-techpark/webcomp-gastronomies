@@ -23,6 +23,7 @@ export const observedProperties = {
   facilityCodesFeatures: { type: Array },
   facilityCodesQuality: { type: Array },
   facilityCodesCuisine: { type: Array },
+  facilityCodesCeremony: { type: Array },
 
   filtersAccordionOpen: { type: Object },
 };

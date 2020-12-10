@@ -13,6 +13,7 @@ export const STATE_DEFAULT_FILTERS = {
   facilityCodesFeatures: [],
   facilityCodesQuality: [],
   facilityCodesCuisine: [],
+  facilityCodesCeremony: [],
 };
 
 export const STATE_DEFAULT_FILTERS_ACCORDIONS_OPEN = {
@@ -21,6 +22,7 @@ export const STATE_DEFAULT_FILTERS_ACCORDIONS_OPEN = {
   facilityCodesFeatures: false,
   facilityCodesQuality: false,
   facilityCodesCuisine: false,
+  facilityCodesCeremony: false,
 };
 
 export const isMobile = () => {
@@ -84,6 +86,9 @@ export function countFilters(filters) {
     filtersNumber = filtersNumber + 1;
   }
   if (filters.facilityCodesCuisine.length) {
+    filtersNumber = filtersNumber + 1;
+  }
+  if (filters.facilityCodesCeremony.length) {
     filtersNumber = filtersNumber + 1;
   }
 

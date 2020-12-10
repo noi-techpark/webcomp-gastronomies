@@ -266,5 +266,51 @@ export function render_filters() {
           : null}
       </div>
     </div>
+    <div class="filters__divider">
+      <wc-divider></wc-divider>
+    </div>
+    <div>
+      <div>
+        <p
+          class="caption pointer"
+          @click="${() => {
+            this.filtersAccordionOpen = {
+              ...this.filtersAccordionOpen,
+              facilityCodesCeremony: !this.filtersAccordionOpen[
+                "facilityCodesCeremony"
+              ],
+            };
+          }}"
+        >
+          ${t["facilityCodesCeremony"][this.language]}
+          <span
+            >${renderChevron(
+              this.filtersAccordionOpen["facilityCodesCeremony"]
+            )}</span
+          >
+        </p>
+
+        ${this.filtersAccordionOpen["facilityCodesCeremony"]
+          ? html`<div class="options_container">
+              ${this.facilityCodesCeremony.map((facility) => {
+                return html`<wc-checkbox
+                  .value="${this.filters.facilityCodesCeremony.includes(
+                    facility[1]
+                  )}"
+                  .action="${() => {
+                    this.filters = editFilters(
+                      this.filters,
+                      facility,
+                      "facilityCodesCeremony"
+                    );
+                  }}"
+                  .label="${facility[0]}"
+                  .name="facilityCodesCeremony"
+                ></wc-checkbox>`;
+              })}
+            </div>`
+          : null}
+      </div>
+    </div>
   </div>`;
 }

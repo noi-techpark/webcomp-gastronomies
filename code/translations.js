@@ -115,4 +115,9 @@ export const t = {
     en: "Facility Codes Cuisine",
     de: "Facility Codes Cuisine",
   },
+  facilityCodesCeremony: {
+    it: "Facility Codes Ceremony",
+    en: "Facility Codes Ceremony",
+    de: "Facility Codes Ceremony",
+  },
 };
