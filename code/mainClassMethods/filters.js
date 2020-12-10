@@ -1,38 +1,46 @@
 import { requestTourismGastronomiesCodes } from "../api/gastronomies";
 
+const filterCode = (codes, language, type) => {
+  return codes
+    .filter((o) => o.Type === type)
+    .map((o) => {
+      return [o.TypeDesc[language], o.Bitmask];
+    });
+};
+
 export async function getFilters() {
+  const codes = await requestTourismGastronomiesCodes();
+
   // Category
-  const categories = await requestTourismGastronomiesCodes(
-    this.language,
-    "CategoryCodes"
-  );
+  const categories = filterCode(codes, this.language, "CategoryCodes");
 
   // Facility Codes CreditCard
-  const facilityCodesCreditCard = await requestTourismGastronomiesCodes(
+  const facilityCodesCreditCard = filterCode(
+    codes,
     this.language,
     "FacilityCodes_CreditCard"
   );
 
   // Facility Codes Features
-  const facilityCodesFeatures = await requestTourismGastronomiesCodes(
+  const facilityCodesFeatures = filterCode(
+    codes,
     this.language,
     "FacilityCodes_Equipment"
   );
 
   // Facility Codes Quality
-  const facilityCodesQuality = await requestTourismGastronomiesCodes(
+  const facilityCodesQuality = filterCode(
+    codes,
     this.language,
     "FacilityCodes_QualitySeals"
   );
 
   // Facility Codes Cuisine
-  const facilityCodesCuisine = await requestTourismGastronomiesCodes(
-    this.language,
-    "CuisineCodes"
-  );
+  const facilityCodesCuisine = filterCode(codes, this.language, "CuisineCodes");
 
   // Facility Codes Ceremony
-  const facilityCodesCeremony = await requestTourismGastronomiesCodes(
+  const facilityCodesCeremony = filterCode(
+    codes,
     this.language,
     "CeremonyCodes"
   );

@@ -116,11 +116,7 @@ class Gastronomies extends LitElement {
           this.listGastronomies = gastronomies;
         });
       }
-      if (
-        propName === "filters" ||
-        propName === "language" ||
-        (propName === "modality" && oldValue === STATE_MODALITIES.list)
-      ) {
+      if (propName === "filters" || propName === "language") {
         if (this.map) {
           this.map.off();
           this.map.remove();
@@ -136,6 +132,18 @@ class Gastronomies extends LitElement {
                 });
             });
         }
+      }
+      if (propName === "modality" && oldValue === STATE_MODALITIES.list) {
+        console.log(propName, oldValue);
+
+        this.isLoading = true;
+        initializeMap.bind(this)();
+        drawUserOnMap.bind(this)();
+        drawGastronomiesOnMap
+          .bind(this)()
+          .then(() => {
+            this.isLoading = false;
+          });
       }
     });
   }

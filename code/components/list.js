@@ -24,6 +24,7 @@ export function render__list() {
   return html`
     <div class="gastronomies__list">
       <div class="gastronomies__list_content">
+        <div><h3>${t[`gastronomies`][this.language]}</h3></div>
         <div class="gastronomies__list_content_row header">
           <div>${t[`shortname`][this.language].toUpperCase()}</div>
           <div>${t[`category`][this.language].toUpperCase()}</div>

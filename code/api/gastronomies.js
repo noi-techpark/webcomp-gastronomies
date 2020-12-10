@@ -75,18 +75,18 @@ export const requestTourismGastronomiesPaginated = async (
   }
 };
 
-export const requestTourismGastronomiesCodes = async (language, type) => {
+export const requestTourismGastronomiesCodes = async () => {
   try {
     const request = await fetch(`${BASE_PATH_TOURISM_GASTRONOMYTYPES}`);
     if (request.status !== 200) {
       throw new Error(request.statusText);
     }
     const response = await request.json();
-    const categories = response
-      .filter((o) => o.Type === type)
-      .map((o) => {
-        return [o.TypeDesc[language], o.Bitmask];
-      });
+    const categories = response;
+    // .filter((o) => o.Type === type)
+    // .map((o) => {
+    //   return [o.TypeDesc[language], o.Bitmask];
+    // });
     return categories;
   } catch (error) {
     console.log(error);

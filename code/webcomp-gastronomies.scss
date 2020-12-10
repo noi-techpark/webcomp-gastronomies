@@ -147,10 +147,11 @@
 .gastronomies__list {
   height: 100%;
   overflow-y: auto;
-  // height: calc(100% - 80px);
-  // margin: 80px 16px 0 16px;
   .gastronomies__list_content {
     margin: 80px 16px 80px 16px;
+    h3 {
+      @include MixinH3;
+    }
     .gastronomies__list_content_row {
       display: flex;
       justify-content: space-between;

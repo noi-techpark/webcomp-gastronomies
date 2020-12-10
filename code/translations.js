@@ -1,4 +1,9 @@
 export const t = {
+  gastronomies: {
+    it: "Gastronomie",
+    en: "Gastronomies",
+    de: "Gastronomie",
+  },
   search: {
     it: "Cerca",
     en: "Seach",
