@@ -1,5 +1,10 @@
 const DEFAULT_GEOLOCATION_TIMEOUT = 10000;
 
+export const STATE_MODALITIES = {
+  map: "map",
+  list: "list",
+};
+
 export const LANGUAGES = {
   EN: "en",
   DE: "de",

@@ -125,4 +125,30 @@ export const t = {
     en: "Facility Codes Ceremony",
     de: "Facility Codes Ceremony",
   },
+  // List
+  shortname: {
+    it: "SHORTNAME",
+    en: "SHORTNAME",
+    de: "SHORTNAME",
+  },
+  location: {
+    it: "POSIZIONE",
+    en: "LOCATION",
+    de: "LAGE",
+  },
+  actions: {
+    it: "AZIONI",
+    en: "ACTIONS",
+    de: "AKTIONEN",
+  },
+  prev: {
+    it: "prec.",
+    en: "prev.",
+    de: "früher",
+  },
+  next: {
+    it: "pros.",
+    en: "next",
+    de: "nächste",
+  },
 };

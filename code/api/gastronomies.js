@@ -4,7 +4,7 @@ import {
   BASE_PATH_TOURISM_GASTRONOMY_REDUCED,
 } from "./config";
 
-export const requestTourismGastronomies = async (filters, currentLocation) => {
+const createUrlFilters = (filters, currentLocation) => {
   let categorycodefilter = "";
   if (filters.categories.length) {
     categorycodefilter = `&categorycodefilter=${filters.categories.toString()}`;
@@ -31,10 +31,39 @@ export const requestTourismGastronomies = async (filters, currentLocation) => {
       currentLocation.lng
     }&radius=${parseInt(filters.radius) * 1000}`;
   }
+  return `${categorycodefilter}${facilityCodesCreditCard}${facilityCodesFeatures}${facilityCodesQuality}${facilityCodesCuisine}${radius}`;
+};
 
+export const requestTourismGastronomies = async (filters, currentLocation) => {
   try {
     const request = await fetch(
-      `${BASE_PATH_TOURISM_GASTRONOMY_REDUCED}?active=true&odhactive=true&fields=Id,Latitude,Longitude${categorycodefilter}${facilityCodesCreditCard}${facilityCodesFeatures}${facilityCodesQuality}${facilityCodesCuisine}${radius}`
+      `${BASE_PATH_TOURISM_GASTRONOMY_REDUCED}?active=true&odhactive=true&fields=Id,Latitude,Longitude${createUrlFilters(
+        filters,
+        currentLocation
+      )}`
+    );
+    if (request.status !== 200) {
+      throw new Error(request.statusText);
+    }
+    const response = await request.json();
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const requestTourismGastronomiesPaginated = async (
+  filters,
+  currentLocation,
+  pageNumber,
+  language
+) => {
+  try {
+    const request = await fetch(
+      `${BASE_PATH_TOURISM_GASTRONOMY}?active=true&odhactive=true&language=${language}&fields=Id,Detail,CategoryCodes,LocationInfo&pagenumber=${pageNumber}&pagesize=10${createUrlFilters(
+        filters,
+        currentLocation
+      )}`
     );
     if (request.status !== 200) {
       throw new Error(request.statusText);

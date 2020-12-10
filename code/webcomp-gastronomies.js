@@ -1,11 +1,15 @@
 import "@babel/polyfill";
 import leafletStyle from "leaflet/dist/leaflet.css";
 import { css, html, LitElement, unsafeCSS } from "lit-element";
+import { requestTourismGastronomiesPaginated } from "./api/gastronomies";
 import { requestGetCoordinatesFromSearch } from "./api/hereMaps";
 import { render_details } from "./components/details";
 import { render_filters } from "./components/filters";
+import { render__list } from "./components/list";
+import { render__listControls } from "./components/listControls";
 import { render__mapControls } from "./components/mapControls";
 import { render_searchPlaces } from "./components/searchPlaces";
+import { getFilters } from "./mainClassMethods/filters";
 import {
   drawGastronomiesOnMap,
   drawUserOnMap,
@@ -13,6 +17,7 @@ import {
 } from "./mainClassMethods/map";
 import { observedProperties } from "./observedProperties";
 import "./shared_components/button/button";
+import "./shared_components/checkBox/checkBox";
 import "./shared_components/divider/divider";
 import "./shared_components/dropdown/dropdown";
 import "./shared_components/languagePicker/languagePicker";
@@ -21,7 +26,6 @@ import "./shared_components/searchBar/searchBar";
 import "./shared_components/sideModalHeader/sideModalHeader";
 import "./shared_components/sideModalRow/sideModalRow";
 import "./shared_components/sideModalTabs/sideModalTabs";
-import "./shared_components/checkBox/checkBox";
 import "./shared_components/tag/tag";
 import {
   debounce,
@@ -29,6 +33,7 @@ import {
   LANGUAGES,
   STATE_DEFAULT_FILTERS,
   STATE_DEFAULT_FILTERS_ACCORDIONS_OPEN,
+  STATE_MODALITIES,
 } from "./utils";
 import ParkingStyle from "./webcomp-gastronomies.scss";
 
@@ -40,6 +45,7 @@ class Gastronomies extends LitElement {
     this.fontFamily = "";
     this.mapAttribution = "";
     this.language = LANGUAGES.EN;
+    this.modality = STATE_MODALITIES.map;
 
     this.isLoading = true;
 
@@ -50,6 +56,10 @@ class Gastronomies extends LitElement {
     this.hereMapsQuery = "";
 
     this.currentGastronomy = {};
+
+    this.listGastronomies = [];
+    this.listGastronomiesCurrentPage = 1;
+
     this.detailsOpen = false;
     this.filtersOpen = false;
 
@@ -74,33 +84,58 @@ class Gastronomies extends LitElement {
   }
 
   async firstUpdated() {
-    initializeMap.bind(this)();
-    drawUserOnMap.bind(this)();
-    await drawGastronomiesOnMap.bind(this)();
+    await getFilters.bind(this)();
+
+    if (this.modality === STATE_MODALITIES.list) {
+      this.listGastronomies = await requestTourismGastronomiesPaginated(
+        this.filters,
+        this.currentLocation,
+        this.listGastronomiesCurrentPage,
+        this.language
+      );
+    }
+
+    if (this.modality === STATE_MODALITIES.map) {
+      initializeMap.bind(this)();
+      drawUserOnMap.bind(this)();
+      await drawGastronomiesOnMap.bind(this)();
+    }
 
     this.isLoading = false;
   }
 
-  handleChangeTab(id) {
-    this.currentTab = id;
-  }
-
   updated(changedProperties) {
     changedProperties.forEach((oldValue, propName) => {
-      if (propName === "filters" || propName === "language") {
-        this.map.off();
-        this.map.remove();
-        this.isLoading = true;
-        initializeMap
-          .bind(this)()
-          .then(() => {
-            drawUserOnMap.bind(this)();
-            drawGastronomiesOnMap
-              .bind(this)()
-              .then(() => {
-                this.isLoading = false;
-              });
-          });
+      if (propName === "filters" && this.modality === STATE_MODALITIES.list) {
+        requestTourismGastronomiesPaginated(
+          this.filters,
+          this.currentLocation,
+          this.listGastronomiesCurrentPage,
+          this.language
+        ).then((gastronomies) => {
+          this.listGastronomies = gastronomies;
+        });
+      }
+      if (
+        propName === "filters" ||
+        propName === "language" ||
+        (propName === "modality" && oldValue === STATE_MODALITIES.list)
+      ) {
+        if (this.map) {
+          this.map.off();
+          this.map.remove();
+          this.isLoading = true;
+          initializeMap
+            .bind(this)()
+            .then(() => {
+              drawUserOnMap.bind(this)();
+              drawGastronomiesOnMap
+                .bind(this)()
+                .then(() => {
+                  this.isLoading = false;
+                });
+            });
+        }
       }
     });
   }
@@ -116,6 +151,8 @@ class Gastronomies extends LitElement {
   );
 
   render() {
+    console.log(this.listGastronomies);
+
     return html`
       <style>
         * {
@@ -124,7 +161,6 @@ class Gastronomies extends LitElement {
           --w-c-font-family: ${this.fontFamily};
         }
       </style>
-      ${this.isLoading ? html`<div class="globalOverlay"></div>` : ""}
       ${this.tiles_url
         ? ""
         : html`
@@ -132,18 +168,14 @@ class Gastronomies extends LitElement {
           `}
 
       <div
-        class="gastronomies 
-          ${
+        class="gastronomies ${
           /*this.mobile_open ? `MODE__mobile__open` : `MODE__mobile__closed`*/ ""
         }
-          ${isMobile() ? `mobile` : ``}
-          ${/*this.getAnimationState()*/ ""}"
+          ${isMobile() ? `mobile` : ``}"
       >
-        <div
-          class="gastronomies__language_picker ${this.currentTab === 1
-            ? "big_margin"
-            : ""}"
-        >
+        ${this.isLoading ? html`<div class="globalOverlay"></div>` : ""}
+
+        <div class="gastronomies__language_picker ">
           <wc-languagepicker
             .supportedLanguages="${LANGUAGES}"
             .language="${this.language}"
@@ -153,12 +185,8 @@ class Gastronomies extends LitElement {
           ></wc-languagepicker>
         </div>
         ${/*this.isFullScreen ? this.render_closeFullscreenButton() : null*/ ""}
-        ${/*this.render_backgroundMap()*/ ""}
 
         <div class="gastronomies__sideBar">
-          <!-- <div class="gastronomies__sideBar__tabBar">
-          </div> -->
-
           <div class="gastronomies__sideBar__searchBar mt-4px">
             ${render_searchPlaces.bind(this)()}
           </div>
@@ -174,9 +202,15 @@ class Gastronomies extends LitElement {
               </div>`
             : ""}
         </div>
-
-        <div id="map"></div>
-        ${render__mapControls.bind(this)()}
+        ${this.modality === STATE_MODALITIES.map
+          ? html`<div id="${STATE_MODALITIES.map}"></div>
+              ${render__mapControls.bind(this)()}`
+          : null}
+        ${this.modality === STATE_MODALITIES.list
+          ? html`<div id="${STATE_MODALITIES.list}">
+              ${render__list.bind(this)()} ${render__listControls.bind(this)()}
+            </div> `
+          : null}
       </div>
     `;
   }

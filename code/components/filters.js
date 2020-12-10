@@ -1,6 +1,10 @@
 import { html } from "lit-element";
 import { t } from "../translations";
-import { countFilters, STATE_DEFAULT_FILTERS } from "../utils";
+import {
+  countFilters,
+  STATE_DEFAULT_FILTERS,
+  STATE_MODALITIES,
+} from "../utils";
 import iconChevronUp from "../assets/chevron-up.svg";
 import iconChevronDown from "../assets/chevron-down.svg";
 
@@ -46,6 +50,7 @@ export function render_filters() {
         }}"
       ></wc-sidemodal-header>
     </div>
+
     <div>
       <wc-divider></wc-divider>
     </div>

@@ -4,12 +4,16 @@ export const observedProperties = {
   fontFamily: { type: String },
   language: { type: String },
   tiles_url: { type: String, attribute: "tiles-url" },
+  modality: { type: String },
 
   isLoading: { type: Boolean },
 
   hereMapsQuery: { type: String },
   hereMapsPlacesFound: { type: Array },
   mapAttribution: { type: String },
+
+  listGastronomies: { type: Array },
+  listGastronomiesCurrentPage: { type: Number },
 
   currentGastronomy: { type: Object },
 

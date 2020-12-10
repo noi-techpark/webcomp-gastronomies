@@ -20,9 +20,11 @@ export function render_searchPlaces() {
     this.currentGastronomy = {};
     this.hereMapsPlacesFound = [];
     this.filtersOpen = false;
-    this.map.flyTo([lat, lng], 15);
-    this.map.removeLayer(this.layer_user);
-    this.drawMap();
+    if (this.modality === STATE_MODALITIES.map) {
+      this.map.flyTo([lat, lng], 15);
+      this.map.removeLayer(this.layer_user);
+      this.drawMap();
+    }
     this.isLoading = false;
   };
 

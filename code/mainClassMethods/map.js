@@ -2,11 +2,7 @@ import Leaflet from "leaflet";
 import leaflet_mrkcls from "leaflet.markercluster";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
-import {
-  requestTourismGastronomies,
-  requestTourismGastronomiesCodes,
-  requestTourismGastronomyDetails,
-} from "../api/gastronomies";
+import { requestTourismGastronomyDetails } from "../api/gastronomies";
 import pinIcon from "../assets/pin.svg";
 import user__marker from "../assets/user.svg";
 import { getLatLongFromStationDetail, get_system_language } from "../utils";
@@ -76,48 +72,53 @@ export async function drawGastronomiesOnMap() {
     this.currentLocation
   );
 
-  // Category
-  const categories = await requestTourismGastronomiesCodes(
-    this.language,
-    "CategoryCodes"
-  );
+  // const gastronomies = await requestTourismGastronomies(
+  //   this.filters,
+  //   this.currentLocation
+  // );
 
-  // Facility Codes CreditCard
-  const facilityCodesCreditCard = await requestTourismGastronomiesCodes(
-    this.language,
-    "FacilityCodes_CreditCard"
-  );
+  // // Category
+  // const categories = await requestTourismGastronomiesCodes(
+  //   this.language,
+  //   "CategoryCodes"
+  // );
 
-  // Facility Codes Features
-  const facilityCodesFeatures = await requestTourismGastronomiesCodes(
-    this.language,
-    "FacilityCodes_Equipment"
-  );
+  // // Facility Codes CreditCard
+  // const facilityCodesCreditCard = await requestTourismGastronomiesCodes(
+  //   this.language,
+  //   "FacilityCodes_CreditCard"
+  // );
 
-  // Facility Codes Quality
-  const facilityCodesQuality = await requestTourismGastronomiesCodes(
-    this.language,
-    "FacilityCodes_QualitySeals"
-  );
+  // // Facility Codes Features
+  // const facilityCodesFeatures = await requestTourismGastronomiesCodes(
+  //   this.language,
+  //   "FacilityCodes_Equipment"
+  // );
 
-  // Facility Codes Cuisine
-  const facilityCodesCuisine = await requestTourismGastronomiesCodes(
-    this.language,
-    "CuisineCodes"
-  );
+  // // Facility Codes Quality
+  // const facilityCodesQuality = await requestTourismGastronomiesCodes(
+  //   this.language,
+  //   "FacilityCodes_QualitySeals"
+  // );
 
-  // Facility Codes Ceremony
-  const facilityCodesCeremony = await requestTourismGastronomiesCodes(
-    this.language,
-    "CeremonyCodes"
-  );
+  // // Facility Codes Cuisine
+  // const facilityCodesCuisine = await requestTourismGastronomiesCodes(
+  //   this.language,
+  //   "CuisineCodes"
+  // );
 
-  this.categories = categories;
-  this.facilityCodesCreditCard = facilityCodesCreditCard;
-  this.facilityCodesFeatures = facilityCodesFeatures;
-  this.facilityCodesQuality = facilityCodesQuality;
-  this.facilityCodesCuisine = facilityCodesCuisine;
-  this.facilityCodesCeremony = facilityCodesCeremony;
+  // // Facility Codes Ceremony
+  // const facilityCodesCeremony = await requestTourismGastronomiesCodes(
+  //   this.language,
+  //   "CeremonyCodes"
+  // );
+
+  // this.categories = categories;
+  // this.facilityCodesCreditCard = facilityCodesCreditCard;
+  // this.facilityCodesFeatures = facilityCodesFeatures;
+  // this.facilityCodesQuality = facilityCodesQuality;
+  // this.facilityCodesCuisine = facilityCodesCuisine;
+  // this.facilityCodesCeremony = facilityCodesCeremony;
 
   console.log(gastronomies);
 

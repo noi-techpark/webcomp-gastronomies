@@ -31,6 +31,14 @@
   }
 }
 
+#list {
+  @media only screen and (min-width: 992px) {
+    width: var(--width);
+    height: var(--height);
+    z-index: 1;
+  }
+}
+
 .gastronomies__sideBar {
   position: absolute;
   top: 16px;
@@ -136,9 +144,47 @@
   z-index: 3;
 }
 
-.tab__video {
-  width: var(--width);
-  height: var(--height);
+.gastronomies__list {
+  height: 100%;
+  overflow-y: auto;
+  // height: calc(100% - 80px);
+  // margin: 80px 16px 0 16px;
+  .gastronomies__list_content {
+    margin: 80px 16px 80px 16px;
+    .gastronomies__list_content_row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      &:nth-child(even) {
+        background-color: $gray-100;
+      }
+      > div {
+        width: 33%;
+        padding: 0 16px;
+        @include MixinParagraphRegular;
+      }
+      &.header {
+        @include MixinCaption;
+        color: $gray-600;
+      }
+    }
+  }
+}
+
+.gastronomies__list__pagination {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  background-color: $white;
+  padding: 4px;
+  p {
+    @include MixinParagraphMedium;
+    margin: 0 16px;
+  }
 }
 
 .globalOverlay {
