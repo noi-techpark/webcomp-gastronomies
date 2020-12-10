@@ -48,7 +48,7 @@ export function render__list() {
         type="primary"
         content="${t[`prev`][this.language]}"
         @click="${() => {
-          if (CurrentPage >= 1) {
+          if (CurrentPage > 1) {
             this.listGastronomiesCurrentPage =
               this.listGastronomiesCurrentPage - 1;
           }
