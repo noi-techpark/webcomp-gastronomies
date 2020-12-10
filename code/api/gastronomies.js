@@ -4,7 +4,7 @@ import {
   BASE_PATH_TOURISM_GASTRONOMY_REDUCED,
 } from "./config";
 
-export const requestTourismGastronomies = async (filters) => {
+export const requestTourismGastronomies = async (filters, currentLocation) => {
   let categorycodefilter = "";
   if (filters.categories.length) {
     categorycodefilter = `&categorycodefilter=${filters.categories.toString()}`;
@@ -25,10 +25,16 @@ export const requestTourismGastronomies = async (filters) => {
   if (filters.facilityCodesCuisine.length) {
     facilityCodesCuisine = `&facilitycodefilter=${filters.facilityCodesCuisine.toString()}`;
   }
+  let radius = "";
+  if (filters.radius && filters.radius !== "0") {
+    radius = `&latitude=${currentLocation.lat}&longitude=${
+      currentLocation.lng
+    }&radius=${parseInt(filters.radius) * 1000}`;
+  }
 
   try {
     const request = await fetch(
-      `${BASE_PATH_TOURISM_GASTRONOMY_REDUCED}?active=true&odhactive=true&fields=Id,Latitude,Longitude${categorycodefilter}${facilityCodesCreditCard}${facilityCodesFeatures}${facilityCodesQuality}${facilityCodesCuisine}`
+      `${BASE_PATH_TOURISM_GASTRONOMY_REDUCED}?active=true&odhactive=true&fields=Id,Latitude,Longitude${categorycodefilter}${facilityCodesCreditCard}${facilityCodesFeatures}${facilityCodesQuality}${facilityCodesCuisine}${radius}`
     );
     if (request.status !== 200) {
       throw new Error(request.statusText);

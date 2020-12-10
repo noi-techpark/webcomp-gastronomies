@@ -30,6 +30,8 @@ const editFilters = (filters, element, key) => {
 export function render_filters() {
   let filtersNumber = countFilters(this.filters);
 
+  console.log(this.filters);
+
   return html` <div class="filters">
     <div class="header">
       <wc-sidemodal-header
@@ -46,6 +48,32 @@ export function render_filters() {
         }}"
       ></wc-sidemodal-header>
     </div>
+    <div>
+      <wc-divider></wc-divider>
+    </div>
+    <div>
+      <div>
+        <p class="caption">${t["searchRadius"][this.language]}</p>
+        <div style="margin: 16px;">
+          <wc-dropdown
+            .value="${{
+              value: this.filters.radius,
+              label: `${this.filters.radius} km`,
+            }}"
+            .options="${[
+              { value: "0", label: "0 km" },
+              { value: "5", label: "5 km" },
+              { value: "10", label: "10 km" },
+              { value: "15", label: "15 km" },
+            ]}"
+            .action="${({ value }) => {
+              this.filters = { ...this.filters, radius: value };
+            }}"
+          ></wc-dropdown>
+        </div>
+      </div>
+    </div>
+
     <div>
       <wc-divider></wc-divider>
     </div>

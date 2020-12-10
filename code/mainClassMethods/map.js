@@ -55,7 +55,7 @@ export function drawUserOnMap() {
   const circle = Leaflet.circle(
     [this.currentLocation.lat, this.currentLocation.lng],
     {
-      radius: this.filters.radius * 1000,
+      radius: parseInt(this.filters.radius) * 1000,
       color: "rgba(66, 133, 244, 0.6)",
       fillColor: "rgba(66, 133, 244, 0.5)",
       weight: 1,
@@ -71,43 +71,53 @@ export function drawUserOnMap() {
 export async function drawGastronomiesOnMap() {
   const gastronomies_layer_array = [];
 
-  const gastronomies = await requestTourismGastronomies(this.filters);
+  const gastronomies = await requestTourismGastronomies(
+    this.filters,
+    this.currentLocation
+  );
 
   // Category
-  this.categories = await requestTourismGastronomiesCodes(
+  const categories = await requestTourismGastronomiesCodes(
     this.language,
     "CategoryCodes"
   );
 
   // Facility Codes CreditCard
-  this.facilityCodesCreditCard = await requestTourismGastronomiesCodes(
+  const facilityCodesCreditCard = await requestTourismGastronomiesCodes(
     this.language,
     "FacilityCodes_CreditCard"
   );
 
   // Facility Codes Features
-  this.facilityCodesFeatures = await requestTourismGastronomiesCodes(
+  const facilityCodesFeatures = await requestTourismGastronomiesCodes(
     this.language,
     "FacilityCodes_Equipment"
   );
 
   // Facility Codes Quality
-  this.facilityCodesQuality = await requestTourismGastronomiesCodes(
+  const facilityCodesQuality = await requestTourismGastronomiesCodes(
     this.language,
     "FacilityCodes_QualitySeals"
   );
 
   // Facility Codes Cuisine
-  this.facilityCodesCuisine = await requestTourismGastronomiesCodes(
+  const facilityCodesCuisine = await requestTourismGastronomiesCodes(
     this.language,
     "CuisineCodes"
   );
 
   // Facility Codes Ceremony
-  this.facilityCodesCeremony = await requestTourismGastronomiesCodes(
+  const facilityCodesCeremony = await requestTourismGastronomiesCodes(
     this.language,
     "CeremonyCodes"
   );
+
+  this.categories = categories;
+  this.facilityCodesCreditCard = facilityCodesCreditCard;
+  this.facilityCodesFeatures = facilityCodesFeatures;
+  this.facilityCodesQuality = facilityCodesQuality;
+  this.facilityCodesCuisine = facilityCodesCuisine;
+  this.facilityCodesCeremony = facilityCodesCeremony;
 
   console.log(gastronomies);
 

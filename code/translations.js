@@ -95,6 +95,11 @@ export const t = {
   //   en: "Ceremony Codes",
   //   de: "Zeremoniencodes",
   // },
+  searchRadius: {
+    it: "Raggio di ricerca",
+    en: "Search radius",
+    de: "Suchradius",
+  },
   facilityCodesCreditCard: {
     it: "Facility Codes CreditCard",
     en: "Facility Codes CreditCard",

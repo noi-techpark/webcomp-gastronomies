@@ -7,7 +7,7 @@ export const LANGUAGES = {
 };
 
 export const STATE_DEFAULT_FILTERS = {
-  radius: 0,
+  radius: "0",
   categories: [],
   facilityCodesCreditCard: [],
   facilityCodesFeatures: [],
