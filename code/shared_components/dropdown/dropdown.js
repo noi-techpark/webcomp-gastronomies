@@ -30,8 +30,6 @@ export class Dropdown extends LitElement {
   }
 
   clickOutsideListener = (e) => {
-    console.log(e.target);
-
     if (e.target.tagName !== 'WC-DROPDOWn') {
       // this.isOpen = false;
     }
@@ -52,8 +50,6 @@ export class Dropdown extends LitElement {
   }
 
   handleClickOnListElement = (value) => {
-    console.log(value);
-
     this.value = value;
     this.action(value);
     this.isOpen = false;

@@ -30,8 +30,6 @@ const editFilters = (filters, element, key) => {
 export function render_filters() {
   let filtersNumber = countFilters(this.filters);
 
-  console.log(this.filters);
-
   return html` <div class="filters">
     <div class="header">
       <wc-sidemodal-header
