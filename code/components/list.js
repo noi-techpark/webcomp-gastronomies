@@ -47,11 +47,23 @@ export function render__list() {
       <wc-button
         type="primary"
         content="${t[`prev`][this.language]}"
+        @click="${() => {
+          if (CurrentPage >= 1) {
+            this.listGastronomiesCurrentPage =
+              this.listGastronomiesCurrentPage - 1;
+          }
+        }}"
       ></wc-button>
       <p>${CurrentPage} / ${TotalPages}</p>
       <wc-button
         type="primary"
         content="${t[`next`][this.language]}"
+        @click="${() => {
+          if (CurrentPage < TotalPages) {
+            this.listGastronomiesCurrentPage =
+              this.listGastronomiesCurrentPage + 1;
+          }
+        }}"
       ></wc-button>
     </div>
   `;

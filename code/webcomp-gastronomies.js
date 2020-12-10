@@ -106,7 +106,11 @@ class Gastronomies extends LitElement {
 
   updated(changedProperties) {
     changedProperties.forEach((oldValue, propName) => {
-      if (propName === "filters" && this.modality === STATE_MODALITIES.list) {
+      if (
+        (propName === "filters" ||
+          propName === "listGastronomiesCurrentPage") &&
+        this.modality === STATE_MODALITIES.list
+      ) {
         requestTourismGastronomiesPaginated(
           this.filters,
           this.currentLocation,
