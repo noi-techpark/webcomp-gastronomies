@@ -39,7 +39,7 @@ export function render__mapControls() {
 
   return html`
     <div class="map_controls">
-      ${isMobile()
+      ${isMobile() && false
         ? html`<div class="mt-16px">
             <wc-button
               @click="${() => {}}"
@@ -48,11 +48,13 @@ export function render__mapControls() {
             ></wc-button>
           </div>`
         : ""}
-      <wc-button
-        @click="${chengeModalityToList}"
-        type="square"
-        .image="${listUlImage}"
-      ></wc-button>
+      <div class="mt-16px">
+        <wc-button
+          @click="${chengeModalityToList}"
+          type="square"
+          .image="${listUlImage}"
+        ></wc-button>
+      </div>
       <div class="mt-16px">
         <wc-button
           @click="${handleBtnCenterMap}"

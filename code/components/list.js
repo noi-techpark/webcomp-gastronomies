@@ -1,21 +1,39 @@
 import { html } from "lit-element";
+import { requestTourismGastronomyDetails } from "../api/gastronomies";
 import { t } from "../translations";
 
-const renderRows = (Detail, CategoryCodes, LocationInfo, language) => {
-  if (!Detail[language]) {
+function renderRows(Detail, CategoryCodes, LocationInfo, Id) {
+  if (!Detail[this.language]) {
     return null;
   }
   return html`<div class="gastronomies__list_content_row">
-    <div>${Detail[language].Title}</div>
+    <div>${Detail[this.language].Title}</div>
     <div>
       ${CategoryCodes.map(({ Shortname }) => {
         return html`${Shortname}, `;
       })}
     </div>
-    <div>${LocationInfo.TvInfo.Name[language]}</div>
-    <div></div>
+    <div>${LocationInfo.TvInfo.Name[this.language]}</div>
+    <div>
+      <p
+        @click="${() => {
+          requestTourismGastronomyDetails({ Id: Id }).then((details) => {
+            if (details) {
+              this.currentGastronomy = {
+                ...details,
+              };
+            }
+            this.filtersOpen = false;
+            this.detailsOpen = true;
+          });
+        }}"
+        class="link"
+      >
+        ${t["details"][this.language]}
+      </p>
+    </div>
   </div>`;
-};
+}
 
 export function render__list() {
   if (!this.listGastronomies) {
@@ -23,7 +41,7 @@ export function render__list() {
 
     return null;
   }
-  const { Items, TotalPages, CurrentPage } = this.listGastronomies;
+  const { Items, TotalPages, CurrentPage, Id } = this.listGastronomies;
   return html`
     <div class="gastronomies__list">
       <div class="gastronomies__list_content">
@@ -35,12 +53,12 @@ export function render__list() {
           <div>${t[`actions`][this.language].toUpperCase()}</div>
         </div>
         ${Items
-          ? Items.map(({ Detail, CategoryCodes, LocationInfo }) => {
-              return renderRows(
+          ? Items.map(({ Detail, CategoryCodes, LocationInfo, Id }) => {
+              return renderRows.bind(this)(
                 Detail,
                 CategoryCodes,
                 LocationInfo,
-                this.language
+                Id
               );
             })
           : null}

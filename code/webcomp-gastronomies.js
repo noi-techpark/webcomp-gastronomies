@@ -190,16 +190,17 @@ class Gastronomies extends LitElement {
           ${isMobile() ? `mobile` : ``}"
       >
         ${this.isLoading ? html`<div class="globalOverlay"></div>` : ""}
-
-        <div class="gastronomies__language_picker ">
-          <wc-languagepicker
-            .supportedLanguages="${LANGUAGES}"
-            .language="${this.language}"
-            .changeLanguageAction="${(language) => {
-              this.language = language;
-            }}"
-          ></wc-languagepicker>
-        </div>
+        ${(isMobile() && !this.detailsOpen && !this.filtersOpen) || !isMobile()
+          ? html`<div class="gastronomies__language_picker">
+              <wc-languagepicker
+                .supportedLanguages="${LANGUAGES}"
+                .language="${this.language}"
+                .changeLanguageAction="${(language) => {
+                  this.language = language;
+                }}"
+              ></wc-languagepicker>
+            </div>`
+          : null}
         ${/*this.isFullScreen ? this.render_closeFullscreenButton() : null*/ ""}
 
         <div class="gastronomies__sideBar">

@@ -156,4 +156,9 @@ export const t = {
     en: "next",
     de: "nächste",
   },
+  details: {
+    it: "Dettagli",
+    en: "Details",
+    de: "Einzelheiten",
+  },
 };
