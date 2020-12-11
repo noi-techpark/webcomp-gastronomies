@@ -108,7 +108,8 @@ class Gastronomies extends LitElement {
     changedProperties.forEach((oldValue, propName) => {
       if (
         (propName === "filters" ||
-          propName === "listGastronomiesCurrentPage") &&
+          propName === "listGastronomiesCurrentPage" ||
+          propName === "language") &&
         this.modality === STATE_MODALITIES.list
       ) {
         requestTourismGastronomiesPaginated(
@@ -120,7 +121,10 @@ class Gastronomies extends LitElement {
           this.listGastronomies = gastronomies;
         });
       }
-      if (propName === "filters" || propName === "language") {
+      if (
+        (propName === "filters" || propName === "language") &&
+        this.modality === STATE_MODALITIES.map
+      ) {
         if (this.map) {
           this.map.off();
           this.map.remove();

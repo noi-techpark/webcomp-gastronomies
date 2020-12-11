@@ -2,6 +2,9 @@ import { html } from "lit-element";
 import { t } from "../translations";
 
 const renderRows = (Detail, CategoryCodes, LocationInfo, language) => {
+  if (!Detail[language]) {
+    return null;
+  }
   return html`<div class="gastronomies__list_content_row">
     <div>${Detail[language].Title}</div>
     <div>
