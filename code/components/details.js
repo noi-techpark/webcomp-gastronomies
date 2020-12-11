@@ -23,10 +23,6 @@ export function render_details() {
       <wc-sidemodal-header
         .type="title"
         .tTitle="${Title}"
-        .tLinkedTagText="${typeof occupiedSpots === "number" &&
-        gastronomiesCapacity - occupiedSpots <= 0
-          ? t["tag__free"][this.language]
-          : ""}"
         .tOptionalLink="${{
           text: t["directions"][this.language],
           url: `http://www.google.com/maps/place/${Latitude},${Longitude}`,
