@@ -98,9 +98,11 @@
 
   .gastronomies__sideBar__details,
   .gastronomies__sideBar__filters {
+    border: 1px solid $gray-300;
     height: calc(var(--height) - 86px);
     background-color: $white;
     overflow-y: auto;
+
     p {
       @include MixinParagraphRegular;
       margin: 16px;
@@ -131,6 +133,10 @@
     }
     .options_container {
       margin: 8px 16px 0 16px;
+    }
+    .filters,
+    .details {
+      padding-bottom: 24px;
     }
     .filters__divider {
       margin-top: 16px;
@@ -166,7 +172,10 @@
   overflow-x: hidden;
 
   .gastronomies__list_content {
-    margin: 80px 16px 80px 16px;
+    margin: 80px 0;
+    @media only screen and (min-width: 992px) {
+      margin: 80px 16px 80px 16px;
+    }
     h3 {
       @include MixinH3;
     }
@@ -175,7 +184,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 8px 0;
-      &:nth-child(even) {
+      &:nth-child(odd) {
         background-color: $gray-100;
       }
       > div {
@@ -209,6 +218,7 @@
   padding: 4px;
   p {
     @include MixinParagraphMedium;
+    white-space: nowrap;
     margin: 0 16px;
   }
 }
