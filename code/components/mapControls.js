@@ -1,5 +1,6 @@
 import { html } from "lit-html";
 import expandImage from "../assets/expand.svg";
+import minimizeImage from "../assets/minimize.svg";
 import findPositionImage from "../assets/find-position.svg";
 import minusImage from "../assets/minus.svg";
 import plusImage from "../assets/plus.svg";
@@ -39,12 +40,14 @@ export function render__mapControls() {
 
   return html`
     <div class="map_controls">
-      ${isMobile() && false
+      ${this.isMobile
         ? html`<div class="mt-16px">
             <wc-button
-              @click="${() => {}}"
+              @click="${() => {
+                this.mobileOpen = !this.mobileOpen;
+              }}"
               type="square"
-              .image="${expandImage}"
+              .image="${this.mobileOpen ? minimizeImage : expandImage}"
             ></wc-button>
           </div>`
         : ""}
