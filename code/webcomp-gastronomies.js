@@ -1,6 +1,8 @@
 import "@babel/polyfill";
 import leafletStyle from "leaflet/dist/leaflet.css";
 import { css, html, LitElement, unsafeCSS } from "lit-element";
+import { classMap } from "lit-html/directives/class-map";
+import { debounce as _debounce } from "lodash";
 import { requestTourismGastronomiesPaginated } from "./api/gastronomies";
 import { requestGetCoordinatesFromSearch } from "./api/hereMaps";
 import { render_details } from "./components/details";
@@ -27,6 +29,7 @@ import "./shared_components/sideModalHeader/sideModalHeader";
 import "./shared_components/sideModalRow/sideModalRow";
 import "./shared_components/sideModalTabs/sideModalTabs";
 import "./shared_components/tag/tag";
+import { t } from "./translations";
 import {
   debounce,
   isMobile,
@@ -48,6 +51,8 @@ class Gastronomies extends LitElement {
     this.modality = STATE_MODALITIES.map;
 
     this.isLoading = true;
+    this.mobileOpen = false;
+    this.isMobile = isMobile();
 
     this.map = undefined;
     this.currentLocation = { lat: 46.479, lng: 11.331 };
@@ -79,6 +84,27 @@ class Gastronomies extends LitElement {
     `;
   }
 
+  handleWindowResize() {
+    if (isMobile() !== this.isMobile) {
+      if (!this.isMobile) {
+        this.mobileOpen = false;
+      }
+      this.isMobile = isMobile();
+    }
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener(
+      "resize",
+      _debounce(this.handleWindowResize.bind(this), 150)
+    );
+  }
+  disconnectedCallback() {
+    window.removeEventListener("resize", this.handleWindowResize.bind(this));
+    super.disconnectedCallback();
+  }
+
   async drawMap() {
     drawUserOnMap.bind(this)();
   }
@@ -106,6 +132,11 @@ class Gastronomies extends LitElement {
 
   updated(changedProperties) {
     changedProperties.forEach((oldValue, propName) => {
+      if (propName === "mobileOpen" || propName === "isMobile") {
+        if (this.map) {
+          this.map.invalidateSize();
+        }
+      }
       if (
         (propName === "filters" ||
           propName === "listGastronomiesCurrentPage" ||
@@ -161,9 +192,9 @@ class Gastronomies extends LitElement {
     this.filtersOpen = !this.filtersOpen;
   };
 
-  debounced__request__get_coordinates_from_search = debounce(
-    500,
-    requestGetCoordinatesFromSearch.bind(this)
+  debounced__request__get_coordinates_from_search = _debounce(
+    requestGetCoordinatesFromSearch.bind(this),
+    500
   );
 
   render() {
@@ -184,13 +215,32 @@ class Gastronomies extends LitElement {
           `}
 
       <div
-        class="gastronomies ${
-          /*this.mobile_open ? `MODE__mobile__open` : `MODE__mobile__closed`*/ ""
-        }
-          ${isMobile() ? `mobile` : ``}"
+        class=${classMap({
+          gastronomies: true,
+          mobile: this.isMobile,
+          MODE__mobile__open: this.isMobile && this.mobileOpen,
+          MODE__mobile__closed: this.isMobile && !this.mobileOpen,
+        })}
       >
+        ${this.isMobile && !this.mobileOpen
+          ? html`<div class="MODE__mobile__closed__overlay">
+              <wc-button
+                @click="${() => {
+                  this.mobileOpen = true;
+                }}"
+                type="primary"
+                .content="${this.modality === STATE_MODALITIES.map
+                  ? t["openTheMap"][this.language]
+                  : t["openTheList"][this.language]}"
+              ></wc-button>
+            </div>`
+          : ""}
         ${this.isLoading ? html`<div class="globalOverlay"></div>` : ""}
-        ${(isMobile() && !this.detailsOpen && !this.filtersOpen) || !isMobile()
+        ${(isMobile() &&
+          !this.detailsOpen &&
+          !this.filtersOpen &&
+          this.mobileOpen) ||
+        !isMobile()
           ? html`<div class="gastronomies__language_picker">
               <wc-languagepicker
                 .supportedLanguages="${LANGUAGES}"
@@ -201,31 +251,38 @@ class Gastronomies extends LitElement {
               ></wc-languagepicker>
             </div>`
           : null}
-        ${/*this.isFullScreen ? this.render_closeFullscreenButton() : null*/ ""}
+        ${(this.isMobile && this.mobileOpen) || !this.isMobile
+          ? html`<div class="gastronomies__sideBar">
+              <div class="gastronomies__sideBar__searchBar mt-4px">
+                ${render_searchPlaces.bind(this)()}
+              </div>
 
-        <div class="gastronomies__sideBar">
-          <div class="gastronomies__sideBar__searchBar mt-4px">
-            ${render_searchPlaces.bind(this)()}
-          </div>
-
-          ${this.detailsOpen
-            ? html`<div class="gastronomies__sideBar__details mt-4px">
-                ${render_details.bind(this)()}
-              </div>`
-            : ""}
-          ${this.filtersOpen
-            ? html`<div class="gastronomies__sideBar__filters mt-4px">
-                ${render_filters.bind(this)()}
-              </div>`
-            : ""}
-        </div>
+              ${this.detailsOpen
+                ? html`<div class="gastronomies__sideBar__details mt-4px">
+                    ${render_details.bind(this)()}
+                  </div>`
+                : ""}
+              ${this.filtersOpen
+                ? html`<div class="gastronomies__sideBar__filters mt-4px">
+                    ${render_filters.bind(this)()}
+                  </div>`
+                : ""}
+            </div>`
+          : null}
+        <!-- Map -->
         ${this.modality === STATE_MODALITIES.map
           ? html`<div id="${STATE_MODALITIES.map}"></div>
-              ${render__mapControls.bind(this)()}`
+              ${(this.isMobile && this.mobileOpen) || !this.isMobile
+                ? html`${render__mapControls.bind(this)()}`
+                : null}`
           : null}
+        <!-- List -->
         ${this.modality === STATE_MODALITIES.list
           ? html`<div id="${STATE_MODALITIES.list}">
-              ${render__list.bind(this)()} ${render__listControls.bind(this)()}
+              ${render__list.bind(this)()}
+              ${(this.isMobile && this.mobileOpen) || !this.isMobile
+                ? html`${render__listControls.bind(this)()}`
+                : null}
             </div> `
           : null}
       </div>
