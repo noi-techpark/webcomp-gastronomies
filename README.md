@@ -95,13 +95,13 @@ To build the project, the following prerequisites must be met:
 Get a copy of the repository:
 
 ```bash
-ToDo: git clone https://github.com/noi-techpark/project-name.git
+git clone git@github.com:noi-techpark/webcomp-gastronomies.git
 ```
 
 Change directory:
 
 ```bash
-ToDo: cd project-name/
+cd webcomp-gastronomies/
 ```
 
 ### .env
