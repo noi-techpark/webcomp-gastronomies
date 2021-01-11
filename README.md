@@ -1,15 +1,15 @@
-# ToDo: Project Name
+# Gastronomies - Web component 
 
-ToDo: Description of the project.
+A web component that shows the gastronomies stored in the Open Data Hub.
 
 ## Table of contents
 
 - [Usage](#usage)
 - [Gettings started](#getting-started)
-- [Tests and linting](#tests-and-linting)
 - [Deployment](#deployment)
 - [Docker environment](#docker-environment)
 - [Information](#information)
+<!-- - [Tests and linting](#tests-and-linting) -->
 
 ## Usage
 
@@ -32,49 +32,49 @@ ToDo: Description of the project.
 
 Give a fixed width to the component. Works only from desktop up. You can use whatever size unit you want.
 
-Examples: "100%" or "200px"
+Examples: `"100%" or "200px"`
 
 #### height
 
 Give a fixed height to the component. Works only from desktop up. You can use whatever size unit you want.
 
-Example: "500px" or "100%"
+Example: `"500px" or "100%"`
 
 #### fontFamily
 
 Set the typeface.
 
-Example: "Arial"
+Example: `"Arial"`
 
 #### language
 
 Set the default and starting language.
 
-Example: "en" or "de" or "it"
+Example: `"en" or "de" or "it"`
 
 #### mapAttribution
 
 Set the acknowledgement for the map tiles provider.
 
-Example: 'Map Tiles &copy; <a href="http://developer.here.com">HERE</a>'
+Example: `'Map Tiles &copy; <a href="http://developer.here.com">HERE</a>'`
 
 #### currentLocation
 
 Set the starting point position on the map.
 
-Example: '{ "lat": 46.31, "lng": 11.26 }'
+Example: `'{ "lat": 46.31, "lng": 11.26 }'`
 
 #### tiles-url
 
 Set the URL of the API that provides the tiles.
 
-Example: "https://1.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?apiKey="
+Example: `"https://1.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?apiKey="`
 
 #### modality
 
 Set the default and starting value for the modality of the widget.
 
-Example: "list" or "map"
+Example: `"list" or "map"`
 
 
 ## Getting started
