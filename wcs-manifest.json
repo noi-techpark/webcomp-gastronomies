@@ -101,9 +101,9 @@
         "label": "Url for the tiles, see https://leafletjs.com/reference-1.6.0.html#tilelayer",
         "required": true,
         "options": {
-          "default": "https://1.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?apiKey=y5RrMr902fINWuq7KpVyKJngOMoEUY6RRiX755yTJgU"
+          "default": "https://1.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?apiKey="
         }
-      }   
+      }
     ]
   }
 }
