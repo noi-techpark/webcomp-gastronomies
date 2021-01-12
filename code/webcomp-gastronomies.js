@@ -31,7 +31,6 @@ import "./shared_components/sideModalTabs/sideModalTabs";
 import "./shared_components/tag/tag";
 import { t } from "./translations";
 import {
-  debounce,
   isMobile,
   LANGUAGES,
   STATE_DEFAULT_FILTERS,
