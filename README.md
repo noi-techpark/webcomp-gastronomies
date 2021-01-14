@@ -22,7 +22,8 @@ A web component that shows the gastronomies stored in the Open Data Hub.
     mapAttribution='Map Tiles &copy; <a href="http://developer.here.com">HERE</a>'
     currentLocation='{ "lat": 46.31, "lng": 11.26 }'
     tiles-url="https://1.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?apiKey="
-    modality="list">
+    modality="list"
+    pageSize="5">
 </webcomp-gastronomies>
 ```
 
