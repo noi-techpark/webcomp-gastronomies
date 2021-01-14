@@ -1,10 +1,11 @@
 import "@babel/polyfill";
 import leafletStyle from "leaflet/dist/leaflet.css";
-import { css, html, LitElement, unsafeCSS } from "lit-element";
+import { css, html, unsafeCSS } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
 import { debounce as _debounce } from "lodash";
 import { requestTourismGastronomiesPaginated } from "./api/gastronomies";
 import { requestGetCoordinatesFromSearch } from "./api/hereMaps";
+import { BaseGastronomies } from "./baseClass";
 import { render_details } from "./components/details";
 import { render_filters } from "./components/filters";
 import { render__list } from "./components/list";
@@ -30,47 +31,10 @@ import "./shared_components/sideModalRow/sideModalRow";
 import "./shared_components/sideModalTabs/sideModalTabs";
 import "./shared_components/tag/tag";
 import { t } from "./translations";
-import {
-  isMobile,
-  LANGUAGES,
-  STATE_DEFAULT_FILTERS,
-  STATE_DEFAULT_FILTERS_ACCORDIONS_OPEN,
-  STATE_MODALITIES,
-} from "./utils";
-import ParkingStyle from "./webcomp-gastronomies.scss";
+import { isMobile, LANGUAGES, STATE_MODALITIES } from "./utils";
+import GastronomiesStyle from "./webcomp-gastronomies.scss";
 
-class Gastronomies extends LitElement {
-  constructor() {
-    super();
-    this.height = "500px";
-    this.width = "100%";
-    this.fontFamily = "";
-    this.mapAttribution = "";
-    this.language = LANGUAGES.EN;
-    this.modality = STATE_MODALITIES.map;
-
-    this.isLoading = true;
-    this.mobileOpen = false;
-    this.isMobile = isMobile();
-
-    this.map = undefined;
-    this.currentLocation = { lat: 46.479, lng: 11.331 };
-
-    this.hereMapsPlacesFound = [];
-    this.hereMapsQuery = "";
-
-    this.currentGastronomy = {};
-
-    this.listGastronomies = [];
-    this.listGastronomiesCurrentPage = 1;
-
-    this.detailsOpen = false;
-    this.filtersOpen = false;
-
-    this.filters = STATE_DEFAULT_FILTERS;
-    this.filtersAccordionOpen = STATE_DEFAULT_FILTERS_ACCORDIONS_OPEN;
-  }
-
+class Gastronomies extends BaseGastronomies {
   static get properties() {
     return observedProperties;
   }
@@ -79,7 +43,7 @@ class Gastronomies extends LitElement {
     return css`
       /* Map */
       ${unsafeCSS(leafletStyle)}
-      ${unsafeCSS(ParkingStyle)}
+      ${unsafeCSS(GastronomiesStyle)}
     `;
   }
 
@@ -139,7 +103,8 @@ class Gastronomies extends LitElement {
       if (
         (propName === "filters" ||
           propName === "listGastronomiesCurrentPage" ||
-          propName === "language") &&
+          propName === "language" ||
+          propName === "modality") &&
         this.modality === STATE_MODALITIES.list
       ) {
         requestTourismGastronomiesPaginated(
@@ -151,29 +116,30 @@ class Gastronomies extends LitElement {
           this.listGastronomies = gastronomies;
         });
       }
-      if (
-        (propName === "filters" || propName === "language") &&
-        this.modality === STATE_MODALITIES.map
-      ) {
-        if (this.map) {
-          this.map.off();
-          this.map.remove();
-          this.isLoading = true;
-          initializeMap
-            .bind(this)()
-            .then(() => {
-              drawUserOnMap.bind(this)();
-              drawGastronomiesOnMap
-                .bind(this)()
-                .then(() => {
-                  this.isLoading = false;
-                });
-            });
-        }
-      }
-      if (propName === "modality" && oldValue === STATE_MODALITIES.list) {
-        console.log(propName, oldValue);
+      // if (
+      // (propName === "filters" || propName === "language") &&
+      // propName === "modality"
+      // this.modality === STATE_MODALITIES.map
+      // ) {
+      //   console.log("HERE", this.width);
 
+      //   if (this.map) {
+      //     this.map.off();
+      //     this.map.remove();
+      //     this.isLoading = true;
+      //     initializeMap
+      //       .bind(this)()
+      //       .then(() => {
+      //         drawUserOnMap.bind(this)();
+      //         drawGastronomiesOnMap
+      //           .bind(this)()
+      //           .then(() => {
+      //             this.isLoading = false;
+      //           });
+      //       });
+      //   }
+      // }
+      if (propName === "modality" && oldValue === STATE_MODALITIES.list) {
         this.isLoading = true;
         initializeMap.bind(this)();
         drawUserOnMap.bind(this)();
@@ -197,7 +163,25 @@ class Gastronomies extends LitElement {
   );
 
   render() {
-    console.log(this.listGastronomies);
+    // console.log(this.listGastronomies);
+    let isSmallWidth = false;
+    let isSmallHeight = false;
+    if (this.width.includes("px")) {
+      isSmallWidth = parseInt(this.width.replace("px")) <= 400;
+    } else if (this.width.includes("%")) {
+      if (this.shadowRoot.querySelector(".meteo_generic")) {
+        isSmallWidth =
+          this.shadowRoot.querySelector(".meteo_generic").clientWidth <= 400;
+      }
+    }
+    if (this.height.includes("px")) {
+      isSmallHeight = parseInt(this.height.replace("px")) <= 400;
+    } else if (this.height.includes("%")) {
+      if (this.shadowRoot.querySelector(".meteo_generic")) {
+        isSmallHeight =
+          this.shadowRoot.querySelector(".meteo_generic").clientHeight <= 400;
+      }
+    }
 
     return html`
       <style>
@@ -219,6 +203,8 @@ class Gastronomies extends LitElement {
           mobile: this.isMobile,
           MODE__mobile__open: this.isMobile && this.mobileOpen,
           MODE__mobile__closed: this.isMobile && !this.mobileOpen,
+          isSmallWidth: isSmallWidth,
+          isSmallHeight: isSmallHeight,
         })}
       >
         ${this.isMobile && !this.mobileOpen
@@ -252,7 +238,7 @@ class Gastronomies extends LitElement {
           : null}
         ${(this.isMobile && this.mobileOpen) || !this.isMobile
           ? html`<div class="gastronomies__sideBar">
-              <div class="gastronomies__sideBar__searchBar mt-4px">
+              <div class="gastronomies__sideBar__searchBar">
                 ${render_searchPlaces.bind(this)()}
               </div>
 

@@ -30,15 +30,15 @@ A web component that shows the gastronomies stored in the Open Data Hub.
 
 #### width
 
-Give a fixed width to the component. Works only from desktop up. You can use whatever size unit you want.
+Give a fixed width to the component. Works only from desktop up. You can use `px` or `%` as unit size.
 
-Examples: `"100%" or "200px"`
+Examples: `width="100%"`
 
 #### height
 
-Give a fixed height to the component. Works only from desktop up. You can use whatever size unit you want.
+Give a fixed height to the component. Works only from desktop up. You can use `px` or `%` as unit size.
 
-Example: `"500px" or "100%"`
+Example: `height="500px"`
 
 #### fontFamily
 

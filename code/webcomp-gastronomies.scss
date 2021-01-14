@@ -157,6 +157,12 @@
   }
 }
 
+.isSmallWidth {
+  .gastronomies__sideBar {
+    width: calc(80% - 32px);
+  }
+}
+
 .gastronomies__language_picker {
   display: inline;
   position: absolute;
@@ -215,6 +221,27 @@
       &.header {
         @include MixinCaption;
         color: $gray-600;
+      }
+    }
+  }
+}
+
+.isSmallWidth {
+  .gastronomies__list {
+    .gastronomies__list_content {
+      .gastronomies__list_content_row {
+        > div {
+          &:nth-child(1) {
+            width: 50%;
+          }
+          &:nth-child(2),
+          &:nth-child(3) {
+            display: none;
+          }
+          &:nth-child(4) {
+            width: auto;
+          }
+        }
       }
     }
   }
