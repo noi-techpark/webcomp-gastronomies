@@ -76,6 +76,12 @@ Set the default and starting value for the modality of the widget.
 
 Example: `"list" or "map"`
 
+#### pageSize
+
+Set the default and starting value for the modality of the widget. Default value is 10.
+
+Example: `"5"`
+
 
 ## Getting started
 

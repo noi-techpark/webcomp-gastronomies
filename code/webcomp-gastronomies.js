@@ -80,6 +80,7 @@ class Gastronomies extends BaseGastronomies {
         this.filters,
         this.currentLocation,
         this.listGastronomiesCurrentPage,
+        this.pageSize,
         this.language
       );
     }
@@ -111,6 +112,7 @@ class Gastronomies extends BaseGastronomies {
           this.filters,
           this.currentLocation,
           this.listGastronomiesCurrentPage,
+          this.pageSize,
           this.language
         ).then((gastronomies) => {
           this.listGastronomies = gastronomies;

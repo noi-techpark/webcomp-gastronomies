@@ -29,6 +29,7 @@ export class BaseGastronomies extends LitElement {
 
     this.currentGastronomy = {};
 
+    this.pageSize = 10;
     this.listGastronomies = [];
     this.listGastronomiesCurrentPage = 1;
 
