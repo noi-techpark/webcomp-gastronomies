@@ -120,11 +120,8 @@ class Gastronomies extends BaseGastronomies {
       }
       // if (
       // (propName === "filters" || propName === "language") &&
-      // propName === "modality"
       // this.modality === STATE_MODALITIES.map
       // ) {
-      //   console.log("HERE", this.width);
-
       //   if (this.map) {
       //     this.map.off();
       //     this.map.remove();
@@ -165,7 +162,6 @@ class Gastronomies extends BaseGastronomies {
   );
 
   render() {
-    // console.log(this.listGastronomies);
     let isSmallWidth = false;
     let isSmallHeight = false;
     if (this.width.includes("px")) {

@@ -60,7 +60,6 @@ export const requestTourismGastronomiesPaginated = async (
   language
 ) => {
   try {
-    console.log(pageSize);
     const request = await fetch(
       `${BASE_PATH_TOURISM_GASTRONOMY}?active=true&odhactive=true&language=${language}&fields=Id,Detail,CategoryCodes,LocationInfo&pagenumber=${pageNumber}&pagesize=${pageSize}${createUrlFilters(
         filters,
