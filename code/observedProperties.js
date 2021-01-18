@@ -15,6 +15,7 @@ export const observedProperties = {
   hereMapsPlacesFound: { type: Array },
   mapAttribution: { type: String },
 
+  pageSize: { type: Number },
   listGastronomies: { type: Array },
   listGastronomiesCurrentPage: { type: Number },
 

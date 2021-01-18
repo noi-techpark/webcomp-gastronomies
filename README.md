@@ -23,7 +23,8 @@ Include the webcompscript file `dist/webcomp-gastronomies.js` in your HTML and d
     mapAttribution='Map Tiles &copy; <a href="http://developer.here.com">HERE</a>'
     currentLocation='{ "lat": 46.31, "lng": 11.26 }'
     tiles-url="https://1.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?apiKey="
-    modality="list">
+    modality="list"
+    pageSize="5">
 </webcomp-gastronomies>
 ```
 
@@ -31,15 +32,15 @@ Include the webcompscript file `dist/webcomp-gastronomies.js` in your HTML and d
 
 #### width
 
-Give a fixed width to the component. Works only from desktop up. You can use whatever size unit you want.
+Give a fixed width to the component. Works only from desktop up. You can use `px` or `%` as unit size.
 
-Examples: `"100%" or "200px"`
+Examples: `width="100%"`
 
 #### height
 
-Give a fixed height to the component. Works only from desktop up. You can use whatever size unit you want.
+Give a fixed height to the component. Works only from desktop up. You can use `px` or `%` as unit size.
 
-Example: `"500px" or "100%"`
+Example: `height="500px"`
 
 #### fontFamily
 
@@ -76,6 +77,12 @@ Example: `"https://1.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.
 Set the default and starting value for the modality of the widget.
 
 Example: `"list" or "map"`
+
+#### pageSize
+
+Set the default and starting value for the modality of the widget. Default value is 10.
+
+Example: `"5"`
 
 
 ## Getting started
