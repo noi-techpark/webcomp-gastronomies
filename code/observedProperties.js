@@ -26,6 +26,7 @@ export const observedProperties = {
 
   // Filters
   filters: { type: Object },
+  filterRadius: { type: String },
   categories: { type: Array },
   facilityCodesCreditCard: { type: Array },
   facilityCodesFeatures: { type: Array },

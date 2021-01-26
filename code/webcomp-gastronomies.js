@@ -62,6 +62,12 @@ class Gastronomies extends BaseGastronomies {
       "resize",
       _debounce(this.handleWindowResize.bind(this), 150)
     );
+    if (this.filterRadius && parseFloat(this.filterRadius)) {
+      this.filters = {
+        ...this.filters,
+        radius: this.filterRadius,
+      };
+    }
   }
   disconnectedCallback() {
     window.removeEventListener("resize", this.handleWindowResize.bind(this));
