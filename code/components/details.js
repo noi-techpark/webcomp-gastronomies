@@ -23,10 +23,15 @@ export function render_details() {
       <wc-sidemodal-header
         .type="title"
         .tTitle="${Title}"
-        .tOptionalLink="${{
-          text: t["directions"][this.language],
-          url: `http://www.google.com/maps/place/${Latitude},${Longitude}`,
-        }}"
+        .tOptionalLink="${!this.disableGastronomyDirections
+          ? {
+              text: t["directions"][this.language],
+              url: `http://www.google.com/maps/place/${Latitude},${Longitude}`,
+            }
+          : {
+              text: "",
+              url: "",
+            }}"
         .closeModalAction="${() => {
           this.detailsOpen = false;
         }}"
