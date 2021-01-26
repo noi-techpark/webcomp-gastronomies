@@ -1,4 +1,4 @@
-# Gastronomies - Web component 
+# Gastronomies - Web component
 
 A web component that shows the gastronomies stored in the Open Data Hub.
 
@@ -13,6 +13,7 @@ A web component that shows the gastronomies stored in the Open Data Hub.
 
 ## Usage
 
+Include the webcompscript file `dist/webcomp-gastronomies.js` in your HTML and define the web component like this:
 ```html
 <webcomp-gastronomies
     width="100%"
@@ -95,7 +96,9 @@ To build the project, the following prerequisites must be met:
 
 - Node 14.15.4 / Yarn 1.22.10
 
-<!-- For a ready to use Docker environment with all prerequisites already installed and prepared, you can check out the [Docker environment](#docker-environment) section. -->
+For a ready to use Docker environment with all prerequisites already installed
+and prepared, you can check out the [Docker environment](#docker-environment)
+section.
 
 ### Source code
 
@@ -159,8 +162,6 @@ yarn build
 
 ## Docker environment
 
-NOT IMPLEMENTED
-
 For the project a Docker environment is already prepared and ready to use with all necessary prerequisites.
 
 These Docker containers are the same as used by the continuous integration servers.
@@ -174,7 +175,7 @@ Install [Docker](https://docs.docker.com/install/) (with Docker Compose) locally
 First, install all dependencies:
 
 ```bash
-docker-compose run --rm app /bin/bash -c "npm install"
+docker-compose run --rm app /bin/bash -c "yarn install"
 ```
 
 ### Start and stop the containers
@@ -202,14 +203,14 @@ docker-compose run --rm app /bin/bash -c "..."
 Some examples are:
 
 ```bash
-docker-compose run --rm app /bin/bash -c "npm run test"
+docker-compose run --rm app /bin/bash -c "yarn start"
 ```
 
 ## Information
 
 ### Support
 
-ToDo: For support, please contact [info@opendatahub.bz.it](mailto:info@opendatahub.bz.it).
+For support, please contact [help@opendatahub.bz.it](mailto:help@opendatahub.bz.it).
 
 ### Contributing
 
