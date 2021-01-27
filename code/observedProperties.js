@@ -6,6 +6,7 @@ export const observedProperties = {
   tiles_url: { type: String, attribute: "tiles-url" },
   modality: { type: String },
   disableGastronomyDirections: { type: Boolean },
+  categoriesFilter: { type: Array },
 
   mobileOpen: { type: Boolean },
   isMobile: { type: Boolean },

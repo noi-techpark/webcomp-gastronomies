@@ -96,6 +96,12 @@ Example: `"5"`
 
 If set the road directions are hidden.
 
+#### categoriesFilter
+
+...
+
+Example: `"[512,8]"`
+
 
 ## Getting started
 

@@ -68,6 +68,12 @@ class Gastronomies extends BaseGastronomies {
         radius: this.filterRadius,
       };
     }
+    if (this.categoriesFilter && this.categoriesFilter.length) {
+      this.filters = {
+        ...this.filters,
+        categories: this.categoriesFilter,
+      };
+    }
   }
   disconnectedCallback() {
     window.removeEventListener("resize", this.handleWindowResize.bind(this));
@@ -124,26 +130,26 @@ class Gastronomies extends BaseGastronomies {
           this.listGastronomies = gastronomies;
         });
       }
-      // if (
-      // (propName === "filters" || propName === "language") &&
-      // this.modality === STATE_MODALITIES.map
-      // ) {
-      //   if (this.map) {
-      //     this.map.off();
-      //     this.map.remove();
-      //     this.isLoading = true;
-      //     initializeMap
-      //       .bind(this)()
-      //       .then(() => {
-      //         drawUserOnMap.bind(this)();
-      //         drawGastronomiesOnMap
-      //           .bind(this)()
-      //           .then(() => {
-      //             this.isLoading = false;
-      //           });
-      //       });
-      //   }
-      // }
+      if (
+        (propName === "filters" || propName === "language") &&
+        this.modality === STATE_MODALITIES.map
+      ) {
+        if (this.map) {
+          this.map.off();
+          this.map.remove();
+          this.isLoading = true;
+          initializeMap
+            .bind(this)()
+            .then(() => {
+              drawUserOnMap.bind(this)();
+              drawGastronomiesOnMap
+                .bind(this)()
+                .then(() => {
+                  this.isLoading = false;
+                });
+            });
+        }
+      }
       if (propName === "modality" && oldValue === STATE_MODALITIES.list) {
         this.isLoading = true;
         initializeMap.bind(this)();
@@ -186,6 +192,8 @@ class Gastronomies extends BaseGastronomies {
           this.shadowRoot.querySelector(".meteo_generic").clientHeight <= 400;
       }
     }
+
+    console.log(this.filters);
 
     return html`
       <style>

@@ -13,6 +13,7 @@ export const LANGUAGES = {
 
 export const STATE_DEFAULT_FILTERS = {
   radius: "0",
+  // Array of numbers
   categories: [],
   facilityCodesCreditCard: [],
   facilityCodesFeatures: [],
