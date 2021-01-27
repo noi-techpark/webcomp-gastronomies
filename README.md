@@ -14,6 +14,7 @@ A web component that shows the gastronomies stored in the Open Data Hub.
 ## Usage
 
 Include the webcompscript file `dist/webcomp-gastronomies.js` in your HTML and define the web component like this:
+
 ```html
 <webcomp-gastronomies
     width="100%"
@@ -24,7 +25,8 @@ Include the webcompscript file `dist/webcomp-gastronomies.js` in your HTML and d
     currentLocation='{ "lat": 46.31, "lng": 11.26 }'
     tiles-url="https://1.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?apiKey="
     modality="list"
-    pageSize="5">
+    pageSize="5"
+    disableGastronomyDirections>
 </webcomp-gastronomies>
 ```
 
@@ -92,9 +94,7 @@ Example: `"5"`
 
 #### disableGastronomyDirections
 
-If set to `"true"` the road directions are hidden. Default is `"false"`
-
-Example: `"true"`
+If set the road directions are hidden.
 
 
 ## Getting started
