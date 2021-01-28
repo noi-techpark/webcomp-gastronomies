@@ -14,6 +14,7 @@ A web component that shows the gastronomies stored in the Open Data Hub.
 ## Usage
 
 Include the webcompscript file `dist/webcomp-gastronomies.js` in your HTML and define the web component like this:
+
 ```html
 <webcomp-gastronomies
     width="100%"
@@ -24,7 +25,8 @@ Include the webcompscript file `dist/webcomp-gastronomies.js` in your HTML and d
     currentLocation='{ "lat": 46.31, "lng": 11.26 }'
     tiles-url="https://1.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?apiKey="
     modality="list"
-    pageSize="5">
+    pageSize="5"
+    disableGastronomyDirections>
 </webcomp-gastronomies>
 ```
 
@@ -80,9 +82,25 @@ Example: `"list" or "map"`
 
 #### pageSize
 
-Set the default and starting value for the modality of the widget. Default value is 10.
+Set the default and starting value for the modality of the widget. Default value is `10`.
 
 Example: `"5"`
+
+#### filterRadius
+
+The radius expressed in kilometers with which to filter events. Default value is `0`.
+
+Example: `"5"`
+
+#### disableGastronomyDirections
+
+If set the road directions are hidden.
+
+#### categoriesFilter
+
+If set, all the gastronomies are filtered by the bitmask values in the array.
+
+Example: `"[512,8]"`
 
 
 ## Getting started

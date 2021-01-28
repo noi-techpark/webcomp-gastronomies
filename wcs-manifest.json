@@ -23,9 +23,7 @@
   "searchTags": ["gastronomy"],
   "dist": {
     "basePath": "dist",
-    "files": [
-      "webcomp-gastronomies.js"
-    ]
+    "files": ["webcomp-gastronomies.js"]
   },
   "configuration": {
     "tagName": "webcomp-gastronomies",
@@ -36,7 +34,7 @@
         "label": "Width of the component as css property (es: '500px' or '100%')",
         "required": false,
         "options": {
-            "default": "100%"
+          "default": "100%"
         }
       },
       {
@@ -45,7 +43,7 @@
         "label": "Height of the component as css property (es: '500px' or '100%')",
         "required": false,
         "options": {
-            "default": "500px"
+          "default": "500px"
         }
       },
       {
@@ -102,6 +100,24 @@
         "required": true,
         "options": {
           "default": "https://1.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?apiKey="
+        }
+      },
+      {
+        "key": "disableGastronomyDirections",
+        "type": "text",
+        "label": "If set the road directions are hidden.",
+        "required": false,
+        "options": {
+          "default": ""
+        }
+      },
+      {
+        "key": "categoriesFilter",
+        "type": "text",
+        "label": "If set, all the gastronomies are filtered by the bitmask values in the array.",
+        "required": false,
+        "options": {
+          "default": "[]"
         }
       }
     ]

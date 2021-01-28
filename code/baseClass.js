@@ -16,6 +16,8 @@ export class BaseGastronomies extends LitElement {
     this.mapAttribution = "";
     this.language = get_system_language();
     this.modality = STATE_MODALITIES.map;
+    this.disableGastronomyDirections = false;
+    this.categoriesFilter = [];
 
     this.isLoading = true;
     this.mobileOpen = false;

@@ -15,17 +15,15 @@ const renderChevron = (show) =>
 
 const editFilters = (filters, element, key) => {
   let newFilters = {};
-  if (filters[key].includes(element[1])) {
+  if (filters[key].includes(element)) {
     newFilters = {
       ...filters,
-      [key]: filters[key].filter((c) => c !== element[1]),
+      [key]: filters[key].filter((c) => c !== element),
     };
   } else {
     newFilters = {
       ...filters,
-      [key]: [element[1]],
-      // When , will be supperted in API use this line
-      // [key]: [...filters[key], element[1]],
+      [key]: [...filters[key], element],
     };
   }
   return newFilters;
@@ -102,7 +100,7 @@ export function render_filters() {
                   .action="${() => {
                     this.filters = editFilters(
                       this.filters,
-                      category,
+                      category[1],
                       "categories"
                     );
                   }}"
@@ -147,7 +145,7 @@ export function render_filters() {
                   .action="${() => {
                     this.filters = editFilters(
                       this.filters,
-                      facility,
+                      facility[1],
                       "facilityCodesCreditCard"
                     );
                   }}"
@@ -193,7 +191,7 @@ export function render_filters() {
                   .action="${() => {
                     this.filters = editFilters(
                       this.filters,
-                      facility,
+                      facility[1],
                       "facilityCodesFeatures"
                     );
                   }}"
@@ -228,7 +226,6 @@ export function render_filters() {
             )}</span
           >
         </p>
-
         ${this.filtersAccordionOpen["facilityCodesQuality"]
           ? html`<div class="options_container">
               ${this.facilityCodesQuality.map((facility) => {
@@ -239,7 +236,7 @@ export function render_filters() {
                   .action="${() => {
                     this.filters = editFilters(
                       this.filters,
-                      facility,
+                      facility[1],
                       "facilityCodesQuality"
                     );
                   }}"
@@ -285,7 +282,7 @@ export function render_filters() {
                   .action="${() => {
                     this.filters = editFilters(
                       this.filters,
-                      facility,
+                      facility[1],
                       "facilityCodesCuisine"
                     );
                   }}"
@@ -331,7 +328,7 @@ export function render_filters() {
                   .action="${() => {
                     this.filters = editFilters(
                       this.filters,
-                      facility,
+                      facility[1],
                       "facilityCodesCeremony"
                     );
                   }}"

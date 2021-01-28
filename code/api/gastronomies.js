@@ -7,31 +7,60 @@ import {
 const createUrlFilters = (filters, currentLocation) => {
   let categorycodefilter = "";
   if (filters.categories.length) {
-    categorycodefilter = `&categorycodefilter=${filters.categories.toString()}`;
+    const bitmaskSum = filters.categories.reduce(
+      (accumulator, currentValue) => accumulator + currentValue
+    );
+    categorycodefilter = `&categorycodefilter=${bitmaskSum}`;
   }
+
   let facilityCodesCreditCard = "";
   if (filters.facilityCodesCreditCard.length) {
-    facilityCodesCreditCard = `&facilitycodefilter=${filters.facilityCodesCreditCard.toString()}`;
+    const bitmaskSum = filters.facilityCodesCreditCard.reduce(
+      (accumulator, currentValue) => accumulator + currentValue
+    );
+    facilityCodesCreditCard = `&facilitycodefilter=${bitmaskSum}`;
   }
+
   let facilityCodesFeatures = "";
   if (filters.facilityCodesFeatures.length) {
-    facilityCodesFeatures = `&facilitycodefilter=${filters.facilityCodesFeatures.toString()}`;
+    const bitmaskSum = filters.facilityCodesFeatures.reduce(
+      (accumulator, currentValue) => accumulator + currentValue
+    );
+    facilityCodesFeatures = `&facilitycodefilter=${bitmaskSum}`;
   }
+
   let facilityCodesQuality = "";
   if (filters.facilityCodesQuality.length) {
-    facilityCodesQuality = `&facilitycodefilter=${filters.facilityCodesQuality.toString()}`;
+    const bitmaskSum = filters.facilityCodesQuality.reduce(
+      (accumulator, currentValue) => accumulator + currentValue
+    );
+    facilityCodesQuality = `&facilitycodefilter=${bitmaskSum}`;
   }
+
   let facilityCodesCuisine = "";
   if (filters.facilityCodesCuisine.length) {
-    facilityCodesCuisine = `&facilitycodefilter=${filters.facilityCodesCuisine.toString()}`;
+    const bitmaskSum = filters.facilityCodesCuisine.reduce(
+      (accumulator, currentValue) => accumulator + currentValue
+    );
+    facilityCodesCuisine = `&cuisinecodefilter=${bitmaskSum}`;
   }
+
+  let facilityCodesCeremony = "";
+  if (filters.facilityCodesCeremony.length) {
+    const bitmaskSum = filters.facilityCodesCeremony.reduce(
+      (accumulator, currentValue) => accumulator + currentValue
+    );
+    facilityCodesCeremony = `&ceremonycodefilter=${bitmaskSum}`;
+  }
+
   let radius = "";
   if (filters.radius && filters.radius !== "0") {
     radius = `&latitude=${currentLocation.lat}&longitude=${
       currentLocation.lng
     }&radius=${parseInt(filters.radius) * 1000}`;
   }
-  return `${categorycodefilter}${facilityCodesCreditCard}${facilityCodesFeatures}${facilityCodesQuality}${facilityCodesCuisine}${radius}`;
+
+  return `${categorycodefilter}${facilityCodesFeatures}${facilityCodesCreditCard}${facilityCodesQuality}${facilityCodesCuisine}${facilityCodesCeremony}${radius}`;
 };
 
 export const requestTourismGastronomies = async (filters, currentLocation) => {
@@ -84,10 +113,6 @@ export const requestTourismGastronomiesCodes = async () => {
     }
     const response = await request.json();
     const categories = response;
-    // .filter((o) => o.Type === type)
-    // .map((o) => {
-    //   return [o.TypeDesc[language], o.Bitmask];
-    // });
     return categories;
   } catch (error) {
     console.log(error);
