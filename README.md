@@ -98,7 +98,7 @@ If set the road directions are hidden.
 
 #### categoriesFilter
 
-...
+If set, all the gastronomies are filtered by the bitmask values in the array.
 
 Example: `"[512,8]"`
 
