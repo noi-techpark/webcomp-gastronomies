@@ -103,6 +103,15 @@
         }
       },
       {
+        "key": "filterRadius",
+        "type": "text",
+        "label": "The radius expressed in kilometers with which to filter events. Default value is 0.",
+        "required": true,
+        "options": {
+          "default": "5"
+        }
+      },
+      {
         "key": "disableGastronomyDirections",
         "type": "null",
         "label": "If set the road directions are hidden.",
