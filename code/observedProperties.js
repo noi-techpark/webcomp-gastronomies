@@ -7,6 +7,7 @@ export const observedProperties = {
   modality: { type: String },
   disableGastronomyDirections: { type: Boolean },
   categoriesFilter: { type: Array },
+  currentLocation: { type: Object },
 
   mobileOpen: { type: Boolean },
   isMobile: { type: Boolean },
