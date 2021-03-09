@@ -2,12 +2,12 @@ export const t = {
   openTheMap: {
     it: "Apri la mappa",
     en: "Open the map",
-    de: "Öffnen Sie die Karte",
+    de: "Öffne die Karte",
   },
   openTheList: {
     it: "Apri la lista",
     en: "Open the list",
-    de: "Öffnen Sie die Liste",
+    de: "Öffne die Liste",
   },
   gastronomies: {
     it: "Gastronomie",
@@ -16,13 +16,13 @@ export const t = {
   },
   search: {
     it: "Cerca",
-    en: "Seach",
-    de: "Seach",
+    en: "Search",
+    de: "Suche",
   },
   my_location: {
     it: "La mia posizione",
     en: "My location",
-    de: "My location",
+    de: "Mein Standort",
   },
   tag__free: {
     it: "Libero",
@@ -43,7 +43,7 @@ export const t = {
   cancelFilters: {
     it: "Annulla filtri",
     en: "Cancel filters",
-    de: "Filter abbrechen",
+    de: "Filter verwerfen",
   },
   description: {
     it: "Descrizione",
@@ -53,7 +53,7 @@ export const t = {
   season: {
     it: "Stagione",
     en: "Season",
-    de: "Jahreszeit",
+    de: "Saison",
   },
   category: {
     it: "Categoria",
@@ -142,9 +142,9 @@ export const t = {
   },
   // List
   shortname: {
-    it: "SHORTNAME",
-    en: "SHORTNAME",
-    de: "SHORTNAME",
+    it: "NOME",
+    en: "NAME",
+    de: "NAME",
   },
   location: {
     it: "POSIZIONE",
@@ -159,12 +159,12 @@ export const t = {
   prev: {
     it: "prec.",
     en: "prev.",
-    de: "früher",
+    de: "zurück",
   },
   next: {
     it: "pros.",
     en: "next",
-    de: "nächste",
+    de: "weiter",
   },
   details: {
     it: "Dettagli",

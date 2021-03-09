@@ -1,7 +1,7 @@
 {
-  "title": "Gastronomies Webcomponent",
-  "description": "A widget that allows to easily integrate the list or map view of the gastronomies located in South Tyrol or near a certain location.",
-  "descriptionAbstract": "This web component shows all gastronomies provided by the Open Data Hub.",
+  "title": "Gastronomies Web Component",
+  "description": "A widget that allows to easily integrate the list or map view of gastronomies located in South Tyrol and nearby areas.",
+  "descriptionAbstract": "This web component shows all gastronomy POIs provided by the Open Data Hub.",
   "license": "AGPL-3.0-or-later",
   "copyrightHolders": [
     {
@@ -43,7 +43,7 @@
         "label": "Height of the component as css property (es: '500px' or '100%')",
         "required": false,
         "options": {
-          "default": "500px"
+          "default": "100%"
         }
       },
       {
@@ -90,7 +90,7 @@
         "label": "Attribution text for the tiles, can contain html (without double-quotes)",
         "required": true,
         "options": {
-          "default": "Map Tiles &copy; <a href='http://developer.here.com'>HERE</a>"
+          "default": "&copy; <a href='https://openstreetmap.org/copyright'>OpenStreetMap contributors</a>"
         }
       },
       {
@@ -99,7 +99,7 @@
         "label": "Url for the tiles, see https://leafletjs.com/reference-1.6.0.html#tilelayer",
         "required": true,
         "options": {
-          "default": "https://1.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?apiKey="
+          "default": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         }
       },
       {
