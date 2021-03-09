@@ -63,7 +63,7 @@
         "required": false,
         "options": {
           "values": ["list", "map"],
-          "default": "list"
+          "default": "map"
         }
       },
       {
