@@ -1,5 +1,5 @@
 {
-  "title": "Gastronomies Web Component",
+  "title": "Gastronomies",
   "description": "A widget that allows to easily integrate the list or map view of gastronomies located in South Tyrol and nearby areas.",
   "descriptionAbstract": "This web component shows all gastronomy POIs provided by the Open Data Hub.",
   "license": "AGPL-3.0-or-later",
@@ -20,7 +20,7 @@
     }
   ],
   "image": "wcs-logo.png",
-  "searchTags": ["gastronomy"],
+  "searchTags": ["gastronomy","map","tourism"],
   "dist": {
     "basePath": "dist",
     "files": ["webcomp-gastronomies.js"]
