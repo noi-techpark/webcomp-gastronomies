@@ -1,5 +1,7 @@
 # Gastronomies - Web component
 
+[![REUSE status](https://api.reuse.software/badge/github.com/noi-techpark/webcomp-gastronomies)](https://api.reuse.software/info/github.com/noi-techpark/webcomp-gastronomies)
+
 A web component that shows the gastronomies stored in the Open Data Hub.
 
 ## Table of contents
