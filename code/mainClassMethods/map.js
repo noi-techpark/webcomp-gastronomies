@@ -73,7 +73,7 @@ export async function drawGastronomiesOnMap() {
     this.currentLocation
   );
 
-  gastronomies.map((gastronomy) => {
+  gastronomies.Items.map((gastronomy) => {
     const marker_position = getLatLongFromStationDetail({
       x: gastronomy.Longitude,
       y: gastronomy.Latitude,
@@ -87,12 +87,11 @@ export async function drawGastronomiesOnMap() {
     });
 
     const action = async () => {
+      this.searchPlacesFound = {};
       const details = await requestTourismGastronomyDetails({
         Id: gastronomy.Id,
       });
       if (details) {
-        console.log(details);
-
         this.currentGastronomy = {
           ...details,
         };
