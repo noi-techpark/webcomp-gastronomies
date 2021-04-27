@@ -1,6 +1,5 @@
 const path = require("path");
 const webpack = require("webpack");
-const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   mode: "production",
@@ -9,7 +8,11 @@ module.exports = {
     path: path.resolve(__dirname, "./dist"),
     filename: "webcomp-gastronomies.js",
   },
-  plugins: [new Dotenv()],
+  plugins: [
+    new webpack.DefinePlugin({
+      "process.env.DOTENV": JSON.stringify(dotenv.parsed),
+    }),
+  ],
   module: {
     rules: [
       {

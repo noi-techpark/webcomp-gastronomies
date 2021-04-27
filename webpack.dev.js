@@ -1,6 +1,5 @@
 const path = require("path");
 const webpack = require("webpack");
-const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   mode: "development",
@@ -10,7 +9,11 @@ module.exports = {
     path: path.resolve(__dirname, "./work/scripts"),
     filename: "webcomp-gastronomies.js",
   },
-  plugins: [new Dotenv()],
+  plugins: [
+    new webpack.DefinePlugin({
+      "process.env.DOTENV": JSON.stringify(dotenv.parsed),
+    }),
+  ],
   // webpack-dev-server configuration
   devServer: {
     contentBase: path.resolve(__dirname, "./work"),
