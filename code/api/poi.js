@@ -29,9 +29,9 @@ export async function requestGetCoordinatesFromSearch(query) {
       // Other data
 
       let formattedHereData = [];
-      if (!formattedTourismGastronomyData.length) {
+      if (!formattedTourismGastronomyData.length && process.env.DOTENV.HEREMAPS_API_KEY) {
         const hereResponse = await fetch(
-          `https://places.ls.hereapi.com/places/v1/browse?apiKey=${process.env.HEREMAPS_API_KEY}&in=46.31,11.26;r=${r}&q=${query}`,
+          `https://places.ls.hereapi.com/places/v1/browse?apiKey=${process.env.DOTENV.HEREMAPS_API_KEY}&in=46.31,11.26;r=${r}&q=${query}`,
           {
             method: "GET",
             headers: new Headers({
