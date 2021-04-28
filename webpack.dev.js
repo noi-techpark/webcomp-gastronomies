@@ -4,11 +4,11 @@ var dotenv = require("dotenv").config({ path: __dirname + "/.env" });
 
 module.exports = {
   mode: "development",
-  entry: path.resolve(__dirname, "./code/webcomp-gastronomies.js"),
+  entry: path.resolve(__dirname, "./code/odh-gastronomies.js"),
   watch: true,
   output: {
     path: path.resolve(__dirname, "./work/scripts"),
-    filename: "webcomp-gastronomies.js",
+    filename: "odh-gastronomies.js",
   },
   plugins: [
     new webpack.DefinePlugin({

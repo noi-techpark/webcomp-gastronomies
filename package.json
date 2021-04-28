@@ -1,5 +1,5 @@
 {
-  "name": "webcomp-gastronomies",
+  "name": "odh-gastronomies",
   "private": true,
   "dependencies": {
     "chart.js": "^2.9.4",
@@ -29,8 +29,6 @@
   "scripts": {
     "start": "webpack serve --config ./webpack.dev.js --host 0.0.0.0",
     "build": "webpack --config ./webpack.prod.js",
-    "staging": "webpack --config ./webpack.staging.js",
-    "lint": "...",
-    "test": "..."
+    "staging": "webpack --config ./webpack.staging.js"
   }
 }

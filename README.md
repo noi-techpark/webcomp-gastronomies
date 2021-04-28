@@ -4,21 +4,47 @@
 
 A web component that shows the gastronomies stored in the Open Data Hub.
 
-## Table of contents
+Do you want to see it in action? Go to our [web component store](https://webcomponents.opendatahub.bz.it/webcomponent/f113a6c6-445f-4633-a901-b8004353c903).
 
-- [Usage](#usage)
-- [Gettings started](#getting-started)
-- [Deployment](#deployment)
-- [Docker environment](#docker-environment)
-- [Information](#information)
-<!-- - [Tests and linting](#tests-and-linting) -->
+- [Gastronomies - Web component](#gastronomies---web-component)
+  - [Usage](#usage)
+    - [Attributes](#attributes)
+      - [width](#width)
+      - [height](#height)
+      - [fontFamily](#fontfamily)
+      - [language](#language)
+      - [mapAttribution](#mapattribution)
+      - [currentLocation](#currentlocation)
+      - [tiles-url](#tiles-url)
+      - [modality](#modality)
+      - [pageSize](#pagesize)
+      - [filterRadius](#filterradius)
+      - [disableGastronomyDirections](#disablegastronomydirections)
+      - [categoriesFilter](#categoriesfilter)
+  - [Getting started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Source code](#source-code)
+    - [.env](#env)
+    - [Dependencies](#dependencies)
+    - [Build](#build)
+  - [Docker environment](#docker-environment)
+    - [Installation](#installation)
+    - [Dependenices](#dependenices)
+    - [Start and stop the containers](#start-and-stop-the-containers)
+    - [Running commands inside the container](#running-commands-inside-the-container)
+  - [Information](#information)
+    - [Support](#support)
+    - [Contributing](#contributing)
+    - [Documentation](#documentation)
+    - [Boilerplate](#boilerplate)
+    - [License](#license)
 
 ## Usage
 
-Include the webcompscript file `dist/webcomp-gastronomies.js` in your HTML and define the web component like this:
+Include the webcompscript file `dist/odh-gastronomiesjs` in your HTML and define the web component like this:
 
 ```html
-<webcomp-gastronomies
+<odh-gastronomies
     width="100%"
     height="500px"
     fontFamily="Arial"
@@ -29,7 +55,7 @@ Include the webcompscript file `dist/webcomp-gastronomies.js` in your HTML and d
     modality="list"
     pageSize="5"
     disableGastronomyDirections>
-</webcomp-gastronomies>
+</odh-gastronomies>
 ```
 
 ### Attributes

@@ -23,10 +23,18 @@
   "searchTags": ["gastronomy","map","tourism"],
   "dist": {
     "basePath": "dist",
-    "files": ["webcomp-gastronomies.js"]
+    "files": [
+      "odh-gastronomies.js"
+    ],
+    "scripts": [
+      {
+        "file": "odh-gastronomies.js",
+        "parameter": ""
+      }
+    ]
   },
   "configuration": {
-    "tagName": "webcomp-gastronomies",
+    "tagName": "odh-gastronomies",
     "options": [
       {
         "key": "width",

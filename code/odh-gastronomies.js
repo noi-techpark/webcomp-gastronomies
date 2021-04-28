@@ -32,7 +32,7 @@ import "./shared_components/sideModalTabs/sideModalTabs";
 import "./shared_components/tag/tag";
 import { t } from "./translations";
 import { isMobile, LANGUAGES, STATE_MODALITIES } from "./utils";
-import GastronomiesStyle from "./webcomp-gastronomies.scss";
+import GastronomiesStyle from "./odh-gastronomies.scss";
 
 class Gastronomies extends BaseGastronomies {
   static get properties() {
@@ -291,5 +291,5 @@ class Gastronomies extends BaseGastronomies {
   }
 }
 
-customElements.get("webcomp-gastronomies") ||
-  customElements.define("webcomp-gastronomies", Gastronomies);
+customElements.get("odh-gastronomies") ||
+  customElements.define("odh-gastronomies", Gastronomies);

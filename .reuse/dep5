@@ -3,7 +3,7 @@ Upstream-Name: webcomp-parking
 Upstream-Contact: Peter Moser <p.moser@noi.bz.it>
 Source: https://github.com/noi-techpark/webcomp-parking
 
-Files: code/* work/* dist/webcomp-*.js webcomp-*.js
+Files: code/* work/* dist/*.js odh-*.js
 Copyright: 2021 Belka <hello@belkadigital.com>
 License: AGPL-3.0-or-later
 

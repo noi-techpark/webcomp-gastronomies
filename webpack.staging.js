@@ -4,10 +4,10 @@ const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   mode: "production",
-  entry: path.resolve(__dirname, "./code/webcomp-gastronomies.js"),
+  entry: path.resolve(__dirname, "./code/odh-gastronomies.js"),
   output: {
     path: path.resolve(__dirname, "./work/scripts"),
-    filename: "webcomp-gastronomies.js",
+    filename: "odh-gastronomies.js",
   },
   plugins: [new Dotenv()],
   module: {
