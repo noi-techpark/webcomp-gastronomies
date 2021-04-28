@@ -20,11 +20,16 @@
     }
   ],
   "image": "wcs-logo.png",
-  "searchTags": ["gastronomy","map","tourism"],
+  "searchTags": [
+    "gastronomy",
+    "map",
+    "tourism"
+  ],
   "dist": {
     "basePath": "dist",
     "files": [
-      "odh-gastronomies.js"
+      "odh-gastronomies.js",
+      "odh-gastronomies.js.LICENSE.txt"
     ],
     "scripts": [
       {
@@ -60,7 +65,11 @@
         "label": "Two letter key for the language to be used, if omitted the widget will use the language of the browser (navigator.language[?s]) if supported. Fallback is `en`",
         "required": false,
         "options": {
-          "values": ["en", "de", "it"],
+          "values": [
+            "en",
+            "de",
+            "it"
+          ],
           "default": "en"
         }
       },
@@ -70,7 +79,10 @@
         "label": "What should be shown, list or map?",
         "required": false,
         "options": {
-          "values": ["list", "map"],
+          "values": [
+            "list",
+            "map"
+          ],
           "default": "map"
         }
       },
