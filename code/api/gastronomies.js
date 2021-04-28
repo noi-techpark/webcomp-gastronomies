@@ -1,7 +1,6 @@
 import {
   BASE_PATH_TOURISM_GASTRONOMY,
   BASE_PATH_TOURISM_GASTRONOMYTYPES,
-  BASE_PATH_TOURISM_GASTRONOMY_REDUCED,
 } from "./config";
 
 const createUrlFilters = (filters, currentLocation) => {
@@ -66,7 +65,7 @@ const createUrlFilters = (filters, currentLocation) => {
 export const requestTourismGastronomies = async (filters, currentLocation) => {
   try {
     const request = await fetch(
-      `${BASE_PATH_TOURISM_GASTRONOMY_REDUCED}?active=true&odhactive=true&fields=Id,Latitude,Longitude${createUrlFilters(
+      `${BASE_PATH_TOURISM_GASTRONOMY}?active=true&odhactive=true&pagesize=-1&fields=Id,Latitude,Longitude${createUrlFilters(
         filters,
         currentLocation
       )}`

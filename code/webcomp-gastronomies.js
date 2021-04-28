@@ -4,7 +4,7 @@ import { css, html, unsafeCSS } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
 import { debounce as _debounce } from "lodash";
 import { requestTourismGastronomiesPaginated } from "./api/gastronomies";
-import { requestGetCoordinatesFromSearch } from "./api/hereMaps";
+import { requestGetCoordinatesFromSearch } from "./api/poi";
 import { BaseGastronomies } from "./baseClass";
 import { render_details } from "./components/details";
 import { render_filters } from "./components/filters";
@@ -179,27 +179,31 @@ class Gastronomies extends BaseGastronomies {
     if (this.width.includes("px")) {
       isSmallWidth = parseInt(this.width.replace("px")) <= 400;
     } else if (this.width.includes("%")) {
-      if (this.shadowRoot.querySelector(".meteo_generic")) {
+      if (this.shadowRoot.querySelector(".gastronomies")) {
         isSmallWidth =
-          this.shadowRoot.querySelector(".meteo_generic").clientWidth <= 400;
-      }
-    }
-    if (this.height.includes("px")) {
-      isSmallHeight = parseInt(this.height.replace("px")) <= 400;
-    } else if (this.height.includes("%")) {
-      if (this.shadowRoot.querySelector(".meteo_generic")) {
-        isSmallHeight =
-          this.shadowRoot.querySelector(".meteo_generic").clientHeight <= 400;
+          this.shadowRoot.querySelector(".gastronomies").clientWidth <= 400;
       }
     }
 
-    console.log(this.filters);
+    let height = `${this.height}`;
+
+    if (this.height.includes("px")) {
+      isSmallHeight = parseInt(this.height.replace("px")) <= 400;
+    } else if (this.height.includes("%")) {
+      if (this.shadowRoot.querySelector(".gastronomies")) {
+        height = `${
+          this.shadowRoot.querySelector(".gastronomies").clientHeight
+        }px`;
+        isSmallHeight =
+          this.shadowRoot.querySelector(".gastronomies").clientHeight <= 400;
+      }
+    }
 
     return html`
       <style>
         * {
           --width: ${this.width};
-          --height: ${this.height};
+          --height: ${height};
           --w-c-font-family: ${this.fontFamily};
         }
       </style>
