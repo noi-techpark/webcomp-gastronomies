@@ -3,6 +3,7 @@
   "description": "A widget that allows to easily integrate the list or map view of gastronomies located in South Tyrol and nearby areas.",
   "descriptionAbstract": "This web component shows all gastronomy POIs provided by the Open Data Hub.",
   "license": "AGPL-3.0-or-later",
+  "repositoryUrl": "https://github.com/noi-techpark/webcomp-gastronomies.git",
   "copyrightHolders": [
     {
       "name": "NOI",
