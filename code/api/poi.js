@@ -1,4 +1,4 @@
-import { BASE_PATH_TOURISM_GASTRONOMY } from "./config";
+import { BASE_PATH_TOURISM_GASTRONOMY, ORIGIN } from "./config";
 
 export async function requestGetCoordinatesFromSearch(query) {
   const r = 150 * 1000;
@@ -7,7 +7,7 @@ export async function requestGetCoordinatesFromSearch(query) {
       // Open data hub
       let formattedTourismGastronomyData = [];
       const tourismGastronomyRequest = await fetch(
-        `${BASE_PATH_TOURISM_GASTRONOMY}?active=true&odhactive=true&pagesize=-1&fields=Detail,Latitude,Longitude&searchfilter=${query}`
+        `${BASE_PATH_TOURISM_GASTRONOMY}?` + ORIGIN + `&active=true&odhactive=true&pagesize=-1&fields=Detail,Latitude,Longitude&searchfilter=${query}`
       );
       const tourismGastronomyResponse = await tourismGastronomyRequest.json();
 
