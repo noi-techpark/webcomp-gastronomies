@@ -1,7 +1,7 @@
 # Gastronomies - Web component
 
 [![REUSE status](https://api.reuse.software/badge/github.com/noi-techpark/webcomp-gastronomies)](https://api.reuse.software/info/github.com/noi-techpark/webcomp-gastronomies)
-[![CI](https://github.com/noi-techpark/webcomp-gastronomies/actions/workflows/ci.yml/badge.svg)](https://github.com/noi-techpark/webcomp-gastronomies/actions/workflows/ci.yml)
+[![CI/CD](https://github.com/noi-techpark/webcomp-gastronomies/actions/workflows/main.yml/badge.svg)](https://github.com/noi-techpark/webcomp-gastronomies/actions/workflows/main.yml)
 
 A web component that shows the gastronomies stored in the Open Data Hub.
 
