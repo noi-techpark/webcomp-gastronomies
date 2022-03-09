@@ -111,7 +111,7 @@ export async function drawGastronomiesOnMap() {
 
   const gastronomies_layer = Leaflet.layerGroup(gastronomies_layer_array, {});
 
-  this.layer_gastronomies = new leaflet_mrkcls.MarkerClusterGroup({
+  this.layer_gastronomies = new Leaflet.MarkerClusterGroup({
     showCoverageOnHover: false,
     chunkedLoading: true,
     iconCreateFunction(cluster) {
