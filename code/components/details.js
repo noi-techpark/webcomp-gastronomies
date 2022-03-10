@@ -5,12 +5,19 @@ import { t } from "../translations";
 
 export function render_details() {
   const { Detail, Latitude, Longitude } = this.currentGastronomy;
-  const {
+  var {
     OperationSchedule,
     CategoryCodes,
     ContactInfos,
   } = this.currentGastronomy;
-  const { Facilities } = this.currentGastronomy;
+  // to fix problem with reduced data from Open Data Hub
+  if (OperationSchedule == null) {
+    OperationSchedule = [];
+  }
+
+  // to fix problem with reduced data from Open Data Hub
+  const Facilities = this.currentGastronomy["Facilities"] ? this.currentGastronomy : [];
+
   const { Title, BaseText } = Detail[this.language];
   const { Address, City, CompanyName, CountryCode, CountryName } = ContactInfos[
     this.language
@@ -24,17 +31,17 @@ export function render_details() {
         .type="title"
         .tTitle="${Title}"
         .tOptionalLink="${!this.disableGastronomyDirections
-          ? {
-              text: t["directions"][this.language],
-              url: `http://www.google.com/maps/place/${Latitude},${Longitude}`,
-            }
-          : {
-              text: "",
-              url: "",
-            }}"
+      ? {
+        text: t["directions"][this.language],
+        url: `http://www.google.com/maps/place/${Latitude},${Longitude}`,
+      }
+      : {
+        text: "",
+        url: "",
+      }}"
         .closeModalAction="${() => {
-          this.detailsOpen = false;
-        }}"
+      this.detailsOpen = false;
+    }}"
       ></wc-sidemodal-header>
     </div>
     <div>
@@ -54,11 +61,11 @@ export function render_details() {
         .type="${SIDE_MODAL_ROW_TYPES.vertical}"
         .title="${t["season"][this.language]}"
         .text="${OperationSchedule.map((o) => {
-          return html`
+      return html`
             ${dayjs(o.Start).format("DD/MM/YYYY")} -
             ${dayjs(o.Stop).format("DD/MM/YYYY")} <br />
           `;
-        })}"
+    })}"
       ></wc-sidemodal-row>
     </div>
     <div>
@@ -66,10 +73,10 @@ export function render_details() {
         .type="${SIDE_MODAL_ROW_TYPES.vertical}"
         .title="${t["category"][this.language]}"
         .text="${CategoryCodes.map((category, i) => {
-          return html`${category.Shortname}${i !== CategoryCodes.length - 1
-            ? ", "
-            : ""} `;
-        })}"
+      return html`${category.Shortname}${i !== CategoryCodes.length - 1
+        ? ", "
+        : ""} `;
+    })}"
       ></wc-sidemodal-row>
     </div>
     <div>
@@ -135,10 +142,10 @@ export function render_details() {
         .type="${SIDE_MODAL_ROW_TYPES.vertical}"
         .title="${t["facilities"][this.language]}"
         .text="${Facilities.map((facility, i) => {
-          return html`${facility.Shortname}${i !== Facilities.length - 1
-            ? ", "
-            : ""} `;
-        })}"
+      return html`${facility.Shortname}${i !== Facilities.length - 1
+        ? ", "
+        : ""} `;
+    })}"
       ></wc-sidemodal-row>
     </div>
   </div>`;
