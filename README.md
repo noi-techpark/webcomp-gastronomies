@@ -12,7 +12,7 @@ SPDX-License-Identifier: CC0-1.0
 
 A web component that shows the gastronomies stored in the Open Data Hub.
 
-Do you want to see it in action? Go to our [web component store](https://webcomponents.opendatahub.bz.it/webcomponent/f113a6c6-445f-4633-a901-b8004353c903).
+Do you want to see it in action? Go to our [web component store](https://webcomponents.opendatahub.com/webcomponent/f113a6c6-445f-4633-a901-b8004353c903).
 
 - [Gastronomies - Web component](#gastronomies---web-component)
   - [Usage](#usage)
@@ -264,7 +264,7 @@ docker-compose run --rm app /bin/bash -c "npm run start"
 
 ### Support
 
-For support, please contact [help@opendatahub.bz.it](mailto:help@opendatahub.bz.it).
+For support, please contact [help@opendatahub.com](mailto:help@opendatahub.com).
 
 ### Contributing
 
