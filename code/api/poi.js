@@ -55,7 +55,7 @@ export async function requestGetCoordinatesFromSearch(query) {
       //
 
       const tourismResponse = await fetch(
-        `https://tourism.opendatahub.bz.it/api/Poi?pagenumber=1&pagesize=10000&poitype=511&searchfilter=${query}`,
+        `https://tourism.opendatahub.com/api/Poi?pagenumber=1&pagesize=10000&poitype=511&searchfilter=${query}`,
         {
           method: "GET",
           headers: new Headers({
