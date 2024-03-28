@@ -10,7 +10,7 @@ SPDX-License-Identifier: CC0-1.0
 [![REUSE status](https://api.reuse.software/badge/github.com/noi-techpark/webcomp-gastronomies)](https://api.reuse.software/info/github.com/noi-techpark/webcomp-gastronomies)
 [![CI/CD](https://github.com/noi-techpark/webcomp-gastronomies/actions/workflows/main.yml/badge.svg)](https://github.com/noi-techpark/webcomp-gastronomies/actions/workflows/main.yml)
 
-A web component that shows the gastronomies stored in the Open Data Hub.
+A web component that shows the gastronomies stored in the Open Data Hub. 
 
 Do you want to see it in action? Go to our [web component store](https://webcomponents.opendatahub.com/webcomponent/f113a6c6-445f-4633-a901-b8004353c903).
 
