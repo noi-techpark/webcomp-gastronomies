@@ -25,7 +25,7 @@ module.exports = {
     publicPath: "/scripts/",
     watchContentBase: true,
     compress: true,
-    port: 8080,
+    port: 8989,
     open: true,
     openPage: "",
     overlay: true,
