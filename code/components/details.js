@@ -8,7 +8,7 @@ import { SIDE_MODAL_ROW_TYPES } from "../shared_components/sideModalRow/sideModa
 import { t } from "../translations";
 
 export function render_details() {
-  const { Detail, Latitude, Longitude } = this.currentGastronomy;
+  const { Detail, GpsInfo } = this.currentGastronomy;
   var {
     OperationSchedule,
     CategoryCodes,
@@ -37,7 +37,7 @@ export function render_details() {
         .tOptionalLink="${!this.disableGastronomyDirections
       ? {
         text: t["directions"][this.language],
-        url: `http://www.google.com/maps/place/${Latitude},${Longitude}`,
+        url: `http://www.google.com/maps/place/${GpsInfo[0].Latitude},${GpsInfo[0].Longitude}`,
       }
       : {
         text: "",

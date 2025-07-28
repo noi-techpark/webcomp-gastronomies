@@ -69,7 +69,7 @@ const createUrlFilters = (filters, currentLocation) => {
 export const requestTourismGastronomies = async (filters, currentLocation) => {
   try {
     const request = await fetch(
-      `${BASE_PATH_TOURISM_GASTRONOMY}?` + ORIGIN + `&active=true&odhactive=true&pagesize=-1&fields=Id,Latitude,Longitude${createUrlFilters(
+      `${BASE_PATH_TOURISM_GASTRONOMY}?tagfilter=gastronomy&` + ORIGIN + `&active=true&odhactive=true&pagesize=-1&fields=Id,GpsInfo&rawfilter=isnotnull(GpsInfo)${createUrlFilters(
         filters,
         currentLocation
       )}`
@@ -93,7 +93,7 @@ export const requestTourismGastronomiesPaginated = async (
 ) => {
   try {
     const request = await fetch(
-      `${BASE_PATH_TOURISM_GASTRONOMY}?` + ORIGIN + `&active=true&odhactive=true&language=${language}&fields=Id,Detail,CategoryCodes,LocationInfo&pagenumber=${pageNumber}&pagesize=${pageSize}${createUrlFilters(
+      `${BASE_PATH_TOURISM_GASTRONOMY}?tagfilter=gastronomy&` + ORIGIN + `&active=true&odhactive=true&language=${language}&rawfilter=isnotnull(GpsInfo)&fields=Id,Detail,CategoryCodes,LocationInfo&pagenumber=${pageNumber}&pagesize=${pageSize}${createUrlFilters(
         filters,
         currentLocation
       )}`
@@ -110,7 +110,7 @@ export const requestTourismGastronomiesPaginated = async (
 
 export const requestTourismGastronomiesCodes = async () => {
   try {
-    const request = await fetch(`${BASE_PATH_TOURISM_GASTRONOMYTYPES}?` + ORIGIN);
+    const request = await fetch(`${BASE_PATH_TOURISM_GASTRONOMYTYPES}?pagesize=0&fields=Id,Types,TagName&validforentity=gastronomy&` + ORIGIN);
     if (request.status !== 200) {
       throw new Error(request.statusText);
     }

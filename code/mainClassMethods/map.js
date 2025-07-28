@@ -78,9 +78,12 @@ export async function drawGastronomiesOnMap() {
   );
 
   gastronomies.Items.map((gastronomy) => {
+
+    console.log(gastronomy);
+
     const marker_position = getLatLongFromStationDetail({
-      x: gastronomy.Longitude,
-      y: gastronomy.Latitude,
+      x: gastronomy.GpsInfo[0].Longitude,
+      y: gastronomy.GpsInfo[0].Latitude,
     });
     const gastronomies_icon = Leaflet.icon({
       iconUrl: pinIcon,

@@ -11,7 +11,7 @@ export async function requestGetCoordinatesFromSearch(query) {
       // Open data hub
       let formattedTourismGastronomyData = [];
       const tourismGastronomyRequest = await fetch(
-        `${BASE_PATH_TOURISM_GASTRONOMY}?` + ORIGIN + `&active=true&odhactive=true&pagesize=-1&fields=Detail,Latitude,Longitude&searchfilter=${query}`
+        `${BASE_PATH_TOURISM_GASTRONOMY}?tagfilter=gastronomy&` + ORIGIN + `&active=true&odhactive=true&pagesize=-1&fields=Detail,GpsInfo&searchfilter=${query}`
       );
       const tourismGastronomyResponse = await tourismGastronomyRequest.json();
 
@@ -23,7 +23,7 @@ export async function requestGetCoordinatesFromSearch(query) {
               title = o.Detail[this.language].Title;
             }
             return {
-              position: [o.Latitude, o.Longitude],
+              position: [o.GpsInfo[0].Latitude, o.GpsInfo[0].Longitude],
               title: title || o.Detail.it.Title || o.Detail.de.Title,
             };
           }

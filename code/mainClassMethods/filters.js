@@ -6,9 +6,9 @@ import { requestTourismGastronomiesCodes } from "../api/gastronomies";
 
 const filterCode = (codes, language, type) => {
   return codes
-    .filter((o) => o.Type === type)
+    .filter((o) => o.Types.includes(type))
     .map((o) => {
-      return [o.TypeDesc[language], o.Bitmask];
+      return [o.TagName[language], o.Id];
     });
 };
 
@@ -16,37 +16,37 @@ export async function getFilters() {
   const codes = await requestTourismGastronomiesCodes();
 
   // Category
-  const categories = filterCode(codes, this.language, "CategoryCodes");
+  const categories = filterCode(codes.Items, this.language, "gastronomycategory");
 
   // Facility Codes CreditCard
   const facilityCodesCreditCard = filterCode(
-    codes,
+    codes.Items,
     this.language,
-    "FacilityCodes_CreditCard"
+    "facilitycodes_creditcard"
   );
 
   // Facility Codes Features
   const facilityCodesFeatures = filterCode(
-    codes,
+    codes.Items,
     this.language,
-    "FacilityCodes_Equipment"
+    "facilitycodes_equipment"
   );
 
   // Facility Codes Quality
   const facilityCodesQuality = filterCode(
-    codes,
+    codes.Items,
     this.language,
-    "FacilityCodes_QualitySeals"
+    "facilitycodes_qualityseals"
   );
 
   // Facility Codes Cuisine
-  const facilityCodesCuisine = filterCode(codes, this.language, "CuisineCodes");
+  const facilityCodesCuisine = filterCode(codes.Items, this.language, "facilitycodes_cuisinecodes");
 
   // Facility Codes Ceremony
   const facilityCodesCeremony = filterCode(
-    codes,
+    codes.Items,
     this.language,
-    "CeremonyCodes"
+    "gastronomyceremonycodes"
   );
 
   this.categories = categories;
