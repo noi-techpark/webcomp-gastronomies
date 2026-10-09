@@ -40,102 +40,20 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <pre>modality="list" pageSize="5"</pre>
-          <div style="height: 500px; background-color: green;">
+          <div style="height: 500px;">
             <odh-gastronomies
               width="100%"
               height="100%"
               fontFamily="Arial"
               language="it"
-              mapAttribution='<a target="_blank" href="https://opendatahub.com">OpenDataHub.com</a> | &copy; <a target="_blank" href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-              -currentLocation='{ "lat": 46.31, "lng": 11.26 }'
-              tiles-url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              -modality="list"
+              currentLocation='{ "lat": 46.31, "lng": 11.26 }'
               modality="map"
-              -pageSize="1"
-              -filterRadius="5"
-              -disableGastronomyDirections
-              -categoriesFilter="[8,16]"
+              source="lts"
             ></odh-gastronomies>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- <div class="container mt-5">
-      <div class="row">
-        <div class="col-12">
-          <pre>width="100%" height="500px"</pre>
-          <odh-gastronomies
-            width="100%"
-            height="500px"
-            fontFamily="Arial"
-            language="it"
-            mapAttribution='&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-            -currentLocation='{ "lat": 46.31, "lng": 11.26 }'
-            tiles-url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            modality="map"
-          ></odh-gastronomies>
-        </div>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-6 mt-5">
-          <pre>width="300px" height="300px"</pre>
-          <odh-gastronomies
-            width="300px"
-            height="300px"
-            fontFamily="Arial"
-            language="it"
-            mapAttribution='&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-            -currentLocation='{ "lat": 46.31, "lng": 11.26 }'
-            tiles-url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            modality="map"
-          ></odh-gastronomies>
-        </div>
-        <div class="col-6 mt-5">
-          <pre>width="350px" height="350px"</pre>
-          <odh-gastronomies
-            width="350px"
-            height="350px"
-            fontFamily="Arial"
-            language="it"
-            mapAttribution='&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-            -currentLocation='{ "lat": 46.31, "lng": 11.26 }'
-            tiles-url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            modality="map"
-          ></odh-gastronomies>
-        </div>
-        <div class="col-6 mt-5">
-          <pre>width="400px" height="400px"</pre>
-          <odh-gastronomies
-            width="400px"
-            height="400px"
-            fontFamily="Arial"
-            language="it"
-            mapAttribution='&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-            -currentLocation='{ "lat": 46.31, "lng": 11.26 }'
-            tiles-url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            modality="map"
-          ></odh-gastronomies>
-        </div>
-        <div class="col-6 mt-5">
-          <pre>width="500px" height="500px"</pre>
-          <odh-gastronomies
-            width="500px"
-            height="500px"
-            fontFamily="Arial"
-            language="it"
-            mapAttribution='&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-            -currentLocation='{ "lat": 46.31, "lng": 11.26 }'
-            tiles-url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            modality="map"
-          ></odh-gastronomies>
-        </div>
-      </div>
-    </div> -->
 
     <div class="mt-5"></div>
 

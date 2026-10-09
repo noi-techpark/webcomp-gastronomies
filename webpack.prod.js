@@ -6,6 +6,8 @@ const path = require("path");
 const webpack = require("webpack");
 var dotenv = require("dotenv").config({ path: __dirname + "/.env" });
 
+const env = dotenv.parsed || {};
+
 module.exports = {
   mode: "production",
   entry: path.resolve(__dirname, "./code/odh-gastronomies.js"),
@@ -15,7 +17,14 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      "process.env.DOTENV": JSON.stringify(dotenv.parsed),
+      "process.env.DOTENV": JSON.stringify(env),
+      "process.env.TOURISM_BASE_PATH": JSON.stringify(
+        env.TOURISM_BASE_PATH || ""
+      ),
+      "process.env.GEO_BASE_PATH": JSON.stringify(env.GEO_BASE_PATH || ""),
+      "process.env.BASEMAP_STYLE_URL": JSON.stringify(
+        env.BASEMAP_STYLE_URL || ""
+      ),
     }),
   ],
   module: {
@@ -35,8 +44,23 @@ module.exports = {
         },
       },
       {
-        test: /\.(s*)css$/,
-        use: ["css-loader", "sass-loader"],
+        test: /\.css$/,
+        use: [
+          {
+            loader: "css-loader",
+            options: { exportType: "string" },
+          },
+        ],
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: "css-loader",
+            options: { exportType: "string" },
+          },
+          { loader: "sass-loader", options: { api: "modern" } },
+        ],
       },
       {
         test: /\.svg/,

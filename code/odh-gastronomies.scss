@@ -20,11 +20,24 @@
   }
 }
 
+:host {
+  display: block;
+  width: var(--width, 100%);
+  height: var(--height, 100%);
+}
+
 .gastronomies {
+  --gastro-primary: #{$green-200};
+  --gastro-primary-strong: #{$green-300};
+  --gastro-accent: #e07a2e;
+  --gastro-surface: #{$white};
+
   background-color: white;
   font-family: var(--w-c-font-family, Suedtirol, KievitWebPro, sans-serif);
   position: relative;
   overflow: hidden;
+  width: 100%;
+  height: 100%;
   @media only screen and (min-width: 992px) {
     width: var(--width);
     height: var(--height);
@@ -34,10 +47,18 @@
 #map,
 #list {
   z-index: 1;
+  width: 100%;
+  height: 100%;
   @media only screen and (min-width: 992px) {
     width: var(--width);
     height: var(--height);
   }
+}
+
+/* MapLibre needs an explicit size inside the shadow root */
+#map {
+  position: absolute;
+  inset: 0;
 }
 
 #list {
@@ -305,14 +326,8 @@
   margin-top: 16px;
 }
 
-// Leaflet clustering
-.leaflet-div-icon {
-  border: 0;
-  border-radius: 100%;
-  background-color: $blue-100;
-  color: $white;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* MapLibre controls sit under our custom map_controls */
+.maplibregl-ctrl-bottom-right {
+  margin-bottom: 8px;
+  margin-right: 8px;
 }

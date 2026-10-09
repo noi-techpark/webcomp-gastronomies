@@ -10,25 +10,17 @@ SPDX-License-Identifier: CC0-1.0
 [![REUSE status](https://api.reuse.software/badge/github.com/noi-techpark/webcomp-gastronomies)](https://api.reuse.software/info/github.com/noi-techpark/webcomp-gastronomies)
 [![CI/CD](https://github.com/noi-techpark/webcomp-gastronomies/actions/workflows/main.yml/badge.svg)](https://github.com/noi-techpark/webcomp-gastronomies/actions/workflows/main.yml)
 
-A web component that shows the gastronomies stored in the Open Data Hub. 
+A web component that shows the gastronomies stored in the Open Data Hub.
+
+The map is rendered from clustered vector tiles of the [Open Data Hub Geo Api](https://geo.api.opendatahub.com/swagger/index.html).
+The [Open Data Hub Tourism Api](https://tourism.api.opendatahub.com/swagger/index.html) is only called to load the details of a selected gastronomy (and for the optional list modality / search).
 
 Do you want to see it in action? Go to our [web component store](https://webcomponents.opendatahub.com/webcomponent/f113a6c6-445f-4633-a901-b8004353c903).
 
 - [Gastronomies - Web component](#gastronomies---web-component)
   - [Usage](#usage)
     - [Attributes](#attributes)
-      - [width](#width)
-      - [height](#height)
-      - [fontFamily](#fontfamily)
-      - [language](#language)
-      - [mapAttribution](#mapattribution)
-      - [currentLocation](#currentlocation)
-      - [tiles-url](#tiles-url)
-      - [modality](#modality)
-      - [pageSize](#pagesize)
-      - [filterRadius](#filterradius)
-      - [disableGastronomyDirections](#disablegastronomydirections)
-      - [categoriesFilter](#categoriesfilter)
+  - [How it works](#how-it-works)
   - [Getting started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Source code](#source-code)
@@ -36,20 +28,11 @@ Do you want to see it in action? Go to our [web component store](https://webcomp
     - [Dependencies](#dependencies)
     - [Build](#build)
   - [Docker environment](#docker-environment)
-    - [Installation](#installation)
-    - [Dependenices](#dependenices)
-    - [Start and stop the containers](#start-and-stop-the-containers)
-    - [Running commands inside the container](#running-commands-inside-the-container)
   - [Information](#information)
-    - [Support](#support)
-    - [Contributing](#contributing)
-    - [Documentation](#documentation)
-    - [Boilerplate](#boilerplate)
-    - [License](#license)
 
 ## Usage
 
-Include the webcompscript file `dist/odh-gastronomiesjs` in your HTML and define the web component like this:
+Include the webcomponent script file `dist/odh-gastronomies.js` in your HTML and define the web component like this:
 
 ```html
 <odh-gastronomies
@@ -57,12 +40,9 @@ Include the webcompscript file `dist/odh-gastronomiesjs` in your HTML and define
     height="500px"
     fontFamily="Arial"
     language="it"
-    mapAttribution='&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
     currentLocation='{ "lat": 46.31, "lng": 11.26 }'
-    tiles-url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-    modality="list"
-    pageSize="5"
-    disableGastronomyDirections>
+    modality="map"
+    source="lts">
 </odh-gastronomies>
 ```
 
@@ -92,23 +72,11 @@ Set the default and starting language.
 
 Example: `"en" or "de" or "it"`
 
-#### mapAttribution
-
-Set the acknowledgement for the map tiles provider.
-
-Example: `'&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'`
-
 #### currentLocation
 
 Set the starting point position on the map.
 
 Example: `'{ "lat": 46.31, "lng": 11.26 }'`
-
-#### tiles-url
-
-Set the URL of the API that provides the tiles.
-
-Example: `"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"`
 
 #### modality
 
@@ -116,15 +84,23 @@ Set the default and starting value for the modality of the widget.
 
 Example: `"list" or "map"`
 
+#### source
+
+Only show gastronomies of these sources. Empty shows all sources.
+
+Type: string  
+Options: `"lts"` (currently the only available source)  
+Default: `"lts"`
+
 #### pageSize
 
-Set the default and starting value for the modality of the widget. Default value is `10`.
+Page size for the list modality. Default value is `10`.
 
 Example: `"5"`
 
 #### filterRadius
 
-The radius expressed in kilometers with which to filter events. Default value is `0`.
+The radius expressed in kilometers drawn around the current location on the map. Default value is `0`.
 
 Example: `"5"`
 
@@ -134,10 +110,80 @@ If set the road directions are hidden.
 
 #### categoriesFilter
 
-If set, all the gastronomies are filtered by the bitmask values in the array.
+If set, the list modality filters gastronomies by the bitmask values in the array (Tourism Api).
 
 Example: `"[512,8]"`
 
+#### mapAttribution
+
+Optional extra attribution text for the map (HTML without double-quotes). Open Data Hub attribution is always included.
+
+### Configuration
+
+The api endpoints are configured at build time with a `.env` file (see `.env.example`):
+
+| Variable | Default |
+|---|---|
+| `TOURISM_BASE_PATH` | `https://tourism.api.opendatahub.com/v1` |
+| `GEO_BASE_PATH` | `https://geo.api.opendatahub.com` |
+| `BASEMAP_STYLE_URL` | `https://tiles.openfreemap.org/styles/positron` |
+
+## How it works
+
+```
+                 vector tiles (.pbf, clustered)
+  Geo Api  ─────────────────────────────────────▶  map: clusters + points
+                                                        │ click on a point
+  Tourism Api  ◀── GET /ODHActivityPoi/{id} ────────────┘
+               ───▶ detail panel
+```
+
+### Vector tiles from the Geo Api
+
+Gastronomies on the map are no longer downloaded as a full REST list. [MapLibre GL](https://maplibre.org/) requests
+[Mapbox Vector Tiles](https://github.com/mapbox/vector-tile-spec) for the visible part of the map only:
+
+```
+GET {GEO_BASE_PATH}/api/tiles/odhactivitypoi/{z}/{x}/{y}.pbf?operationmode=points&enableclustering=true&tagfilter=eating%20drinking&source={source}
+```
+
+| Parameter | Value |
+|---|---|
+| `type` (path) | `odhactivitypoi` |
+| `operationmode` | `points` |
+| `enableclustering` | `true` — the Geo Api clusters points server-side up to zoom level 16 |
+| `tagfilter` | `eating drinking` (see [Geo gastronomies example](https://geo.api.opendatahub.com/examples/activitiespois/gastronomies.html)) |
+| `source` | value of the `source` attribute, omitted when empty |
+
+### Details from the Tourism Api
+
+The Tourism Api is called when a gastronomy is clicked:
+
+```
+GET {TOURISM_BASE_PATH}/ODHActivityPoi/{id}?removenullvalues=true&origin=webcomp-gastronomies
+```
+
+The Geo Api may serve the open data copy of a record with an Id ending in `_REDUCED`.
+That suffix is removed before calling the Tourism Api.
+
+### Search
+
+The search bar uses `GET /ODHActivityPoi?searchfilter=…&tagfilter=gastronomy` on the Tourism Api.
+`searchfilter` matches the query against Detail texts (e.g. Title) of active gastronomy POIs.
+Selecting a result flies the map to that location. Map markers themselves always come from Geo tiles.
+
+The deprecated `tourism.opendatahub.com/api/Poi` endpoint is no longer used.
+
+### List modality
+
+The optional list modality still uses the paginated Tourism Api
+(`GET /ODHActivityPoi?tagfilter=gastronomy&…`) so category / facility bitmasks keep working.
+Map markers are independent and come from the Geo Api.
+
+### Basemap
+
+The basemap is the [OpenFreeMap](https://openfreemap.org/) Positron vector style (no api key required),
+configurable with `BASEMAP_STYLE_URL`.
 
 ## Getting started
 
@@ -148,7 +194,7 @@ on your local machine for development and testing purposes.
 
 To build the project, the following prerequisites must be met:
 
-- Node 14.15.4 / Yarn 1.22.10
+- Node 20.19 or newer / NPM 10 (see `.nvmrc`)
 
 For a ready to use Docker environment with all prerequisites already installed
 and prepared, you can check out the [Docker environment](#docker-environment)
@@ -170,14 +216,16 @@ cd webcomp-gastronomies/
 
 ### .env
 
-Create a `.env` file in the main directory.
-Fill it with this content:
+Create a `.env` file in the main directory (see `.env.example`):
 
 ```
-HEREMAPS_API_KEY=YourKey
+TOURISM_BASE_PATH="https://tourism.api.opendatahub.testingmachine.eu/v1"
+GEO_BASE_PATH="https://geo.api.opendatahub.testingmachine.eu"
+BASEMAP_STYLE_URL="https://tiles.openfreemap.org/styles/positron"
+HEREMAPS_API_KEY=
 ```
 
-Replace `YourKey` with your API token to use the tiles and the search bar.
+`HEREMAPS_API_KEY` is optional and only used as a fallback when the Tourism search returns no results.
 
 ### Dependencies
 
@@ -195,16 +243,7 @@ Build and start the project:
 npm run start
 ```
 
-The application will be served and can be accessed at [http://localhost:8080](http://localhost:8080).
-
-<!-- ## Tests and linting
-
-The tests and the linting can be executed with the following commands:
-
-```bash
-npm run test
-npm run lint
-``` -->
+The application will be served and can be accessed at [http://localhost:8989](http://localhost:8989).
 
 ## Deployment
 
@@ -224,7 +263,7 @@ These Docker containers are the same as used by the continuous integration serve
 
 Install [Docker](https://docs.docker.com/install/) (with Docker Compose) locally on your machine.
 
-### Dependenices
+### Dependencies
 
 First, install all dependencies:
 
@@ -306,4 +345,3 @@ Then install the pre-commit hook via the config file by running:
 ```bash
 pre-commit install
 ```
-

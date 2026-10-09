@@ -1,4 +1,8 @@
-FROM node:14.15
+# SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+FROM node:20
 
 ARG JENKINS_GROUP_ID=2000
 ARG JENKINS_USER_ID=2000

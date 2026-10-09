@@ -1,6 +1,6 @@
 {
   "title": "Gastronomies",
-  "description": "A widget that allows to easily integrate the list or map view of gastronomies located in South Tyrol and nearby areas.",
+  "description": "A widget that shows gastronomies in South Tyrol on an interactive map or list. Map markers are loaded as clustered vector tiles from the Open Data Hub Geo Api; details are loaded on click from the Open Data Hub Tourism Api.",
   "descriptionAbstract": "This web component shows all gastronomy POIs provided by the Open Data Hub.",
   "license": "AGPL-3.0-or-later",
   "repositoryUrl": "https://github.com/noi-techpark/webcomp-gastronomies.git",
@@ -24,7 +24,8 @@
   "image": "wcs-logo.png",
   "searchTags": [
     "map",
-    "tourism"
+    "tourism",
+    "gastronomy"
   ],
   "dist": {
     "basePath": "dist",
@@ -106,21 +107,24 @@
         }
       },
       {
-        "key": "mapAttribution",
-        "type": "text",
-        "label": "Attribution text for the tiles, can contain html (without double-quotes)",
-        "required": true,
+        "key": "source",
+        "type": "multiselect",
+        "label": "Sources of the Gastronomies",
+        "required": false,
         "options": {
-          "default": "<a target='_blank' href='https://opendatahub.com'>OpenDataHub.com</a> | &copy; <a target='_blank' href='https://openstreetmap.org/copyright'>OpenStreetMap contributors</a>"
+          "values": [
+            "lts"
+          ],
+          "default": "lts"
         }
       },
       {
-        "key": "tiles-url",
+        "key": "mapAttribution",
         "type": "text",
-        "label": "Url for the tiles, see https://leafletjs.com/reference-1.6.0.html#tilelayer",
-        "required": true,
+        "label": "Optional extra attribution text for the map (HTML without double-quotes). Open Data Hub attribution is always included.",
+        "required": false,
         "options": {
-          "default": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          "default": ""
         }
       },
       {
