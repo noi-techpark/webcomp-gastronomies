@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import "@babel/polyfill";
-import leafletStyle from "leaflet/dist/leaflet.css";
+import maplibreStyle from "maplibre-gl/dist/maplibre-gl.css";
 import { css, html, unsafeCSS } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
 import { debounce as _debounce } from "lodash";
@@ -18,9 +18,9 @@ import { render__mapControls } from "./components/mapControls";
 import { render_searchPlaces } from "./components/searchPlaces";
 import { getFilters } from "./mainClassMethods/filters";
 import {
-  drawGastronomiesOnMap,
   drawUserOnMap,
   initializeMap,
+  updateGastronomyTiles,
 } from "./mainClassMethods/map";
 import { observedProperties } from "./observedProperties";
 import "./shared_components/button/button";
@@ -34,7 +34,6 @@ import "./shared_components/sideModalHeader/sideModalHeader";
 import "./shared_components/sideModalRow/sideModalRow";
 import "./shared_components/sideModalTabs/sideModalTabs";
 import "./shared_components/tag/tag";
-import { t } from "./translations";
 import { isMobile, LANGUAGES, STATE_MODALITIES } from "./utils";
 import GastronomiesStyle from "./odh-gastronomies.scss";
 
@@ -45,8 +44,8 @@ class Gastronomies extends BaseGastronomies {
 
   static get styles() {
     return css`
-      /* Map */
-      ${unsafeCSS(leafletStyle)}
+      /* MapLibre */
+      ${unsafeCSS(maplibreStyle)}
       ${unsafeCSS(GastronomiesStyle)}
     `;
   }
@@ -57,6 +56,9 @@ class Gastronomies extends BaseGastronomies {
         this.mobileOpen = false;
       }
       this.isMobile = isMobile();
+    }
+    if (this.map) {
+      requestAnimationFrame(() => this.map.resize());
     }
   }
 
@@ -81,6 +83,10 @@ class Gastronomies extends BaseGastronomies {
   }
   disconnectedCallback() {
     window.removeEventListener("resize", this.handleWindowResize.bind(this));
+    if (this.map) {
+      this.map.remove();
+      this.map = undefined;
+    }
     super.disconnectedCallback();
   }
 
@@ -97,14 +103,13 @@ class Gastronomies extends BaseGastronomies {
         this.currentLocation,
         this.listGastronomiesCurrentPage,
         this.pageSize,
-        this.language
+        this.language,
+        this.source
       );
     }
 
     if (this.modality === STATE_MODALITIES.map) {
-      initializeMap.bind(this)();
-      drawUserOnMap.bind(this)();
-      await drawGastronomiesOnMap.bind(this)();
+      await initializeMap.bind(this)();
     }
 
     this.isLoading = false;
@@ -114,14 +119,15 @@ class Gastronomies extends BaseGastronomies {
     changedProperties.forEach((oldValue, propName) => {
       if (propName === "mobileOpen" || propName === "isMobile") {
         if (this.map) {
-          this.map.invalidateSize();
+          requestAnimationFrame(() => this.map.resize());
         }
       }
       if (
         (propName === "filters" ||
           propName === "listGastronomiesCurrentPage" ||
           propName === "language" ||
-          propName === "modality") &&
+          propName === "modality" ||
+          propName === "source") &&
         this.modality === STATE_MODALITIES.list
       ) {
         requestTourismGastronomiesPaginated(
@@ -129,40 +135,46 @@ class Gastronomies extends BaseGastronomies {
           this.currentLocation,
           this.listGastronomiesCurrentPage,
           this.pageSize,
-          this.language
+          this.language,
+          this.source
         ).then((gastronomies) => {
           this.listGastronomies = gastronomies;
         });
       }
       if (
-        (propName === "filters" || propName === "language") &&
-        this.modality === STATE_MODALITIES.map
+        propName === "source" &&
+        this.modality === STATE_MODALITIES.map &&
+        this.map
       ) {
-        if (this.map) {
-          this.map.off();
-          this.map.remove();
+        updateGastronomyTiles.bind(this)();
+      }
+      if (
+        propName === "filters" &&
+        this.modality === STATE_MODALITIES.map &&
+        this.map
+      ) {
+        // Radius is drawn client-side; category bitmasks are Tourism-only
+        // and apply to the list modality / REST list endpoint.
+        drawUserOnMap.bind(this)();
+      }
+      if (propName === "modality" && this.modality === STATE_MODALITIES.map) {
+        if (!this.map) {
           this.isLoading = true;
           initializeMap
             .bind(this)()
             .then(() => {
-              drawUserOnMap.bind(this)();
-              drawGastronomiesOnMap
-                .bind(this)()
-                .then(() => {
-                  this.isLoading = false;
-                });
+              this.isLoading = false;
             });
+        } else {
+          requestAnimationFrame(() => this.map.resize());
         }
       }
-      if (propName === "modality" && oldValue === STATE_MODALITIES.list) {
-        this.isLoading = true;
-        initializeMap.bind(this)();
-        drawUserOnMap.bind(this)();
-        drawGastronomiesOnMap
-          .bind(this)()
-          .then(() => {
-            this.isLoading = false;
-          });
+      if (propName === "modality" && this.modality === STATE_MODALITIES.list) {
+        if (this.map) {
+          this.map.remove();
+          this.map = undefined;
+          this.userMarker = undefined;
+        }
       }
     });
   }
@@ -205,17 +217,12 @@ class Gastronomies extends BaseGastronomies {
 
     return html`
       <style>
-        * {
+        :host {
           --width: ${this.width};
           --height: ${height};
           --w-c-font-family: ${this.fontFamily};
         }
       </style>
-      ${this.tiles_url
-        ? ""
-        : html`
-            <p style="color:red">Required attribute \`tiles_url\` is missing</p>
-          `}
 
       <div
         class=${classMap({
@@ -227,19 +234,6 @@ class Gastronomies extends BaseGastronomies {
           isSmallHeight: isSmallHeight,
         })}
       >
-        ${this.isMobile && !this.mobileOpen
-          ? html`<div class="MODE__mobile__closed__overlay">
-              <wc-button
-                @click="${() => {
-                  this.mobileOpen = true;
-                }}"
-                type="primary"
-                .content="${this.modality === STATE_MODALITIES.map
-                  ? t["openTheMap"][this.language]
-                  : t["openTheList"][this.language]}"
-              ></wc-button>
-            </div>`
-          : ""}
         ${this.isLoading ? html`<div class="globalOverlay"></div>` : ""}
         ${(isMobile() &&
           !this.detailsOpen &&

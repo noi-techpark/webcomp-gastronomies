@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { html } from "lit-element";
-// import { debounce, request__get_coordinates_from_search } from "../utils";
 import { t } from "../translations";
 import findPositionBlueIcon from "../assets/find-position-blue.svg";
 import { countFilters, STATE_MODALITIES } from "../utils";
+import { flyToLocation } from "../mainClassMethods/map";
 
 export function render_searchPlaces() {
   const handle_onchange = (value) => {
@@ -26,9 +26,7 @@ export function render_searchPlaces() {
     this.searchPlacesFound = {};
     this.filtersOpen = false;
     if (this.modality === STATE_MODALITIES.map) {
-      this.map.flyTo([lat, lng], 15);
-      this.map.removeLayer(this.layer_user);
-      this.drawMap();
+      flyToLocation.bind(this)(lat, lng, 15);
     }
     this.isLoading = false;
   };

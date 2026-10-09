@@ -22,9 +22,11 @@ export class BaseGastronomies extends LitElement {
     this.modality = STATE_MODALITIES.map;
     this.disableGastronomyDirections = false;
     this.categoriesFilter = [];
+    /** Default to lts — currently the only gastronomy source */
+    this.source = "lts";
 
     this.isLoading = true;
-    this.mobileOpen = false;
+    this.mobileOpen = true;
     this.isMobile = isMobile();
 
     this.map = undefined;

@@ -7,11 +7,12 @@ export const observedProperties = {
   width: { type: String },
   fontFamily: { type: String },
   language: { type: String },
-  tiles_url: { type: String, attribute: "tiles-url" },
   modality: { type: String },
   disableGastronomyDirections: { type: Boolean },
   categoriesFilter: { type: Array },
   currentLocation: { type: Object },
+  /** Comma-separated data sources, e.g. "lts". Empty = all sources. */
+  source: { type: String },
 
   mobileOpen: { type: Boolean },
   isMobile: { type: Boolean },
