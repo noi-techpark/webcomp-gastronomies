@@ -6,18 +6,78 @@ import { html } from "lit-element";
 import { requestTourismGastronomyDetails } from "../api/gastronomies";
 import { t } from "../translations";
 
-function renderRows(Detail, CategoryCodes, LocationInfo, Id) {
-  if (!Detail[this.language]) {
+function localizedName(map, language) {
+  if (!map || typeof map !== "object") {
+    return "";
+  }
+  const entry = map[language] || map.en || map.de || map.it;
+  return (entry && entry.Title) || (entry && entry.Name) || "";
+}
+
+function categoryLabels(CategoryCodes, Tags, AdditionalPoiInfos, language) {
+  if (Array.isArray(CategoryCodes) && CategoryCodes.length) {
+    return CategoryCodes.map((c) => c && c.Shortname).filter(Boolean);
+  }
+  if (Array.isArray(Tags) && Tags.length) {
+    const fromTags = Tags.filter(
+      (tag) =>
+        tag &&
+        (tag.Type === "gastronomycategory" || tag.Type === "odhcategory") &&
+        tag.Name &&
+        !["Gastronomy", "Eating & Drinking"].includes(tag.Name)
+    ).map((tag) => tag.Name);
+    if (fromTags.length) {
+      return fromTags;
+    }
+  }
+  const additional =
+    (AdditionalPoiInfos &&
+      (AdditionalPoiInfos[language] ||
+        AdditionalPoiInfos.en ||
+        AdditionalPoiInfos.de ||
+        AdditionalPoiInfos.it)) ||
+    {};
+  return Array.isArray(additional.Categories) ? additional.Categories : [];
+}
+
+function locationLabel(LocationInfo, language) {
+  if (!LocationInfo) {
+    return "---";
+  }
+  const tv = LocationInfo.TvInfo || LocationInfo.MunicipalityInfo || {};
+  const name = tv.Name;
+  if (typeof name === "string") {
+    return name;
+  }
+  if (name && typeof name === "object") {
+    return name[language] || name.en || name.de || name.it || "---";
+  }
+  return "---";
+}
+
+function renderRows(
+  Detail,
+  CategoryCodes,
+  LocationInfo,
+  Id,
+  Tags,
+  AdditionalPoiInfos
+) {
+  const title = localizedName(Detail, this.language);
+  if (!title) {
     return null;
   }
+  const categories = categoryLabels(
+    CategoryCodes,
+    Tags,
+    AdditionalPoiInfos,
+    this.language
+  );
+
   return html`<div class="gastronomies__list_content_row">
-    <div>${Detail[this.language].Title}</div>
-    <div>
-      ${CategoryCodes.map(({ Shortname }) => {
-        return html`${Shortname}, `;
-      })}
-    </div>
-    <div>${LocationInfo.TvInfo.Name[this.language]}</div>
+    <div>${title}</div>
+    <div>${categories.length ? categories.join(", ") : "---"}</div>
+    <div>${locationLabel(LocationInfo, this.language)}</div>
     <div>
       <p
         @click="${() => {
@@ -45,7 +105,7 @@ export function render__list() {
 
     return null;
   }
-  const { Items, TotalPages, CurrentPage, Id } = this.listGastronomies;
+  const { Items, TotalPages, CurrentPage } = this.listGastronomies;
   return html`
     <div class="gastronomies__list">
       <div class="gastronomies__list_content">
@@ -57,14 +117,25 @@ export function render__list() {
           <div>${t[`actions`][this.language].toUpperCase()}</div>
         </div>
         ${Items
-          ? Items.map(({ Detail, CategoryCodes, LocationInfo, Id }) => {
-              return renderRows.bind(this)(
+          ? Items.map(
+              ({
                 Detail,
                 CategoryCodes,
                 LocationInfo,
-                Id
-              );
-            })
+                Id,
+                Tags,
+                AdditionalPoiInfos,
+              }) => {
+                return renderRows.bind(this)(
+                  Detail,
+                  CategoryCodes,
+                  LocationInfo,
+                  Id,
+                  Tags,
+                  AdditionalPoiInfos
+                );
+              }
+            )
           : null}
       </div>
     </div>

@@ -113,9 +113,11 @@
         "required": false,
         "options": {
           "values": [
-            "lts"
+            "lts",
+            "suedtirolwein",
+            "idm"
           ],
-          "default": "lts"
+          "default": "lts,suedtirolwein,idm"
         }
       },
       {

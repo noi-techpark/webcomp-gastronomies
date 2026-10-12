@@ -22,8 +22,8 @@ export class BaseGastronomies extends LitElement {
     this.modality = STATE_MODALITIES.map;
     this.disableGastronomyDirections = false;
     this.categoriesFilter = [];
-    /** Default to lts — currently the only gastronomy source */
-    this.source = "lts";
+    /** All available sources selected by default */
+    this.source = "lts,suedtirolwein,idm";
 
     this.isLoading = true;
     this.mobileOpen = true;
@@ -46,5 +46,12 @@ export class BaseGastronomies extends LitElement {
 
     this.filters = STATE_DEFAULT_FILTERS;
     this.filtersAccordionOpen = STATE_DEFAULT_FILTERS_ACCORDIONS_OPEN;
+
+    this.categories = [];
+    this.facilityCodesCreditCard = [];
+    this.facilityCodesFeatures = [];
+    this.facilityCodesQuality = [];
+    this.facilityCodesCuisine = [];
+    this.facilityCodesCeremony = [];
   }
 }
