@@ -35,8 +35,21 @@ export const STATE_DEFAULT_FILTERS_ACCORDIONS_OPEN = {
   facilityCodesCeremony: false,
 };
 
-export const isMobile = () => {
-  return document.body.offsetWidth < 992;
+/** Breakpoint relative to the widget frame (not the page viewport). */
+export const MOBILE_BREAKPOINT = 768;
+
+/**
+ * Prefer the web component host width so embeds in a narrow panel
+ * behave as "mobile" even on a wide desktop page.
+ */
+export const isMobile = (hostEl) => {
+  const width =
+    (hostEl && (hostEl.clientWidth || hostEl.offsetWidth)) ||
+    (typeof document !== "undefined" &&
+      document.body &&
+      document.body.offsetWidth) ||
+    0;
+  return width < MOBILE_BREAKPOINT;
 };
 
 export function getCurrentPosition(options = {}) {

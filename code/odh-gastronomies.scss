@@ -24,6 +24,13 @@
   display: block;
   width: var(--width, 100%);
   height: var(--height, 100%);
+  max-width: 100%;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  /* Size queries against the widget frame, not the page viewport */
+  container-type: size;
+  container-name: gastronomies;
 }
 
 .gastronomies {
@@ -31,16 +38,24 @@
   --gastro-primary-strong: #{$green-300};
   --gastro-accent: #e07a2e;
   --gastro-surface: #{$white};
+  --chrome-inset: 8px;
+  --sidebar-gap: 8px;
+  --lang-btn: 40px;
+  --controls-stack: 148px;
 
   background-color: white;
   font-family: var(--w-c-font-family, Suedtirol, KievitWebPro, sans-serif);
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
-  @media only screen and (min-width: 992px) {
-    width: var(--width);
-    height: var(--height);
+  min-height: 0;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
   }
 }
 
@@ -49,10 +64,6 @@
   z-index: 1;
   width: 100%;
   height: 100%;
-  @media only screen and (min-width: 992px) {
-    width: var(--width);
-    height: var(--height);
-  }
 }
 
 /* MapLibre needs an explicit size inside the shadow root */
@@ -62,11 +73,9 @@
 }
 
 #list {
+  position: relative;
   z-index: 1;
-  @media only screen and (min-width: 992px) {
-    width: var(--width);
-    height: var(--height);
-  }
+  overflow: hidden;
 
   .link {
     @include MixinParagraphRegular;
@@ -77,19 +86,15 @@
 }
 
 .mobile {
-  &.MODE__mobile__open {
-    #map,
-    #list {
-      width: 100vw;
-      height: calc(100vh - 80px);
-    }
-  }
+  &.MODE__mobile__open,
   &.MODE__mobile__closed {
     #map,
     #list {
-      width: 100vw;
-      height: 300px;
+      width: 100%;
+      height: 100%;
     }
+  }
+  &.MODE__mobile__closed {
     .MODE__mobile__closed__overlay {
       background: rgba(255, 255, 255, 0.64);
       position: absolute;
@@ -107,29 +112,44 @@
 
 .gastronomies__sideBar {
   position: absolute;
-  top: 0;
-  left: 0;
-  max-height: 99vh;
+  top: var(--chrome-inset);
+  left: var(--chrome-inset);
+  /* Leave room for language picker on the right */
+  width: calc(100% - (var(--chrome-inset) * 2) - var(--lang-btn) - 8px);
+  max-width: 350px;
+  max-height: calc(100% - (var(--chrome-inset) * 2));
   z-index: 2;
   overflow: hidden;
-  width: 100%;
-  @media only screen and (min-width: 768px) {
-    max-height: calc(100% - 32px);
-    width: calc(100% - 32px);
-    width: 350px;
-    top: 16px;
-    left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  pointer-events: none;
+
+  > * {
+    pointer-events: auto;
+    max-width: 100%;
   }
 
   .gastronomies__sideBar__tabBar {
     background-color: white;
+    flex-shrink: 0;
   }
+
   .gastronomies__sideBar__searchBar {
     background-color: white;
+    flex-shrink: 0;
+    min-width: 0;
+
     .searchBox {
       .searchBox__resoult_list {
-        max-height: calc(var(--height) - 32px - 86px);
+        max-height: min(220px, calc(var(--height) * 0.4));
         overflow-y: auto;
+        background: $white;
+
+        &.border {
+          border: 1px solid $gray-300;
+        }
+
         ul {
           list-style: none;
           padding-left: 8px;
@@ -141,8 +161,10 @@
             align-items: center;
             margin: 8px 0;
             cursor: pointer;
+            padding-right: 8px;
             img {
               margin-right: 8px;
+              flex-shrink: 0;
             }
           }
         }
@@ -153,9 +175,14 @@
   .gastronomies__sideBar__details,
   .gastronomies__sideBar__filters {
     border: 1px solid $gray-300;
-    height: calc(var(--height) - 86px);
+    flex: 1 1 auto;
+    min-height: 0;
+    /* Cap panel to remaining frame height under the search bar */
+    max-height: calc(100% - 48px);
+    height: auto;
     background-color: $white;
     overflow-y: auto;
+    overflow-x: hidden;
 
     p {
       @include MixinParagraphRegular;
@@ -198,76 +225,15 @@
   }
 }
 
+/* Narrow host (embed / phone-width panel) */
 .isSmallWidth {
+  --chrome-inset: 6px;
+
   .gastronomies__sideBar {
-    width: calc(80% - 32px);
+    width: calc(100% - (var(--chrome-inset) * 2) - var(--lang-btn) - 6px);
+    max-width: none;
   }
-}
 
-.gastronomies__language_picker {
-  display: inline;
-  position: absolute;
-  right: 16px;
-  z-index: 3;
-  top: 80px;
-
-  &.big_margin {
-    top: 114px;
-  }
-  @media only screen and (min-width: 768px) {
-    top: 16px;
-  }
-}
-
-.map_controls {
-  position: absolute;
-  right: 16px;
-  bottom: 16px;
-  z-index: 3;
-}
-
-.gastronomies__list {
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  .gastronomies__list_content {
-    margin: 80px 0;
-    @media only screen and (min-width: 992px) {
-      margin: 80px 16px 80px 16px;
-    }
-    h3 {
-      @include MixinH3;
-    }
-    .gastronomies__list_content_row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      &:nth-child(odd) {
-        background-color: $gray-100;
-      }
-      > div {
-        @include MixinParagraphRegular;
-        width: 33%;
-        padding: 0 16px;
-        &:nth-child(2),
-        &:nth-child(3) {
-          display: none;
-          @media only screen and (min-width: 992px) {
-            display: block;
-          }
-        }
-      }
-      &.header {
-        @include MixinCaption;
-        color: $gray-600;
-      }
-    }
-  }
-}
-
-.isSmallWidth {
   .gastronomies__list {
     .gastronomies__list_content {
       .gastronomies__list_content_row {
@@ -288,6 +254,136 @@
   }
 }
 
+/* Short host (typical store preview height) */
+.isSmallHeight {
+  --chrome-inset: 6px;
+
+  .gastronomies__sideBar {
+    max-height: calc(100% - (var(--chrome-inset) * 2));
+
+    .gastronomies__sideBar__searchBar .searchBox .searchBox__resoult_list {
+      max-height: min(140px, 28%);
+    }
+
+    .gastronomies__sideBar__details,
+    .gastronomies__sideBar__filters {
+      max-height: calc(100% - 44px);
+    }
+  }
+
+  .gastronomies__list .gastronomies__list_content {
+    margin: 64px 8px 64px 8px;
+  }
+
+  .gastronomies__list__pagination {
+    bottom: 8px;
+    padding: 2px 4px;
+    p {
+      margin: 0 8px;
+      font-size: 13px;
+    }
+  }
+
+  .map_controls {
+    transform: scale(0.92);
+    transform-origin: bottom right;
+  }
+}
+
+.gastronomies__language_picker {
+  display: inline;
+  position: absolute;
+  right: var(--chrome-inset);
+  top: var(--chrome-inset);
+  z-index: 3;
+  max-width: calc(100% - (var(--chrome-inset) * 2));
+}
+
+.map_controls {
+  position: absolute;
+  right: var(--chrome-inset);
+  bottom: var(--chrome-inset);
+  z-index: 3;
+  max-height: calc(100% - (var(--chrome-inset) * 2));
+  overflow: visible;
+}
+
+.gastronomies__list {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .gastronomies__list_content {
+    margin: 72px 8px 72px 8px;
+
+    h3 {
+      @include MixinH3;
+    }
+    .gastronomies__list_content_row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      &:nth-child(odd) {
+        background-color: $gray-100;
+      }
+      > div {
+        @include MixinParagraphRegular;
+        width: 33%;
+        padding: 0 8px;
+        min-width: 0;
+        overflow-wrap: anywhere;
+        &:nth-child(2),
+        &:nth-child(3) {
+          display: none;
+        }
+      }
+      &.header {
+        @include MixinCaption;
+        color: $gray-600;
+      }
+    }
+  }
+}
+
+/* Wider frames: show extra list columns and roomier spacing */
+@container gastronomies (min-width: 768px) {
+  .gastronomies {
+    --chrome-inset: 16px;
+  }
+
+  .gastronomies__sideBar {
+    width: min(350px, calc(100% - (var(--chrome-inset) * 2) - var(--lang-btn) - 8px));
+  }
+
+  .gastronomies__list .gastronomies__list_content {
+    margin: 80px 16px;
+    .gastronomies__list_content_row > div {
+      padding: 0 16px;
+      &:nth-child(2),
+      &:nth-child(3) {
+        display: block;
+      }
+    }
+  }
+}
+
+/* Fallback when container queries are unavailable: use host-measured classes */
+.gastronomies:not(.isSmallWidth) {
+  .gastronomies__list .gastronomies__list_content {
+    @media (min-width: 768px) {
+      margin: 80px 16px;
+      .gastronomies__list_content_row > div {
+        padding: 0 16px;
+        &:nth-child(2),
+        &:nth-child(3) {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
 .gastronomies__list__pagination {
   position: absolute;
   bottom: 16px;
@@ -297,6 +393,8 @@
   align-items: center;
   background-color: $white;
   padding: 4px;
+  max-width: calc(100% - 24px);
+  z-index: 3;
   p {
     @include MixinParagraphMedium;
     white-space: nowrap;
@@ -326,8 +424,15 @@
   margin-top: 16px;
 }
 
-/* MapLibre controls sit under our custom map_controls */
+/* Keep MapLibre attribution inside the frame and clear of our controls */
 .maplibregl-ctrl-bottom-right {
   margin-bottom: 8px;
   margin-right: 8px;
+  max-width: calc(100% - 56px);
+}
+
+.maplibregl-ctrl-attrib {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
