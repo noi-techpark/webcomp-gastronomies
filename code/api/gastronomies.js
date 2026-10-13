@@ -110,7 +110,7 @@ export const requestTourismGastronomiesPaginated = async (
     const request = await fetch(
       `${BASE_PATH_TOURISM_GASTRONOMY}?tagfilter=${TOURISM_TAGFILTER}${sourceQuery(
         source
-      )}&${originParam}&active=true&odhactive=true&language=${language}&rawfilter=isnotnull(GpsInfo)&fields=Id,Detail,CategoryCodes,LocationInfo,Tags,AdditionalPoiInfos&pagenumber=${pageNumber}&pagesize=${pageSize}${createUrlFilters(
+      )}&${originParam}&active=true&language=${language}&rawfilter=isnotnull(GpsInfo)&fields=Id,Detail,CategoryCodes,LocationInfo,Tags,AdditionalPoiInfos&pagenumber=${pageNumber}&pagesize=${pageSize}${createUrlFilters(
         filters,
         currentLocation
       )}`

@@ -25,7 +25,7 @@ export async function requestGetCoordinatesFromSearch(query) {
       let formattedTourismGastronomyData = [];
       const sourceParam = this.source ? `&source=${this.source}` : "";
       const tourismGastronomyRequest = await fetch(
-        `${BASE_PATH_TOURISM_GASTRONOMY}?tagfilter=${TOURISM_TAGFILTER}${sourceParam}&origin=${ORIGIN}&active=true&odhactive=true&pagesize=50&fields=Detail,GpsInfo&searchfilter=${encodeURIComponent(
+        `${BASE_PATH_TOURISM_GASTRONOMY}?tagfilter=${TOURISM_TAGFILTER}${sourceParam}&origin=${ORIGIN}&active=true&pagesize=50&fields=Detail,GpsInfo&searchfilter=${encodeURIComponent(
           query
         )}&rawfilter=isnotnull(GpsInfo)`
       );
