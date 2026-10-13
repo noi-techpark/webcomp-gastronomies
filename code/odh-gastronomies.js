@@ -50,24 +50,49 @@ class Gastronomies extends BaseGastronomies {
     `;
   }
 
-  handleWindowResize() {
-    if (isMobile() !== this.isMobile) {
-      if (!this.isMobile) {
-        this.mobileOpen = false;
+  syncLayoutFromHostSize() {
+    const { width, height } = this.getHostSize();
+    const nextIsMobile = isMobile(this);
+    const nextSmallWidth = width > 0 && width <= 480;
+    const nextSmallHeight = height > 0 && height <= 420;
+    const sizeChanged =
+      width !== this._lastHostWidth || height !== this._lastHostHeight;
+    const layoutChanged =
+      nextIsMobile !== this.isMobile ||
+      nextSmallWidth !== this._lastSmallWidth ||
+      nextSmallHeight !== this._lastSmallHeight;
+
+    this._lastHostWidth = width;
+    this._lastHostHeight = height;
+    this._lastSmallWidth = nextSmallWidth;
+    this._lastSmallHeight = nextSmallHeight;
+
+    if (nextIsMobile !== this.isMobile) {
+      if (!nextIsMobile) {
+        this.mobileOpen = true;
       }
-      this.isMobile = isMobile();
+      this.isMobile = nextIsMobile;
     }
-    if (this.map) {
+
+    if (layoutChanged) {
+      this.requestUpdate();
+    }
+    if (sizeChanged && this.map) {
       requestAnimationFrame(() => this.map.resize());
     }
   }
 
+  handleWindowResize() {
+    this.syncLayoutFromHostSize();
+  }
+
   connectedCallback() {
     super.connectedCallback();
-    window.addEventListener(
-      "resize",
-      _debounce(this.handleWindowResize.bind(this), 150)
+    this._debouncedSyncLayout = _debounce(
+      this.syncLayoutFromHostSize.bind(this),
+      150
     );
+    window.addEventListener("resize", this._debouncedSyncLayout);
     if (this.filterRadius && parseFloat(this.filterRadius)) {
       this.filters = {
         ...this.filters,
@@ -82,7 +107,11 @@ class Gastronomies extends BaseGastronomies {
     }
   }
   disconnectedCallback() {
-    window.removeEventListener("resize", this.handleWindowResize.bind(this));
+    window.removeEventListener("resize", this._debouncedSyncLayout);
+    if (this._resizeObserver) {
+      this._resizeObserver.disconnect();
+      this._resizeObserver = undefined;
+    }
     if (this.map) {
       this.map.remove();
       this.map = undefined;
@@ -95,6 +124,12 @@ class Gastronomies extends BaseGastronomies {
   }
 
   async firstUpdated() {
+    this.isMobile = isMobile(this);
+    if (typeof ResizeObserver !== "undefined") {
+      this._resizeObserver = new ResizeObserver(this._debouncedSyncLayout);
+      this._resizeObserver.observe(this);
+    }
+
     await getFilters.bind(this)();
 
     if (this.modality === STATE_MODALITIES.list) {
@@ -189,37 +224,36 @@ class Gastronomies extends BaseGastronomies {
     500
   );
 
+  getHostSize() {
+    const root = this.shadowRoot && this.shadowRoot.querySelector(".gastronomies");
+    return {
+      width: (root && root.clientWidth) || this.clientWidth || 0,
+      height: (root && root.clientHeight) || this.clientHeight || 0,
+    };
+  }
+
   render() {
-    let isSmallWidth = false;
-    let isSmallHeight = false;
-    if (this.width.includes("px")) {
-      isSmallWidth = parseInt(this.width.replace("px")) <= 400;
-    } else if (this.width.includes("%")) {
-      if (this.shadowRoot.querySelector(".gastronomies")) {
-        isSmallWidth =
-          this.shadowRoot.querySelector(".gastronomies").clientWidth <= 400;
-      }
-    }
+    const { width: hostWidth, height: hostHeight } = this.getHostSize();
+    const isSmallWidth = hostWidth > 0 && hostWidth <= 480;
+    const isSmallHeight = hostHeight > 0 && hostHeight <= 420;
+    // Prefer measured px height so nested max-height calcs stay valid
+    const heightCss =
+      hostHeight > 0
+        ? `${hostHeight}px`
+        : this.height && this.height.includes("px")
+        ? this.height
+        : "100%";
 
-    let height = `${this.height}`;
-
-    if (this.height.includes("px")) {
-      isSmallHeight = parseInt(this.height.replace("px")) <= 400;
-    } else if (this.height.includes("%")) {
-      if (this.shadowRoot.querySelector(".gastronomies")) {
-        height = `${
-          this.shadowRoot.querySelector(".gastronomies").clientHeight
-        }px`;
-        isSmallHeight =
-          this.shadowRoot.querySelector(".gastronomies").clientHeight <= 400;
-      }
-    }
+    const showChrome = (this.isMobile && this.mobileOpen) || !this.isMobile;
+    const showLanguagePicker =
+      showChrome &&
+      (!this.isMobile || (!this.detailsOpen && !this.filtersOpen));
 
     return html`
       <style>
         :host {
           --width: ${this.width};
-          --height: ${height};
+          --height: ${heightCss};
           --w-c-font-family: ${this.fontFamily};
         }
       </style>
@@ -235,11 +269,7 @@ class Gastronomies extends BaseGastronomies {
         })}
       >
         ${this.isLoading ? html`<div class="globalOverlay"></div>` : ""}
-        ${(isMobile() &&
-          !this.detailsOpen &&
-          !this.filtersOpen &&
-          this.mobileOpen) ||
-        !isMobile()
+        ${showLanguagePicker
           ? html`<div class="gastronomies__language_picker">
               <wc-languagepicker
                 .supportedLanguages="${LANGUAGES}"
@@ -250,7 +280,7 @@ class Gastronomies extends BaseGastronomies {
               ></wc-languagepicker>
             </div>`
           : null}
-        ${(this.isMobile && this.mobileOpen) || !this.isMobile
+        ${showChrome
           ? html`<div class="gastronomies__sideBar">
               <div class="gastronomies__sideBar__searchBar">
                 ${render_searchPlaces.bind(this)()}
@@ -271,17 +301,13 @@ class Gastronomies extends BaseGastronomies {
         <!-- Map -->
         ${this.modality === STATE_MODALITIES.map
           ? html`<div id="${STATE_MODALITIES.map}"></div>
-              ${(this.isMobile && this.mobileOpen) || !this.isMobile
-                ? html`${render__mapControls.bind(this)()}`
-                : null}`
+              ${showChrome ? html`${render__mapControls.bind(this)()}` : null}`
           : null}
         <!-- List -->
         ${this.modality === STATE_MODALITIES.list
           ? html`<div id="${STATE_MODALITIES.list}">
               ${render__list.bind(this)()}
-              ${(this.isMobile && this.mobileOpen) || !this.isMobile
-                ? html`${render__listControls.bind(this)()}`
-                : null}
+              ${showChrome ? html`${render__listControls.bind(this)()}` : null}
             </div> `
           : null}
       </div>
