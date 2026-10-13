@@ -256,7 +256,7 @@ class Gastronomies extends BaseGastronomies {
                 ${render_searchPlaces.bind(this)()}
               </div>
 
-              ${this.detailsOpen
+              ${this.detailsOpen && this.currentGastronomy && this.currentGastronomy.Id
                 ? html`<div class="gastronomies__sideBar__details mt-4px">
                     ${render_details.bind(this)()}
                   </div>`

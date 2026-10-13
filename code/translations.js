@@ -109,6 +109,11 @@ export const t = {
     en: "Facilities",
     de: "Dienstleistungen",
   },
+  source: {
+    it: "Fonte",
+    en: "Source",
+    de: "Quelle",
+  },
   // ceremonyCodes: {
   //   it: "Codici della cerimonia",
   //   en: "Ceremony Codes",

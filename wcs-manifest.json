@@ -109,13 +109,14 @@
       {
         "key": "source",
         "type": "multiselect",
-        "label": "Sources of the Gastronomies",
+        "label": "Sources of the Gastronomies (lts, suedtirolwein, idm). Leave empty or select all for the component default of all sources.",
         "required": false,
         "options": {
           "values": [
-            "lts"
-          ],
-          "default": "lts"
+            "lts",
+            "suedtirolwein",
+            "idm"
+          ]
         }
       },
       {

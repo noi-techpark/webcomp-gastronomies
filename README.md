@@ -86,11 +86,11 @@ Example: `"list" or "map"`
 
 #### source
 
-Only show gastronomies of these sources. Empty shows all sources.
+Only show gastronomies of these sources (comma separated). Empty shows all sources.
 
 Type: string  
-Options: `"lts"` (currently the only available source)  
-Default: `"lts"`
+Options: `"lts"`, `"suedtirolwein"`, `"idm"`  
+Default: `"lts,suedtirolwein,idm"` (all selected)
 
 #### pageSize
 
